@@ -1,9 +1,19 @@
 # Introduction
 
-This is a book created from markdown and executable code.
+Welcome to your journey into Inferential Statistics!
 
-See @knuth84 for additional discussion of literate programming.
+Whether you’re a research student hoping to build on your statistical skills or just starting your journey in the field, this course will give you the tools and confidence to apply inferential statistics in R effectively.
 
-```{r}
-1 + 1
-```
+In this short course, we’ll explore a variety of essential concepts and techniques used in statistical analysis and applying these tools to real datasets and problems.
+
+We’ll cover key background topics such as common statistical terminology (p-values, anyone?), types of variables, and more.
+
+Along the way, you’ll build confidence in creating clear, visually appealing graphs, and in knowing when and how to use them appropriately.
+
+Finally, we will cover some useful and common statistical tests, such as:
+
+-   Hypothesis testing
+
+-    *t-tests* (one-sample, two-sample, and paired)
+
+-    *Chi-squared tests* (goodness of fit and independence)
