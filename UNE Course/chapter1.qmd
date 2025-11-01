@@ -2,6 +2,42 @@
 title: "Chapter 1"
 ---
 
+## Variables
+
+Before we jump into the world of statistical testing, let’s take a moment to refresh our understanding of what a variable is, the different types of variables, and how we can describe them using numerical and graphical methods.
+
+**So what is a variable?**
+
+The Australian Bureau of Statistics defines a variable to be "any characteristic, number, or quantity that can be measured or counted."
+
+If you've ever tried dieting, you might have kept a record of your weight on your phone. Or perhaps you've tracked how long your morning commute takes so you know when to leave to make it on time. These are examples of variables.
+
+## Types of Variables
+
+There are namely two types of variables.
+
+-   **Numerical**
+
+-   **Categorical**
+
+A numerical variable are values that
+
+A categorical variable is
+
+Within these two variables, there are subcategories.
+
+A numerical variable can be either **discrete** or **continuous**.
+
+A categorical variable can be either **nominal** or **ordinal**.
+
+### Discrete
+
+### Continuous 
+
+## Graphing
+
+## Exercises 
+
 ```{r, echo = FALSE}
 library(webexercises)
 ```
