@@ -142,8 +142,18 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#variables" id="toc-variables" class="nav-link active" data-scroll-target="#variables"><span class="header-section-number">2.1</span> Variables</a></li>
+  <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">2.2</span> Types of Variables</a></li>
+  <li><a href="#exercise-checkpoint-1" id="toc-exercise-checkpoint-1" class="nav-link" data-scroll-target="#exercise-checkpoint-1"><span class="header-section-number">2.3</span> Exercise Checkpoint 1</a></li>
+  <li><a href="#visually-representing-data" id="toc-visually-representing-data" class="nav-link" data-scroll-target="#visually-representing-data"><span class="header-section-number">2.4</span> Visually Representing Data</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">2.5</span> </a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -167,11 +177,557 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="variables" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="variables"><span class="header-section-number">2.1</span> Variables</h2>
+<p>Before we jump into the world of statistical testing, let’s take a moment to refresh our understanding of what a variable is, the different types of variables, and how we can describe them using numerical and graphical methods.</p>
+<p><strong>So what is a variable?</strong></p>
+<p>The Australian Bureau of Statistics defines a variable to be “any characteristic, number, or quantity that can be measured or counted.”</p>
+<p>If you’ve ever tried dieting, you might have recorded your weight on your phone over time. Or maybe you’ve tracked how long your morning commute takes so you know when to leave to arrive on time. In both cases, you are measuring something that changes, and these are examples of variables.</p>
+</section>
+<section id="types-of-variables" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="types-of-variables"><span class="header-section-number">2.2</span> Types of Variables</h2>
+<p>There are two main types of variables:</p>
 <ul>
-<li>2 + 2 is <input class="webex-solveme nospaces" size="1" data-answer="[&quot;4&quot;]"></li>
+<li><p><strong>Numerical</strong></p></li>
+<li><p><strong>Categorical</strong></p></li>
 </ul>
+<p>A <strong>numerical variable</strong> represents values to describe a measurable quantity. A numerical variable can be either <strong>discrete</strong> or <strong>continuous</strong>.</p>
+<p><strong>Discrete numerical variables</strong> take on distinct whole values, and are countable. For example, if we were to look at the at the number of cars in a parking lot, the number of birds in a tree, or the number of times “3” is rolled in a series of die rolls, these are exact values that can be counted and are thus discrete.</p>
+<p><strong>Continuous numerical variables</strong> can take on any value within a range of real numbers. In other words, they can be measured to any level of precision. For example, age exists on a continuous scale because, in theory, it can be measured infinitely precisely. Someone could be 10.25, 10.257, or even 10.2576326362 years old. In everyday life, we usually round age to the nearest year, but that does not change the fact that the underlying variable is continuous. Other common examples of continuous numerical variables include weight, height, and time. Can you explain why each of these variables is numerical and continuous?</p>
+<p>A <strong>categorical variable</strong>, on the other hand, represents categories or labels that describe a quality or characteristic. Categorical variables can be either <strong>nominal</strong> or <strong>ordinal</strong>.</p>
+<p>A <strong>nominal categorical variable</strong> includes observations with no particular order. For example, if you asked ten coworkers for their favorite movie and recorded their answers under a “movies” variable, it would be nominal because there is no inherent sequence or ranking among the movie titles.</p>
+<p>In an <strong>ordinal categorical variable,</strong> there is an inherent logical order to the observations. For example, if we collected age groups such as “18–24”, “25–38”, “39–55”, “56–70”, and “70+”, we’re now working with labels that have a built-in order where “18–24” is younger than “25–38”, and so on.</p>
+<p>Another example might be asking people whether they like ice cream, with options like “strongly agree”, “agree”, “neutral”, “disagree”, and “strongly disagree”. In this case, the order of the options has meaning, even if the distance between them isn’t equal.</p>
+<p>Take a moment to check your understanding with the exercises below.</p>
+</section>
+<section id="exercise-checkpoint-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="exercise-checkpoint-1"><span class="header-section-number">2.3</span> Exercise Checkpoint 1</h2>
+<ol type="1">
+<li><p><strong>Describe the following variables:</strong></p>
+<p>a. Eye colour is a <select class="webex-select"><option value="blank"></option><option value="">discrete numerical variable</option><option value="">continuous numerical variable</option><option value="">ordinal categorical variable</option><option value="answer">nominal categorical variable</option></select></p>
+<p>b. Temperature is a <select class="webex-select"><option value="blank"></option><option value="">discrete numerical variable</option><option value="">ordinal categorical variable</option><option value="">nominal categorical variable</option><option value="answer">continuous numerical variable</option></select></p>
+<p>c. The number of heads in a series of coin flips is a <select class="webex-select"><option value="blank"></option><option value="">continuous numerical variable</option><option value="">ordinal categorical variable</option><option value="">nominal categorical variable</option><option value="answer">discrete numerical variable</option></select></p>
+<p>d. Education level is a <select class="webex-select"><option value="blank"></option><option value="">discrete numerical variable</option><option value="">continuous numerical variable</option><option value="">nominal categorical variable</option><option value="answer">ordinal categorical variable</option></select></p>
+<p>e. Postal Code is a <select class="webex-select"><option value="blank"></option><option value="">discrete numerical variable</option><option value="">continuous numerical variable</option><option value="">ordinal categorical variable</option><option value="answer">nominal categorical variable</option></select></p>
+<p>f. Income salary is a <select class="webex-select"><option value="blank"></option><option value="">discrete numerical variable</option><option value="">ordinal categorical variable</option><option value="">nominal categorical variable</option><option value="answer">continuous numerical variable</option></select></p>
+<p>g. Number of calls per day is a <select class="webex-select"><option value="blank"></option><option value="">discrete numerical variable</option><option value="">continuous numerical variable</option><option value="">ordinal categorical variable</option><option value="">nominal categorical variable</option><option value="answer">discrete numerical variable</option></select></p></li>
+</ol>
+</section>
+<section id="visually-representing-data" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="visually-representing-data"><span class="header-section-number">2.4</span> Visually Representing Data</h2>
+<p>Now that we’ve covered the main types of variables, we can start thinking about how to visually represent data.</p>
+<p>We can describe data using numerical summaries and graphs. Numerical summaries are statistical measures that capture key aspects of a dataset. The way we choose to present these summaries and the graphs that accompany them depends on the type of variable we are working with.</p>
+<p>Let’s start with numerical summaries.</p>
+<p>For <strong>numerical variables</strong>, whether continuous or discrete, we can include:</p>
+<ul>
+<li><p>mean</p></li>
+<li><p>standard deviation</p></li>
+<li><p>median</p></li>
+<li><p>minimum</p></li>
+<li><p>maximum</p></li>
+<li><p>Interquartile Range (IQR)</p></li>
+</ul>
+<p><strong>IMPORTANT NOTE:</strong> When reporting descriptive statistics, always provide appropriate context. If you report a mean, include the standard deviation, and vice versa. If you report a median, include the interquartile range (IQR), and vice versa. Likewise, if you report a maximum value, always include the minimum to give full perspective.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="ahvftomtyc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ahvftomtyc table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ahvftomtyc thead, #ahvftomtyc tbody, #ahvftomtyc tfoot, #ahvftomtyc tr, #ahvftomtyc td, #ahvftomtyc th {
+  border-style: none;
+}
+
+#ahvftomtyc p {
+  margin: 0;
+  padding: 0;
+}
+
+#ahvftomtyc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ahvftomtyc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ahvftomtyc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ahvftomtyc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ahvftomtyc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ahvftomtyc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ahvftomtyc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ahvftomtyc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ahvftomtyc .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ahvftomtyc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ahvftomtyc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ahvftomtyc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ahvftomtyc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ahvftomtyc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ahvftomtyc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ahvftomtyc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ahvftomtyc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ahvftomtyc .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ahvftomtyc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ahvftomtyc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ahvftomtyc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ahvftomtyc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ahvftomtyc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ahvftomtyc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ahvftomtyc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ahvftomtyc .gt_left {
+  text-align: left;
+}
+
+#ahvftomtyc .gt_center {
+  text-align: center;
+}
+
+#ahvftomtyc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ahvftomtyc .gt_font_normal {
+  font-weight: normal;
+}
+
+#ahvftomtyc .gt_font_bold {
+  font-weight: bold;
+}
+
+#ahvftomtyc .gt_font_italic {
+  font-style: italic;
+}
+
+#ahvftomtyc .gt_super {
+  font-size: 65%;
+}
+
+#ahvftomtyc .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ahvftomtyc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ahvftomtyc .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ahvftomtyc .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ahvftomtyc .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ahvftomtyc .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ahvftomtyc .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ahvftomtyc .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ahvftomtyc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Summary-Statistic" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Summary Statistic</th>
+<th id="Command" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Command</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Summary Statistic">Median</td>
+<td class="gt_row gt_left" headers="Command">median(...)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Summary Statistic">Minimum</td>
+<td class="gt_row gt_left" headers="Command">min(...)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Summary Statistic">Maximum</td>
+<td class="gt_row gt_left" headers="Command">max(...)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Summary Statistic">Inter-quartile Range</td>
+<td class="gt_row gt_left" headers="Command">IQR(...)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Summary Statistic">First quartile</td>
+<td class="gt_row gt_left" headers="Command">quantile(..., 0.25)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Summary Statistic">Third quartile</td>
+<td class="gt_row gt_left" headers="Command">quantile(..., 0.75)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Summary Statistic">Five point summary</td>
+<td class="gt_row gt_left" headers="Command">summary(...)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="section"><span class="header-section-number">2.5</span> </h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script>

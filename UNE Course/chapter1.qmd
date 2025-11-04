@@ -10,36 +10,106 @@ Before we jump into the world of statistical testing, let’s take a moment to r
 
 The Australian Bureau of Statistics defines a variable to be "any characteristic, number, or quantity that can be measured or counted."
 
-If you've ever tried dieting, you might have kept a record of your weight on your phone. Or perhaps you've tracked how long your morning commute takes so you know when to leave to make it on time. These are examples of variables.
+If you’ve ever tried dieting, you might have recorded your weight on your phone over time. Or maybe you’ve tracked how long your morning commute takes so you know when to leave to arrive on time. In both cases, you are measuring something that changes, and these are examples of variables.
 
 ## Types of Variables
 
-There are namely two types of variables.
+There are two main types of variables:
 
 -   **Numerical**
 
 -   **Categorical**
 
-A numerical variable are values that
+A **numerical variable** represents values to describe a measurable quantity. A numerical variable can be either **discrete** or **continuous**.
 
-A categorical variable is
+**Discrete numerical variables** take on distinct whole values, and are countable. For example, if we were to look at the at the number of cars in a parking lot, the number of birds in a tree, or the number of times "3" is rolled in a series of die rolls, these are exact values that can be counted and are thus discrete.
 
-Within these two variables, there are subcategories.
+**Continuous numerical variables** can take on any value within a range of real numbers. In other words, they can be measured to any level of precision. For example, age exists on a continuous scale because, in theory, it can be measured infinitely precisely. Someone could be 10.25, 10.257, or even 10.2576326362 years old. In everyday life, we usually round age to the nearest year, but that does not change the fact that the underlying variable is continuous. Other common examples of continuous numerical variables include weight, height, and time. Can you explain why each of these variables is numerical and continuous?
 
-A numerical variable can be either **discrete** or **continuous**.
+A **categorical variable**, on the other hand, represents categories or labels that describe a quality or characteristic. Categorical variables can be either **nominal** or **ordinal**.
 
-A categorical variable can be either **nominal** or **ordinal**.
+A **nominal categorical variable** includes observations with no particular order. For example, if you asked ten coworkers for their favorite movie and recorded their answers under a "movies" variable, it would be nominal because there is no inherent sequence or ranking among the movie titles.
 
-### Discrete
+In an **ordinal categorical variable,** there is an inherent logical order to the observations. For example, if we collected age groups such as "18–24", "25–38", "39–55", "56–70", and "70+", we’re now working with labels that have a built-in order where "18–24" is younger than "25–38", and so on.
 
-### Continuous 
+Another example might be asking people whether they like ice cream, with options like "strongly agree", "agree", "neutral", "disagree", and "strongly disagree". In this case, the order of the options has meaning, even if the distance between them isn’t equal.
 
-## Graphing
+Take a moment to check your understanding with the exercises below.
 
-## Exercises 
+## Exercise Checkpoint 1
 
 ```{r, echo = FALSE}
 library(webexercises)
 ```
 
--   2 + 2 is `r fitb(4)`
+1.  **Describe the following variables:**
+
+    a\. Eye colour is a `r mcq(c("discrete numerical variable", "continuous numerical variable", "ordinal categorical variable", answer = "nominal categorical variable"))`
+
+    b\. Temperature is a `r mcq(c("discrete numerical variable", "ordinal categorical variable", "nominal categorical variable", answer = "continuous numerical variable"))`
+
+    c\. The number of heads in a series of coin flips is a `r mcq(c( "continuous numerical variable", "ordinal categorical variable", "nominal categorical variable", answer = "discrete numerical variable"))`
+
+    d\. Education level is a `r mcq(c("discrete numerical variable", "continuous numerical variable", "nominal categorical variable", answer = "ordinal categorical variable"))`
+
+    e\. Postal Code is a `r mcq(c("discrete numerical variable", "continuous numerical variable", "ordinal categorical variable", answer = "nominal categorical variable"))`
+
+    f\. Income salary is a `r mcq(c("discrete numerical variable", "ordinal categorical variable", "nominal categorical variable", answer = "continuous numerical variable"))`
+
+    g\. Number of calls per day is a `r mcq(c("discrete numerical variable", "continuous numerical variable", "ordinal categorical variable", "nominal categorical variable", answer = "discrete numerical variable"))`
+
+## Visually Representing Data 
+
+Now that we’ve covered the main types of variables, we can start thinking about how to visually represent data.
+
+We can describe data using numerical summaries and graphs. Numerical summaries are statistical measures that capture key aspects of a dataset. The way we choose to present these summaries and the graphs that accompany them depends on the type of variable we are working with.
+
+Let’s start with numerical summaries.
+
+For **numerical variables**, whether continuous or discrete, we can include:
+
+-    mean
+
+-   standard deviation
+
+-   median
+
+-   minimum
+
+-   maximum
+
+-   Interquartile Range (IQR)
+
+**IMPORTANT NOTE:** When reporting descriptive statistics, always provide appropriate context. If you report a mean, include the standard deviation, and vice versa. If you report a median, include the interquartile range (IQR), and vice versa. Likewise, if you report a maximum value, always include the minimum to give full perspective.
+
+```{r, warning = FALSE, echo = FALSE}
+library(gt)
+
+data <- data.frame(
+  "Summary Statistic" = c(
+    "Median",
+    "Minimum",
+    "Maximum",
+    "Inter-quartile Range",
+    "First quartile",
+    "Third quartile",
+    "Five point summary"
+  ),
+  "Command" = c(
+    "median(...)",
+    "min(...)",
+    "max(...)",
+    "IQR(...)",
+    "quantile(..., 0.25)",
+    "quantile(..., 0.75)",
+    "summary(...)"
+  ),
+  check.names = FALSE
+)
+
+gt(data)
+
+
+```
+
+## 

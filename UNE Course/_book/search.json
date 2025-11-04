@@ -4,7 +4,7 @@
     "href": "chapter1.html",
     "title": "2  Chapter 1",
     "section": "",
-    "text": "2 + 2 is",
+    "text": "2.1 Variables\nBefore we jump into the world of statistical testing, let’s take a moment to refresh our understanding of what a variable is, the different types of variables, and how we can describe them using numerical and graphical methods.\nSo what is a variable?\nThe Australian Bureau of Statistics defines a variable to be “any characteristic, number, or quantity that can be measured or counted.”\nIf you’ve ever tried dieting, you might have recorded your weight on your phone over time. Or maybe you’ve tracked how long your morning commute takes so you know when to leave to arrive on time. In both cases, you are measuring something that changes, and these are examples of variables.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1</span>"
     ]
@@ -14,7 +14,7 @@
     "href": "intro.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "Welcome to your journey into Inferential Statistics!\nWhether you’re a research student hoping to build on your statistical skills or just starting your journey in the field, this course will give you the tools and confidence to apply inferential statistics in R effectively.\nIn this short course, we’ll explore a variety of essential concepts and techniques used in statistical analysis and apply these tools to real datasets and problems.\nWe’ll cover key background topics such as common statistical terminology (p-values, anyone?), types of variables, and more.\nAlong the way, you’ll build confidence in creating clear, visually appealing graphs, and in knowing when and how to use them appropriately.\nFinally, we will cover some useful and common statistical tests, such as:\n\nHypothesis testing\nt-tests (one-sample, two-sample, and paired)\nChi-squared tests (goodness of fit and independence)\nANOVA",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -37,6 +37,76 @@
     "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
     "crumbs": [
       "References"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#types-of-variables",
+    "href": "chapter1.html#types-of-variables",
+    "title": "2  Chapter 1",
+    "section": "2.2 Types of Variables",
+    "text": "2.2 Types of Variables\nThere are two main types of variables:\n\nNumerical\nCategorical\n\nA numerical variable represents values to describe a measurable quantity. A numerical variable can be either discrete or continuous.\nDiscrete numerical variables take on distinct whole values, and are countable. For example, if we were to look at the at the number of cars in a parking lot, the number of birds in a tree, or the number of times “3” is rolled in a series of die rolls, these are exact values that can be counted and are thus discrete.\nContinuous numerical variables can take on any value within a range of real numbers. In other words, they can be measured to any level of precision. For example, age exists on a continuous scale because, in theory, it can be measured infinitely precisely. Someone could be 10.25, 10.257, or even 10.2576326362 years old. In everyday life, we usually round age to the nearest year, but that does not change the fact that the underlying variable is continuous. Other common examples of continuous numerical variables include weight, height, and time. Can you explain why each of these variables is numerical and continuous?\nA categorical variable, on the other hand, represents categories or labels that describe a quality or characteristic. Categorical variables can be either nominal or ordinal.\nA nominal categorical variable includes observations with no particular order. For example, if you asked ten coworkers for their favorite movie and recorded their answers under a “movies” variable, it would be nominal because there is no inherent sequence or ranking among the movie titles.\nIn an ordinal categorical variable, there is an inherent logical order to the observations. For example, if we collected age groups such as “18–24”, “25–38”, “39–55”, “56–70”, and “70+”, we’re now working with labels that have a built-in order where “18–24” is younger than “25–38”, and so on.\nAnother example might be asking people whether they like ice cream, with options like “strongly agree”, “agree”, “neutral”, “disagree”, and “strongly disagree”. In this case, the order of the options has meaning, even if the distance between them isn’t equal.\nTake a moment to check your understanding with the exercises below.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1</span>"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#exercise-1.1",
+    "href": "chapter1.html#exercise-1.1",
+    "title": "2  Chapter 1",
+    "section": "2.3 Exercise 1.1",
+    "text": "2.3 Exercise 1.1\n\nDescribe the following variables:\na. Eye colour is a discrete numerical variablecontinuous numerical variableordinal categorical variablenominal categorical variable\nb. Temperature is a discrete numerical variableordinal categorical variablenominal categorical variablecontinuous numerical variable\nc. The number of heads in a series of coin flips is a continuous numerical variableordinal categorical variablenominal categorical variablediscrete numerical variable\nd. Education level is a discrete numerical variablecontinuous numerical variablenominal categorical variableordinal categorical variable\ne. Postal Code is a discrete numerical variablecontinuous numerical variableordinal categorical variablenominal categorical variable\nf. Income salary is a discrete numerical variableordinal categorical variablenominal categorical variablecontinuous numerical variable\ng. Number of calls per day is a discrete numerical variablecontinuous numerical variableordinal categorical variablenominal categorical variablediscrete numerical variable",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1</span>"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#graphing",
+    "href": "chapter1.html#graphing",
+    "title": "2  Chapter 1",
+    "section": "2.4 Graphing",
+    "text": "2.4 Graphing\nNo",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1</span>"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#section",
+    "href": "chapter1.html#section",
+    "title": "2  Chapter 1",
+    "section": "2.5 ",
+    "text": "2.5",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "UNE Course",
+    "section": "",
+    "text": "Preface",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#exercise-checkpoint-1",
+    "href": "chapter1.html#exercise-checkpoint-1",
+    "title": "2  Chapter 1",
+    "section": "2.3 Exercise Checkpoint 1",
+    "text": "2.3 Exercise Checkpoint 1\n\nDescribe the following variables:\na. Eye colour is a discrete numerical variablecontinuous numerical variableordinal categorical variablenominal categorical variable\nb. Temperature is a discrete numerical variableordinal categorical variablenominal categorical variablecontinuous numerical variable\nc. The number of heads in a series of coin flips is a continuous numerical variableordinal categorical variablenominal categorical variablediscrete numerical variable\nd. Education level is a discrete numerical variablecontinuous numerical variablenominal categorical variableordinal categorical variable\ne. Postal Code is a discrete numerical variablecontinuous numerical variableordinal categorical variablenominal categorical variable\nf. Income salary is a discrete numerical variableordinal categorical variablenominal categorical variablecontinuous numerical variable\ng. Number of calls per day is a discrete numerical variablecontinuous numerical variableordinal categorical variablenominal categorical variablediscrete numerical variable",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1</span>"
+    ]
+  },
+  {
+    "objectID": "chapter1.html#visually-representing-data",
+    "href": "chapter1.html#visually-representing-data",
+    "title": "2  Chapter 1",
+    "section": "2.4 Visually Representing Data",
+    "text": "2.4 Visually Representing Data\nNow that we’ve covered the main types of variables, we can start thinking about how to visually represent data.\nWe can describe data using numerical summaries and graphs. Numerical summaries are statistical measures that capture key aspects of a dataset. The way we choose to present these summaries and the graphs that accompany them depends on the type of variable we are working with.\nLet’s start with numerical summaries.\nFor numerical variables, whether continuous or discrete, we can include:\n\nmean\nstandard deviation\nmedian\nminimum\nmaximum\nInterquartile Range (IQR)\n\nIMPORTANT NOTE: When reporting descriptive statistics, always provide appropriate context. If you report a mean, include the standard deviation, and vice versa. If you report a median, include the interquartile range (IQR), and vice versa. Likewise, if you report a maximum value, always include the minimum to give full perspective.\n\n\n\n\n\n\n\n\nSummary Statistic\nCommand\n\n\n\n\nMedian\nmedian(...)\n\n\nMinimum\nmin(...)\n\n\nMaximum\nmax(...)\n\n\nInter-quartile Range\nIQR(...)\n\n\nFirst quartile\nquantile(..., 0.25)\n\n\nThird quartile\nquantile(..., 0.75)\n\n\nFive point summary\nsummary(...)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1</span>"
     ]
   }
 ]
