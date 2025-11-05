@@ -76,50 +76,72 @@ Once installed, you will need to load the package into R.
 library(palmerpenguins)
 ```
 
-Now that we have the package installed, we can take a look at the variables within the dataset using `str`.
-
-```{r}
-str(penguins)
-
-```
-
-We can see that there are eight variables. We have three categorical variables: `species`, `island`, and `sex`. These are stored as factors, with the levels representing the number of distinct labels, or groups, in the variable. For example, `sex` has male and female, so it has two levels.
-
-You can see that there are four variables stored as numerical variables: `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, and `year`. If your instinct is that `year` doesn't quite fit right as a discrete or continuous variable, you would be right! It would be better to store `year` as a categorical variable. To convert year, you can simply use the following code:
-
-```{r}
-penguins$year <- as.factor(penguins$year)
-```
-
-Now if we run `str` again, we can see that `year` is now correctly stored as a categorical variable with 3 levels.
+Now that we have the package installed, let’s take a look at the variables in the dataset using `str()`.
 
 ```{r}
 str(penguins)
 ```
 
-If you are interested in seeing the unique groupings or labels in a categorical variable, you can use the `unique()` function.
+You might notice that some values are listed as `NA`. This means there are missing observations. To check for missing values, we can use:
 
 ```{r}
-unique(penguins$year)
+any(is.na(penguins))
 ```
 
-Thus, we can see that the data collected was over the years 2007, 2008, and 2009.
-
-We can see that `str` also shows us that the `penguins` dataset is stored as a 344 x 8 tibble (a type of data frame in R). This tells us that there are 344 rows (observations) and 8 columns (variables).
-
-We can check this the `dim` function.
+Since this returns `TRUE`, we know there are missing values in the dataset. Let's find out how many:
 
 ```{r}
-dim(penguins)
+sum(is.na(penguins))
 ```
 
-If you wish to have a closer look at inspecting the penguins dataset, you can use the `View()` function to pull up the dataset in another tab on R Studio.
+There are 19 missing observations. This can cause problems when generating numerical summaries or running statistical tests. At this stage, to handle this, we can remove the missing values. It’s always best practice to store your cleaned data in a new dataset and leave the original untouched. **Note that you should always be careful when removing observations, as even partially filled observations can still provide valuable information.**
+
+```{r} clean_penguins <- na.omit(penguins)}
+```
+
+We can check the structure again to make sure everything looks good:
+
+```{r} str(clean_penguins)}
+```
+
+We can see that there are eight variables. Three of these are categorical: `species`, `island`, and `sex`. These are stored as factors, where the *levels* represent the number of distinct labels or groups within each variable. For example, `sex` has two levels: `male` and `female`.
+
+You'll notice that there are four numerical variables: `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, and `year`. If your instinct is that `year` doesn't quite fit as right as a numerical variable, you would be right! It is better to treat `year` as a categorical variable. To convert it, we can use:
+
+```{r}
+clean_penguins$year <- as.factor(clean_penguins$year)
+```
+
+Now if we run `str` again, we can see that `year` is now correctly stored as a categorical variable with three levels.
+
+```{r}
+str(clean_penguins)
+```
+
+If you're interested in seeing the unique groupings or labels within a categorical variable, you can use the `unique()` function.
+
+```{r}
+unique(clean_penguins$year)
+```
+
+This shows that the data was collected over the years 2007, 2008, and 2009.
+
+You can also see from the structure output `str()` that the `penguins` dataset is stored as a 344 x 8 tibble, which is a type of data frame in R. This means that there are 344 rows (observations) and 8 columns (variables).
+
+We can confirm this using the `dim()` function.
+
+```{r}
+dim(clean_penguins)
+```
+
+If you wish to have a closer look at inspecting the `penguins` dataset, you can use the `View()` function to open it in a new tab on RStudio.
 
 ```{r, eval=FALSE}
 View(penguins)
+View(clean_penguins)
 ```
 
-Now that we've inspected the dataset, we can start thinking of ways we can visually represent and understand the data.
+Now that we’ve inspected the dataset, we can start thinking about how to visually represent and understand the data.
 
 We can describe data using numerical summaries and graphs. Numerical summaries are statistical measures that capture key aspects of a dataset. The way we choose to present these summaries and the graphs that accompany them depends on the type of variable we are working with.
 
@@ -153,7 +175,7 @@ data <- data.frame(
     "Median",
     "Minimum",
     "Maximum",
-    "Inter-quartile Range",
+    "Interquartile Range",
     "First quartile",
     "Third quartile",
     "Five point summary"
@@ -177,43 +199,54 @@ gt(data)
 
 ```
 
-Let's take a look at `body_mass_g`, which describes the body mass of a penguin stored in grams.
+Let's take a look at calculating descriptive statistics for `body_mass_g`, which describes the body mass of each penguin in grams.
 
-You also may have noticed that there are missing values in the dataset marked as `NA`. We can confirm this
-
-```{r}
-any(is.na(penguins))
-```
-
-This tells us that there are missing observations in the dataset. Let's check how many are missing.
-
-```{r}
-sum(is.na(penguins))
-```
-
-We have 19 missing observations. This is going to be problematic if we want to generate numerical summaries or perform statistical tests. We can omit the `NA` from our dataset. It is always good practice when you clean a dataset, that you store it in a new dataset and leave the original.
-
-```{r}
-clean_penguins <- na.omit(penguins)
-```
-
-We can check the structure to make sure everything is ok.
-
-```{r}
-str(clean_penguins)
-```
-
-Now we can attach the cleaned penguins dataset. Attaching the dataset allows us to call variables directly. If we do not attach the dataset, we can still call variables, but we'll need to use the correct formatting, i.e. `cleaned_penguins$sex`.
+Now we can attach the cleaned `penguins` dataset. Attaching the dataset allows us to call variables directly by name. If we don’t attach it, we can still access variables, but we need to use the full format (for example, `clean_penguins$sex`).
 
 ```{r, message=F}
+# Attach cleaned dataset 
 attach(clean_penguins)
 ```
 
 ```{r}
+# Let's first calculate the mean and round it to one decimal place
 round(mean(body_mass_g),1)
+
+# Now we can calculate the standard deviation
+round(sd(body_mass_g),1)
 ```
 
-The average body mass of penguins is 4207.1 g.
+The average body mass of penguins is **4207.1 g**, with a standard deviation of **805.2 g**.
+
+```{r}
+# calculate the minimum
+min(body_mass_g)
+
+# calculate the maximum
+max(body_mass_g)
+```
+
+The minimum observed body mass is **2700 g**, and the maximum observed body mass is **6300 g**.
+
+```{r}
+# calculate median
+median(body_mass_g)
+
+# calculate IQR
+## first quantile
+quantile(body_mass_g, 0.25)
+## third quantile 
+quantile(body_mass_g, 0.75)
+```
+
+The median body mass is **4050 g**, with an interquartile range from **3350 g to 4775 g.**
+
+The `summary()` function lets us quickly gather all of this information at once.
+
+```{r}
+# Calculate 5-point summary
+summary(body_mass_g)
+```
 
 Let's look at graphing now.
 
@@ -291,7 +324,7 @@ ggplot(data=penguins, aes(x=species))+
 ```{r}
 ggplot(data=penguins, aes(col=species))+
   geom_mosaic(aes(x=product(species)), fill=c("darkgreen", "deepskyblue3","orangered"))+
-  theme_bw()
+  theme_bw() 
 ```
 
 ```{r}
