@@ -250,51 +250,63 @@ The `summary()` function lets us quickly gather all of this information at once.
 summary(body_mass_g)
 ```
 
-Let's look at graphing now.
+Now that we’ve explored numerical summaries, let’s move on to graphing.
 
-If you have one numerical variable, whether discrete or continuous, you can use a histogram to visualise
+When you have one numerical variable, whether discrete or continuous, a histogram is a great way to visualise its distribution.
 
-We can use the ggplot2 package. If you have never used this package before, you will need to install package.
+We’ll use the `ggplot2` package for this. If you haven’t used it before, you’ll need to install it first.
 
 ```{r, eval=FALSE}
 # Install the package
 install.packages(ggplot2)
 ```
 
-Once installed, you can load the library and plot.
+Once installed, you can load the package and start plotting.
 
-We will start with looking at the penguins package. Let's install `palmerpenguins`.
-
-```{r}
-# Load the libraries
+```{r, message = FALSE, warning = FALSE}
+# Load the library
 library(ggplot2)
-library(ggmosaic)
-```
 
-```{r}
 # We can plot the histogram
-ggplot(penguins, aes(x=bill_length_mm))+
+ggplot(clean_penguins, aes(x=body_mass_g))+
   geom_histogram()
          
 ```
 
-We
+The histogram looks a bit plain without any color, and the x-axis label isn’t very informative. Let’s add some color, fix the labels, and give it a clean white background.
 
 ```{r}
 # We can plot the histogram
-ggplot(penguins, aes(x=bill_length_mm))+
+ggplot(clean_penguins, aes(x=body_mass_g))+
   geom_histogram(fill="orangered", bins=30) +
-  labs(x="Sepal Width (mm)")+
+  labs(x="Body Mass of Penguins (g)")+
   theme_bw()
-         
-
 ```
 
-If you have a cateogrical variable and numerical variable, you can do boxplot
+What if we were interested in looking at body mass of penguins compared to their flipper length? We are dealing with two continuous, numerical variables in this case, and can consider a scatterplot.
 
 ```{r}
-ggplot(iris, aes(x=Species, y=Sepal.Width))+
-  geom_boxplot()
+ggplot(clean_penguins, aes(x=body_mass_g, y=flipper_length_mm))+
+  geom_point()
+```
+
+Like we did with the histogram, we can add some colour, change the shape of the points, and give informative labels.
+
+```{r}
+ggplot(clean_penguins, aes(x=body_mass_g, y=flipper_length_mm))+
+  geom_point(fill="aquamarine", col="aquamarine4", pch=21, size=2.5)+
+  labs(x="Body Mass of Penguins (g)", y="Flipper Length of Penguins (mm)")+
+  theme_bw()
+```
+
+Clearly, as the body mass of a penguin increases, so does the flipper length. We can describe this a strong positive linear relationship.
+
+If you have a categorical variable and numerical variable, you can do boxplot. Let's see how the body mass of penguins changes between species.
+
+```{r}
+ggplot(clean_penguins, aes(x=species, y=body_mass_g))+
+  geom_boxplot(fill = c("coral2", "chartreuse2", "cadetblue2"),
+               col = c("coral3", "chartreuse4", "cadetblue4"))
 ```
 
 ```{r}
@@ -321,6 +333,10 @@ ggplot(data=penguins, aes(x=species))+
   labs(x="Penguin Species", y="Proportion")+
   theme_bw()
 
+```
+
+```{r}
+library(ggmosaic)
 ```
 
 ```{r}
