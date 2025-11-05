@@ -128,7 +128,7 @@ unique(clean_penguins$year)
 
 This shows that the data was collected over the years 2007, 2008, and 2009.
 
-You can also see from the structure output `str()` that the `penguins` dataset is stored as a 344 x 8 tibble, which is a type of data frame in R. This means that there are 344 rows (observations) and 8 columns (variables).
+You can also see from the structure output `str()` that the `penguins` dataset is stored as a 333 x 8 tibble, which is a type of data frame in R. This means that there are 333 rows (observations) and 8 columns (variables).
 
 We can confirm this using the `dim()` function.
 
@@ -370,6 +370,12 @@ From this plot you can see:
 -   Gentoo are observed only on Biscoe.
 
 These patterns help explain why Adelie dominate overall, and they also show that species presence varies by island.
+
+Be sure to `detach()` your dataset before you move onto the exercises.
+
+```{r}
+detach(clean_penguins)
+```
 
 ## Exercise Checkpoint 2 
 
