@@ -185,10 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#types-of-variables" id="toc-types-of-variables" class="nav-link" data-scroll-target="#types-of-variables"><span class="header-section-number">2.2</span> Types of Variables</a></li>
   <li><a href="#exercise-checkpoint-1" id="toc-exercise-checkpoint-1" class="nav-link" data-scroll-target="#exercise-checkpoint-1"><span class="header-section-number">2.3</span> Exercise Checkpoint 1</a></li>
   <li><a href="#visually-representing-data" id="toc-visually-representing-data" class="nav-link" data-scroll-target="#visually-representing-data"><span class="header-section-number">2.4</span> Visually Representing Data</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">3</span> </a>
-  <ul class="collapse">
-  <li><a href="#exercise-checkpoint-2" id="toc-exercise-checkpoint-2" class="nav-link" data-scroll-target="#exercise-checkpoint-2"><span class="header-section-number">3.1</span> Exercise Checkpoint 2</a></li>
-  </ul></li>
+  <li><a href="#exercise-checkpoint-2" id="toc-exercise-checkpoint-2" class="nav-link" data-scroll-target="#exercise-checkpoint-2"><span class="header-section-number">2.5</span> Exercise Checkpoint 2</a></li>
   </ul>
 </nav>
     </div>
@@ -254,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="2.4" class="anchored" data-anchor-id="visually-representing-data"><span class="header-section-number">2.4</span> Visually Representing Data</h2>
 <p>Now that we’ve covered the main types of variables, we can start thinking about how to visually represent data.</p>
 <p>First, we will need to load in some data into R. We will be working with the <code>palmerpenguins</code> package. The <code>palmerpenguins</code> package is a dataset collected and made available by <a href="https://www.uaf.edu/cfos/people/faculty/detail/kristen-gorman.php">Dr.&nbsp;Kristen Gorman</a>&nbsp;and the&nbsp;<a href="https://pallter.marine.rutgers.edu/">Palmer Station, Antarctica LTER</a>, a member of the&nbsp;<a href="https://lternet.edu/">Long Term Ecological Research Network</a>.</p>
-<p>If you have never used this package, you will need to install the package.</p>
+<p>If you have not used this package before, you will need to install it first:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"palmerpenguins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -372,23 +369,23 @@ Levels: 2007 2008 2009</code></pre>
 <p>Some helpful R functions for generating summary statistics:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="kubfcnncav" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kubfcnncav table {
+<div id="kbbcynzjcl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kbbcynzjcl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kubfcnncav thead, #kubfcnncav tbody, #kubfcnncav tfoot, #kubfcnncav tr, #kubfcnncav td, #kubfcnncav th {
+#kbbcynzjcl thead, #kbbcynzjcl tbody, #kbbcynzjcl tfoot, #kbbcynzjcl tr, #kbbcynzjcl td, #kbbcynzjcl th {
   border-style: none;
 }
 
-#kubfcnncav p {
+#kbbcynzjcl p {
   margin: 0;
   padding: 0;
 }
 
-#kubfcnncav .gt_table {
+#kbbcynzjcl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -414,12 +411,12 @@ Levels: 2007 2008 2009</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_caption {
+#kbbcynzjcl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kubfcnncav .gt_title {
+#kbbcynzjcl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -431,7 +428,7 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-width: 0;
 }
 
-#kubfcnncav .gt_subtitle {
+#kbbcynzjcl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -443,7 +440,7 @@ Levels: 2007 2008 2009</code></pre>
   border-top-width: 0;
 }
 
-#kubfcnncav .gt_heading {
+#kbbcynzjcl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -455,13 +452,13 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_bottom_border {
+#kbbcynzjcl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_col_headings {
+#kbbcynzjcl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -476,7 +473,7 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_col_heading {
+#kbbcynzjcl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -496,7 +493,7 @@ Levels: 2007 2008 2009</code></pre>
   overflow-x: hidden;
 }
 
-#kubfcnncav .gt_column_spanner_outer {
+#kbbcynzjcl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -508,15 +505,15 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 4px;
 }
 
-#kubfcnncav .gt_column_spanner_outer:first-child {
+#kbbcynzjcl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kubfcnncav .gt_column_spanner_outer:last-child {
+#kbbcynzjcl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kubfcnncav .gt_column_spanner {
+#kbbcynzjcl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -528,11 +525,11 @@ Levels: 2007 2008 2009</code></pre>
   width: 100%;
 }
 
-#kubfcnncav .gt_spanner_row {
+#kbbcynzjcl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kubfcnncav .gt_group_heading {
+#kbbcynzjcl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -558,7 +555,7 @@ Levels: 2007 2008 2009</code></pre>
   text-align: left;
 }
 
-#kubfcnncav .gt_empty_group_heading {
+#kbbcynzjcl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -573,15 +570,15 @@ Levels: 2007 2008 2009</code></pre>
   vertical-align: middle;
 }
 
-#kubfcnncav .gt_from_md > :first-child {
+#kbbcynzjcl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kubfcnncav .gt_from_md > :last-child {
+#kbbcynzjcl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kubfcnncav .gt_row {
+#kbbcynzjcl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -600,7 +597,7 @@ Levels: 2007 2008 2009</code></pre>
   overflow-x: hidden;
 }
 
-#kubfcnncav .gt_stub {
+#kbbcynzjcl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -613,7 +610,7 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#kubfcnncav .gt_stub_row_group {
+#kbbcynzjcl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -627,15 +624,15 @@ Levels: 2007 2008 2009</code></pre>
   vertical-align: top;
 }
 
-#kubfcnncav .gt_row_group_first td {
+#kbbcynzjcl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kubfcnncav .gt_row_group_first th {
+#kbbcynzjcl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kubfcnncav .gt_summary_row {
+#kbbcynzjcl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -645,16 +642,16 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#kubfcnncav .gt_first_summary_row {
+#kbbcynzjcl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_first_summary_row.thick {
+#kbbcynzjcl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kubfcnncav .gt_last_summary_row {
+#kbbcynzjcl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -664,7 +661,7 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_grand_summary_row {
+#kbbcynzjcl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -674,7 +671,7 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#kubfcnncav .gt_first_grand_summary_row {
+#kbbcynzjcl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -684,7 +681,7 @@ Levels: 2007 2008 2009</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_last_grand_summary_row_top {
+#kbbcynzjcl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -694,11 +691,11 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_striped {
+#kbbcynzjcl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kubfcnncav .gt_table_body {
+#kbbcynzjcl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -707,7 +704,7 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_footnotes {
+#kbbcynzjcl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -721,7 +718,7 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_footnote {
+#kbbcynzjcl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -730,7 +727,7 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#kubfcnncav .gt_sourcenotes {
+#kbbcynzjcl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -744,7 +741,7 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#kubfcnncav .gt_sourcenote {
+#kbbcynzjcl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -752,72 +749,72 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#kubfcnncav .gt_left {
+#kbbcynzjcl .gt_left {
   text-align: left;
 }
 
-#kubfcnncav .gt_center {
+#kbbcynzjcl .gt_center {
   text-align: center;
 }
 
-#kubfcnncav .gt_right {
+#kbbcynzjcl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kubfcnncav .gt_font_normal {
+#kbbcynzjcl .gt_font_normal {
   font-weight: normal;
 }
 
-#kubfcnncav .gt_font_bold {
+#kbbcynzjcl .gt_font_bold {
   font-weight: bold;
 }
 
-#kubfcnncav .gt_font_italic {
+#kbbcynzjcl .gt_font_italic {
   font-style: italic;
 }
 
-#kubfcnncav .gt_super {
+#kbbcynzjcl .gt_super {
   font-size: 65%;
 }
 
-#kubfcnncav .gt_footnote_marks {
+#kbbcynzjcl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kubfcnncav .gt_asterisk {
+#kbbcynzjcl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kubfcnncav .gt_indent_1 {
+#kbbcynzjcl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kubfcnncav .gt_indent_2 {
+#kbbcynzjcl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kubfcnncav .gt_indent_3 {
+#kbbcynzjcl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kubfcnncav .gt_indent_4 {
+#kbbcynzjcl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kubfcnncav .gt_indent_5 {
+#kbbcynzjcl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#kubfcnncav .katex-display {
+#kbbcynzjcl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#kubfcnncav div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#kbbcynzjcl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -935,7 +932,7 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 <p>Now that we’ve explored numerical summaries, let’s move on to graphing.</p>
-<p>When you have one numerical variable, whether discrete or continuous, a histogram is a great way to visualise its distribution.</p>
+<p>When you have one numerical variable, whether discrete or continuous, a <strong>histogram</strong> is a great way to visualise its distribution.</p>
 <p>We’ll use the <code>ggplot2</code> package for this. If you haven’t used it before, you’ll need to install it first.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the package</span></span>
@@ -972,7 +969,7 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 </div>
-<p>What if we were interested in looking at body mass of penguins compared to their flipper length? We are dealing with two continuous, numerical variables in this case, and can consider a scatterplot.</p>
+<p>What if we’re interested in how body mass relates to flipper length? In this case, we’re working with two continuous numerical variables, so a <strong>scatterplot</strong> would be a good choice.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_penguins, <span class="fu">aes</span>(<span class="at">x=</span>body_mass_g, <span class="at">y=</span>flipper_length_mm))<span class="sc">+</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -984,7 +981,7 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 </div>
-<p>Like we did with the histogram, we can add some colour, change the shape of the points, and give informative labels.</p>
+<p>Like we did with the histogram, we can add color, change the shape of the points, and include informative labels.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_penguins, <span class="fu">aes</span>(<span class="at">x=</span>body_mass_g, <span class="at">y=</span>flipper_length_mm))<span class="sc">+</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">fill=</span><span class="st">"aquamarine"</span>, <span class="at">col=</span><span class="st">"aquamarine4"</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">size=</span><span class="fl">2.5</span>)<span class="sc">+</span></span>
@@ -998,10 +995,13 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 </div>
-<p>If you have a categorical variable and numerical variable, you can do boxplot</p>
+<p>We can see that as the body mass of a penguin increases, its flipper length also tends to increase. This suggests a <em>strong positive linear</em> relationship.</p>
+<p>Now, let’s look at a case where we have one categorical variable and one numerical variable. A <strong>boxplot</strong> is a great choice here. Let’s see how body mass differs between penguin species.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x=</span>Species, <span class="at">y=</span>Sepal.Width))<span class="sc">+</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_penguins, <span class="fu">aes</span>(<span class="at">x=</span>species, <span class="at">y=</span>body_mass_g))<span class="sc">+</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"coral2"</span>, <span class="st">"chartreuse2"</span>, <span class="st">"cadetblue2"</span>),</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"coral3"</span>, <span class="st">"chartreuse4"</span>, <span class="st">"cadetblue4"</span>)) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Species of Penguin"</span>, <span class="at">y=</span><span class="st">"Body Mass (g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1010,11 +1010,14 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 </div>
+<p>We can see that Gentoo penguins have a noticeably higher median body mass compared to Chinstrap and Adelie penguins. The interquartile range (the box) for the Gentoo species does not overlap with the others, suggesting there may be a significant difference between them.</p>
+<p>Since we’re now considering species, let’s also take a look at how many penguins were observed in each species. Because we’re dealing with a categorical variable, a <strong>bar plot</strong> is appropriate.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x=</span>Species, <span class="at">y=</span>Sepal.Width))<span class="sc">+</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">col=</span><span class="st">"darkblue"</span>)<span class="sc">+</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Species of Iris Varieties"</span>, <span class="at">y=</span><span class="st">"Sepal Width (mm)"</span>)<span class="sc">+</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_penguins, <span class="fu">aes</span>(<span class="at">x =</span> species)) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"coral2"</span>, <span class="st">"chartreuse2"</span>, <span class="st">"cadetblue2"</span>),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"coral3"</span>, <span class="st">"chartreuse4"</span>, <span class="st">"cadetblue4"</span>)) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Penguin Species"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1023,67 +1026,48 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 </div>
-<p>If you have two categorical variables, you can use a bar plot or mosaic plot.</p>
+<p>We can also explore proportions to understand how each species contributes to the total sample.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      species          island    bill_length_mm  bill_depth_mm  
- Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
- Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
- Gentoo   :124   Torgersen: 52   Median :44.45   Median :17.30  
-                                 Mean   :43.92   Mean   :17.15  
-                                 3rd Qu.:48.50   3rd Qu.:18.70  
-                                 Max.   :59.60   Max.   :21.50  
-                                 NA's   :2       NA's   :2      
- flipper_length_mm  body_mass_g       sex           year     
- Min.   :172.0     Min.   :2700   female:165   Min.   :2007  
- 1st Qu.:190.0     1st Qu.:3550   male  :168   1st Qu.:2007  
- Median :197.0     Median :4050   NA's  : 11   Median :2008  
- Mean   :200.9     Mean   :4202                Mean   :2008  
- 3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
- Max.   :231.0     Max.   :6300                Max.   :2009  
- NA's   :2         NA's   :2                                 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species)) <span class="sc">+</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"darkorchid"</span>, <span class="st">"deepskyblue3"</span>, <span class="st">"orange"</span>), <span class="at">col =</span> <span class="st">"purple4"</span>) <span class="sc">+</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Penguin Species"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>clean_penguins, <span class="fu">aes</span>(<span class="at">x=</span>species))<span class="sc">+</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"coral2"</span>, <span class="st">"chartreuse2"</span>, <span class="st">"cadetblue2"</span>),</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"coral3"</span>, <span class="st">"chartreuse4"</span>, <span class="st">"cadetblue4"</span>), </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">y=</span><span class="fu">after_stat</span>(prop), <span class="at">group=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Penguin Species"</span>, <span class="at">y=</span><span class="st">"Proportion"</span>)<span class="sc">+</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter1_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter1_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>penguins, <span class="fu">aes</span>(<span class="at">x=</span>species))<span class="sc">+</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">"darkorchid"</span>, <span class="at">col=</span><span class="st">"purple4"</span>, <span class="fu">aes</span>(<span class="at">y=</span><span class="fu">after_stat</span>(prop), <span class="at">group=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Penguin Species"</span>, <span class="at">y=</span><span class="st">"Proportion"</span>)<span class="sc">+</span></span>
+</div>
+<p>Adelie penguins make up a much larger proportion of the sample, while Chinstrap penguins account for the smallest. It’s important to consider how such imbalances in your dataset could influence your interpretation.</p>
+<p>We can also generate a <strong>mosaic plot</strong> for species. To do so, we will need to install <code>ggmosaic</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggmosaic"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>clean_penguins, <span class="fu">aes</span>(<span class="at">col=</span>species))<span class="sc">+</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">product</span>(species)), <span class="at">fill=</span><span class="fu">c</span>(<span class="st">"coral2"</span>, <span class="st">"chartreuse2"</span>, <span class="st">"cadetblue2"</span>))<span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter1_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The wider the tile, the greater the proportion that species contributes. Adelie has the widest tile, which confirms it makes up the largest share of the sample.</p>
+<p>What if we want to look at penguin species by the island where they were observed? We are now dealing with two categorical variables. Mosaic plots work well here too.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_penguins) <span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(island, species)), </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"coral2"</span>, <span class="st">"chartreuse2"</span>, <span class="st">"cadetblue2"</span>),<span class="dv">3</span>)) <span class="sc">+</span></span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter1_files/figure-html/unnamed-chunk-28-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>penguins, <span class="fu">aes</span>(<span class="at">col=</span>species))<span class="sc">+</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">product</span>(species)), <span class="at">fill=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>, <span class="st">"deepskyblue3"</span>,<span class="st">"orangered"</span>))<span class="sc">+</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The `scale_name` argument of `continuous_scale()` is deprecated as of ggplot2
-3.5.0.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The `trans` argument of `continuous_scale()` is deprecated as of ggplot2 3.5.0.
-ℹ Please use the `transform` argument instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1092,32 +1076,38 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 </div>
+<p>From this plot you can see:</p>
+<ul>
+<li><p>Adelie appear on Biscoe, Dream, and Torgersen in roughly similar counts.</p></li>
+<li><p>Chinstrap are observed only on Dream.</p></li>
+<li><p>Gentoo are observed only on Biscoe.</p></li>
+</ul>
+<p>These patterns help explain why Adelie dominate overall, and they also show that species presence varies by island.</p>
+</section>
+<section id="exercise-checkpoint-2" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="exercise-checkpoint-2"><span class="header-section-number">2.5</span> Exercise Checkpoint 2</h2>
+<ol type="1">
+<li><p>Now that you are more comfortable generating plots and summary statistics in R, it is a good time to test your skills on a new dataset, the built-in <strong>iris</strong> dataset. This dataset is already preloaded in RStudio, so there is no need to import anything.</p>
+<p>To make sure it is available, you can view it by running</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins) <span class="sc">+</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(island, species), <span class="at">fill =</span> island)) <span class="sc">+</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `unite_()` was deprecated in tidyr 1.2.0.
-ℹ Please use `unite()` instead.
-ℹ The deprecated feature was likely used in the ggmosaic package.
-  Please report the issue at &lt;https://github.com/haleyjeppson/ggmosaic&gt;.</code></pre>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter1_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="section" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> </h1>
-<section id="exercise-checkpoint-2" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="exercise-checkpoint-2"><span class="header-section-number">3.1</span> Exercise Checkpoint 2</h2>
+<p>This will open the dataset in a new tab in RStudio so you can explore its structure and variables before starting your analysis.</p>
+<p>a. How many variables are in the <code>iris</code> dataset? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;5&quot;]"></p>
+<p>b. How many observations are in the <code>iris</code> dataset? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;150&quot;]"></p>
+<p>c. How many categorical variables are in the <code>iris</code> dataset? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;1&quot;]"></p>
+<p>d. How many numerical variables are in the <code>iris</code> dataset? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;4&quot;]"></p>
+<p>e. How many species are in the <code>iris</code> dataset? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;3&quot;]"></p>
+<p>f. What are the names of the three species in the <code>iris</code> dataset? Please list them in <strong>alphabetical order</strong>, separated by commas (for example: <code>x, y, z</code>) <input class="webex-solveme nospaces ignorecase regex" size="29" data-answer="[&quot;setosa, versicolor, virginica&quot;]"></p>
+<p>g. Is <code>Species</code> nominal or ordinal? <input class="webex-solveme nospaces ignorecase regex" size="7" data-answer="[&quot;nominal&quot;]"></p>
+<p>h. Is <code>Sepal.Length</code> continuous or discrete? <input class="webex-solveme nospaces ignorecase regex" size="10" data-answer="[&quot;continuous&quot;]"></p>
+<p>i. What is the mean sepal width of iris varieties rounded to one decimal place? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;3.1&quot;]"></p>
+<p>j. What is an appropriate plot to visualise petal width against species? <input class="webex-solveme nospaces ignorecase regex" size="7" data-answer="[&quot;boxplot&quot;]"></p>
+<p>k. What is an appropriate plot to visualise petal width against sepal width? <input class="webex-solveme nospaces ignorecase regex" size="11" data-answer="[&quot;scatterplot&quot;]"></p></li>
+<li></li>
+</ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
