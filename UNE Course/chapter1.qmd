@@ -96,12 +96,14 @@ sum(is.na(penguins))
 
 There are 19 missing observations. This can cause problems when generating numerical summaries or running statistical tests. At this stage, to handle this, we can remove the missing values. It’s always best practice to store your cleaned data in a new dataset and leave the original untouched. **Note that you should always be careful when removing observations, as even partially filled observations can still provide valuable information.**
 
-```{r} clean_penguins <- na.omit(penguins)}
+```{r}
+clean_penguins <- na.omit(penguins)
 ```
 
 We can check the structure again to make sure everything looks good:
 
-```{r} str(clean_penguins)}
+```{r}
+str(clean_penguins)
 ```
 
 We can see that there are eight variables. Three of these are categorical: `species`, `island`, and `sex`. These are stored as factors, where the *levels* represent the number of distinct labels or groups within each variable. For example, `sex` has two levels: `male` and `female`.
