@@ -358,7 +358,7 @@ Levels: 2007 2008 2009</code></pre>
 </div>
 </div>
 <p>This shows that the data was collected over the years 2007, 2008, and 2009.</p>
-<p>You can also see from the structure output <code>str()</code> that the <code>penguins</code> dataset is stored as a 344 x 8 tibble, which is a type of data frame in R. This means that there are 344 rows (observations) and 8 columns (variables).</p>
+<p>You can also see from the structure output <code>str()</code> that the <code>penguins</code> dataset is stored as a 333 x 8 tibble, which is a type of data frame in R. This means that there are 333 rows (observations) and 8 columns (variables).</p>
 <p>We can confirm this using the <code>dim()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(clean_penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -387,23 +387,23 @@ Levels: 2007 2008 2009</code></pre>
 <p>Some helpful R functions for generating summary statistics:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="mwqsbfjsiw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mwqsbfjsiw table {
+<div id="ucjllggqgp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ucjllggqgp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mwqsbfjsiw thead, #mwqsbfjsiw tbody, #mwqsbfjsiw tfoot, #mwqsbfjsiw tr, #mwqsbfjsiw td, #mwqsbfjsiw th {
+#ucjllggqgp thead, #ucjllggqgp tbody, #ucjllggqgp tfoot, #ucjllggqgp tr, #ucjllggqgp td, #ucjllggqgp th {
   border-style: none;
 }
 
-#mwqsbfjsiw p {
+#ucjllggqgp p {
   margin: 0;
   padding: 0;
 }
 
-#mwqsbfjsiw .gt_table {
+#ucjllggqgp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -429,12 +429,12 @@ Levels: 2007 2008 2009</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_caption {
+#ucjllggqgp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mwqsbfjsiw .gt_title {
+#ucjllggqgp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -446,7 +446,7 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-width: 0;
 }
 
-#mwqsbfjsiw .gt_subtitle {
+#ucjllggqgp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -458,7 +458,7 @@ Levels: 2007 2008 2009</code></pre>
   border-top-width: 0;
 }
 
-#mwqsbfjsiw .gt_heading {
+#ucjllggqgp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -470,13 +470,13 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_bottom_border {
+#ucjllggqgp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_col_headings {
+#ucjllggqgp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -491,7 +491,7 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_col_heading {
+#ucjllggqgp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -511,7 +511,7 @@ Levels: 2007 2008 2009</code></pre>
   overflow-x: hidden;
 }
 
-#mwqsbfjsiw .gt_column_spanner_outer {
+#ucjllggqgp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -523,15 +523,15 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 4px;
 }
 
-#mwqsbfjsiw .gt_column_spanner_outer:first-child {
+#ucjllggqgp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mwqsbfjsiw .gt_column_spanner_outer:last-child {
+#ucjllggqgp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mwqsbfjsiw .gt_column_spanner {
+#ucjllggqgp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -543,11 +543,11 @@ Levels: 2007 2008 2009</code></pre>
   width: 100%;
 }
 
-#mwqsbfjsiw .gt_spanner_row {
+#ucjllggqgp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mwqsbfjsiw .gt_group_heading {
+#ucjllggqgp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -573,7 +573,7 @@ Levels: 2007 2008 2009</code></pre>
   text-align: left;
 }
 
-#mwqsbfjsiw .gt_empty_group_heading {
+#ucjllggqgp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -588,15 +588,15 @@ Levels: 2007 2008 2009</code></pre>
   vertical-align: middle;
 }
 
-#mwqsbfjsiw .gt_from_md > :first-child {
+#ucjllggqgp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mwqsbfjsiw .gt_from_md > :last-child {
+#ucjllggqgp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mwqsbfjsiw .gt_row {
+#ucjllggqgp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -615,7 +615,7 @@ Levels: 2007 2008 2009</code></pre>
   overflow-x: hidden;
 }
 
-#mwqsbfjsiw .gt_stub {
+#ucjllggqgp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -628,7 +628,7 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#mwqsbfjsiw .gt_stub_row_group {
+#ucjllggqgp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -642,15 +642,15 @@ Levels: 2007 2008 2009</code></pre>
   vertical-align: top;
 }
 
-#mwqsbfjsiw .gt_row_group_first td {
+#ucjllggqgp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mwqsbfjsiw .gt_row_group_first th {
+#ucjllggqgp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mwqsbfjsiw .gt_summary_row {
+#ucjllggqgp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -660,16 +660,16 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#mwqsbfjsiw .gt_first_summary_row {
+#ucjllggqgp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_first_summary_row.thick {
+#ucjllggqgp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mwqsbfjsiw .gt_last_summary_row {
+#ucjllggqgp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -679,7 +679,7 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_grand_summary_row {
+#ucjllggqgp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -689,7 +689,7 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#mwqsbfjsiw .gt_first_grand_summary_row {
+#ucjllggqgp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -699,7 +699,7 @@ Levels: 2007 2008 2009</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_last_grand_summary_row_top {
+#ucjllggqgp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -709,11 +709,11 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_striped {
+#ucjllggqgp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mwqsbfjsiw .gt_table_body {
+#ucjllggqgp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -722,7 +722,7 @@ Levels: 2007 2008 2009</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_footnotes {
+#ucjllggqgp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -736,7 +736,7 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_footnote {
+#ucjllggqgp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -745,7 +745,7 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#mwqsbfjsiw .gt_sourcenotes {
+#ucjllggqgp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -759,7 +759,7 @@ Levels: 2007 2008 2009</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#mwqsbfjsiw .gt_sourcenote {
+#ucjllggqgp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -767,72 +767,72 @@ Levels: 2007 2008 2009</code></pre>
   padding-right: 5px;
 }
 
-#mwqsbfjsiw .gt_left {
+#ucjllggqgp .gt_left {
   text-align: left;
 }
 
-#mwqsbfjsiw .gt_center {
+#ucjllggqgp .gt_center {
   text-align: center;
 }
 
-#mwqsbfjsiw .gt_right {
+#ucjllggqgp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mwqsbfjsiw .gt_font_normal {
+#ucjllggqgp .gt_font_normal {
   font-weight: normal;
 }
 
-#mwqsbfjsiw .gt_font_bold {
+#ucjllggqgp .gt_font_bold {
   font-weight: bold;
 }
 
-#mwqsbfjsiw .gt_font_italic {
+#ucjllggqgp .gt_font_italic {
   font-style: italic;
 }
 
-#mwqsbfjsiw .gt_super {
+#ucjllggqgp .gt_super {
   font-size: 65%;
 }
 
-#mwqsbfjsiw .gt_footnote_marks {
+#ucjllggqgp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mwqsbfjsiw .gt_asterisk {
+#ucjllggqgp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mwqsbfjsiw .gt_indent_1 {
+#ucjllggqgp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mwqsbfjsiw .gt_indent_2 {
+#ucjllggqgp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mwqsbfjsiw .gt_indent_3 {
+#ucjllggqgp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mwqsbfjsiw .gt_indent_4 {
+#ucjllggqgp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mwqsbfjsiw .gt_indent_5 {
+#ucjllggqgp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#mwqsbfjsiw .katex-display {
+#ucjllggqgp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#mwqsbfjsiw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ucjllggqgp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1101,6 +1101,10 @@ Levels: 2007 2008 2009</code></pre>
 <li><p>Gentoo are observed only on Biscoe.</p></li>
 </ul>
 <p>These patterns help explain why Adelie dominate overall, and they also show that species presence varies by island.</p>
+<p>Be sure to <code>detach()</code> your dataset before you move onto the exercises.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(clean_penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="exercise-checkpoint-2" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="exercise-checkpoint-2"><span class="header-section-number">2.5</span> Exercise Checkpoint 2</h2>
@@ -1108,7 +1112,7 @@ Levels: 2007 2008 2009</code></pre>
 <li><p>Now that you are more comfortable generating plots and summary statistics in R, it is a good time to test your skills on a new dataset, the built-in <strong>iris</strong> dataset. This dataset is already preloaded in RStudio, so there is no need to import anything.</p>
 <p>To make sure it is available, you can view it by running</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will open the dataset in a new tab in RStudio so you can explore its structure and variables before starting your analysis.</p>
 <p>a. How many variables are in the <code>iris</code> dataset? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;5&quot;]"></p>

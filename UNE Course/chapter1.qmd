@@ -377,7 +377,7 @@ Be sure to `detach()` your dataset before you move onto the exercises.
 detach(clean_penguins)
 ```
 
-## Exercise Checkpoint 2 
+## Exercise Checkpoint 2
 
 1.  Now that you are more comfortable generating plots and summary statistics in R, it is a good time to test your skills on a new dataset, the built-in **iris** dataset. This dataset is already preloaded in RStudio, so there is no need to import anything.
 

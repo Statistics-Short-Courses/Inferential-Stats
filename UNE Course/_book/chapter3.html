@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="include/webex.css">
 </head>
@@ -160,8 +223,17 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#foundations-of-hypothesis-testing" id="toc-foundations-of-hypothesis-testing" class="nav-link active" data-scroll-target="#foundations-of-hypothesis-testing"><span class="header-section-number">4.1</span> Foundations of Hypothesis Testing</a></li>
+  <li><a href="#exercise-checkpoint-1" id="toc-exercise-checkpoint-1" class="nav-link" data-scroll-target="#exercise-checkpoint-1"><span class="header-section-number">4.2</span> Exercise Checkpoint 1</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">5</span> </a></li>
+  <li><a href="#how-to-test-an-idea" id="toc-how-to-test-an-idea" class="nav-link" data-scroll-target="#how-to-test-an-idea"><span class="header-section-number">6</span> <strong>How to test an idea</strong></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -185,8 +257,560 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Before starting this lesson, you’ll need to download some data.</p>
+<p>We will be using the <a href="https://github.com/fivethirtyeight/data/tree/master/airline-safety">airline safety dataset</a> from the Five Thirty Eight data archive. FiveThirtyEight, also known as 538, was a popular American website that covered a variety of topics like politics, economics, and sports through a strong focus on data and statistical analysis. If you enjoy exploring interesting or unusual datasets, you might want to take a look at the full archive <a href="https://github.com/fivethirtyeight/data">here</a>.</p>
+<p>You should save the file in your <strong>Datasets</strong> folder in your <strong>InferentialStats</strong> project folder that you created in the Introduction.</p>
+<p>Once you’ve saved the file, you can load the dataset into R by typing:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>airlines <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/airline-safety.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can find a description of the data here:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="zqtnzezlub" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zqtnzezlub table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#zqtnzezlub thead, #zqtnzezlub tbody, #zqtnzezlub tfoot, #zqtnzezlub tr, #zqtnzezlub td, #zqtnzezlub th {
+  border-style: none;
+}
+
+#zqtnzezlub p {
+  margin: 0;
+  padding: 0;
+}
+
+#zqtnzezlub .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#zqtnzezlub .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#zqtnzezlub .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#zqtnzezlub .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#zqtnzezlub .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#zqtnzezlub .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#zqtnzezlub .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#zqtnzezlub .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#zqtnzezlub .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#zqtnzezlub .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#zqtnzezlub .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zqtnzezlub .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#zqtnzezlub .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#zqtnzezlub .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#zqtnzezlub .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zqtnzezlub .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#zqtnzezlub .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#zqtnzezlub .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#zqtnzezlub .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zqtnzezlub .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#zqtnzezlub .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zqtnzezlub .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#zqtnzezlub .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zqtnzezlub .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zqtnzezlub .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zqtnzezlub .gt_left {
+  text-align: left;
+}
+
+#zqtnzezlub .gt_center {
+  text-align: center;
+}
+
+#zqtnzezlub .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#zqtnzezlub .gt_font_normal {
+  font-weight: normal;
+}
+
+#zqtnzezlub .gt_font_bold {
+  font-weight: bold;
+}
+
+#zqtnzezlub .gt_font_italic {
+  font-style: italic;
+}
+
+#zqtnzezlub .gt_super {
+  font-size: 65%;
+}
+
+#zqtnzezlub .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#zqtnzezlub .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#zqtnzezlub .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#zqtnzezlub .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#zqtnzezlub .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#zqtnzezlub .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#zqtnzezlub .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#zqtnzezlub .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#zqtnzezlub div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border">Airline Dataset Variable Definitions</th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="Header" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Header</th>
+<th id="Definition" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Definition</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Header">airline</td>
+<td class="gt_row gt_left" headers="Definition">Airline (asterisk indicates that regional subsidiaries are included)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Header">avail_seat_km_per_week</td>
+<td class="gt_row gt_left" headers="Definition">Available seat kilometers flown every week</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Header">incidents_85_99</td>
+<td class="gt_row gt_left" headers="Definition">Total number of incidents, 1985–1999</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Header">fatal_accidents_85_99</td>
+<td class="gt_row gt_left" headers="Definition">Total number of fatal accidents, 1985–1999</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Header">fatalities_85_99</td>
+<td class="gt_row gt_left" headers="Definition">Total number of fatalities, 1985–1999</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Header">incidents_00_14</td>
+<td class="gt_row gt_left" headers="Definition">Total number of incidents, 2000–2014</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Header">fatal_accidents_00_14</td>
+<td class="gt_row gt_left" headers="Definition">Total number of fatal accidents, 2000–2014</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Header">fatalities_00_14</td>
+<td class="gt_row gt_left" headers="Definition">Total number of fatalities, 2000–2014</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="foundations-of-hypothesis-testing" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="foundations-of-hypothesis-testing"><span class="header-section-number">4.1</span> Foundations of Hypothesis Testing</h2>
+<p>Now that we’re familiar with variables and probability distributions, we can start exploring <strong>hypothesis testing</strong>. Hypothesis testing provides a structured framework for approaching statistical problems and drawing conclusions from data.</p>
+<p>When performing hypothesis testing, it’s helpful to reframe the problem in the context of <em>who</em>, <em>what</em>, and <em>why</em>.</p>
+<p>Let’s refresh our understanding of a few important concepts that will be helpful in reframing our problem:</p>
+<ul>
+<li><p>Target population and sample</p></li>
+<li><p>Explanatory and response variables</p></li>
+<li><p>Control and treatment</p></li>
+<li><p>Null and Alternative hypotheses</p></li>
+</ul>
+<p>A <strong>target population</strong> is the broader group you are interested in studying. In other words, <em>who</em> do you want your results to apply to?</p>
+<p>Because it is usually not practical to study the entire population, we collect a <strong>sample</strong>. It is a subset of observations that represents the population.</p>
+<p>A <strong>response</strong> <strong>variable</strong> is the variable of interest. It is what you want to measure or understand about the population. For example, if you are studying weight change after taking a new drug, the response variable is weight.</p>
+<p>Usually, you are interested in comparing something about this variable, such as a mean or proportion of a population. This is called a <strong>parameter of interest</strong>.</p>
+<p>Because it is often not possible or feasible to collect the actual parameter of interest, such as a population mean, we can estimate it from a sample with a <strong>point estimate</strong>, such as a sample mean or sample proportion.</p>
+<p>An <strong>explanatory variable</strong> is the variable that may influence or explain changes in the response variable. In the weight example, the explanatory variable would be whether or not someone took the drug. This helps us understand <em>why</em> the response variable changes, in this case, why weight might increase or decrease.</p>
+<p>To ensure that any observed effect (such as weight gain) is actually due to the drug and not other factors, researchers often design experiments with a <strong>control group</strong> and a <strong>treatment group</strong>. The control group does not receive the treatment, while the treatment group does. The results are then compared between the two groups.</p>
+<p>The <strong>null hypothesis</strong>, denoted as <span class="math inline">\(H_0\)</span>, represents the baseline assumption that there is no difference or effect. In the context of our drug example, this would mean that taking the drug does not influence weight.</p>
+<p>The <strong>alternative hypothesis</strong>, denoted as <span class="math inline">\(H_a\)</span>​, represents the belief that there is a real difference or effect. For the drug example, this would mean that taking the drug does have a significant influence on weight.</p>
+<p>Test your understanding with the exercise below.</p>
+</section>
+<section id="exercise-checkpoint-1" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="exercise-checkpoint-1"><span class="header-section-number">4.2</span> Exercise Checkpoint 1</h2>
+<ol type="1">
+<li><p>Test your understanding with the exercise below.</p>
+<p>UNE Sport is trialing a new get-fit training program for UNE students and wants to verify whether the program improves the fitness of the participants.</p>
+<p>One hundred randomly chosen students are going to take 1 hour boot camp sessions 3 times a week for 4 weeks. At both the start and end of the month all students are going to be tested for the time in which they can run the 100m. The difference in this sprint time will be recorded.</p>
+<p>Match the terms below with the correct options:</p></li>
+<li><p>Now, think about the hypotheses:</p>
+<p><em>What is the</em> <strong>alternative</strong> <em>hypothesis for the UNE Sport bootcamp study?</em></p></li>
+</ol>
+</section>
+<section id="section" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> </h1>
+</section>
+<section id="how-to-test-an-idea" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> <strong>How to test an idea</strong></h1>
+<p>Below is a helpful way to remember how to perform hypothesis testing for a normal model</p>
+<p><img src="images/clipboard-993912647.png" class="img-fluid"></p>
+<p>A <strong>test statistic</strong> is</p>
+<p>A <strong>p-value</strong> is</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script>
