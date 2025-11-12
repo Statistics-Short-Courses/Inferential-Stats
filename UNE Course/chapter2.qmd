@@ -3,3 +3,67 @@ title: "Probability Distributions"
 ---
 
 # Probability Distributions
+
+## The Normal Distribution 
+
+In the previous chapter, we've described what we *see* in data. Understanding probability can help us reason about what we *expect* from our data.
+
+A **random variable** is a variable whose value is determined by chance. For example, if we are looking at the number of heads in a series of coin flips, then the number of heads is a random variable.
+
+A **probability distribution** is a model that describes the likelihood of each outcome. If we know what type of distribution to expect based on the kind of experiment or observation we are doing, we can model the probability or chance of those outcomes. In the case of counting the number of heads in a series of coin flips, this is known as a Bernoulli trial because each head can be counted as a success. The number of successes in several independent Bernoulli trials can be modeled by the binomial distribution. We will look at this in more detail later.
+
+A **normal distribution** is a continuous, symmetric, bell-shaped probability distribution defined by a mean ($\mu$) and standard deviation ($\sigma$). Normal distributions have:
+
+-   approximately 68% of data points within 1 standard deviation of the mean
+
+-   approximately 95% of data points within 2 standard deviations of the mean
+
+-   approximately 99.7% (i.e., almost all) data points within 3 standard deviation of the mean
+
+This is also known as the **68-85-99.7 rule**. This means that if you know the mean and the standard deviation of a normal data set you can calculate the range of values in which 68%, 95% and 99.7% of the data will fall.
+
+![](images/clipboard-901656027.png)
+
+A **standard normal distribution** is a special case of the normal distribution that has a mean of 0 and a standard deviation of 1, which is denoted as $Z \sim N(0,1)$ where $Z$ represents a standarised random variable . If the random variable is not represented by $Z$ and is represented by $X$ or any other letter, it is generally not a standardised normal variable. That is, $X \sim (\mu, \sigma^2)$. You can convert any normal variable $X$ to a standard normal variable using:
+
+$Z=\frac{X-\mu}{\sigma}$
+
+where $Z \sim N(0,1)$.
+
+We might also want to find the probability of certain values occurring, which is represented by the area under the curve. For example, in a standard normal distribution, the probability that a value is greater than 2.5 (that is, $P(Z>2.5)$ . We can draw a graph and label the axes.
+
+![](images/clipboard-3351712630.png){width="618"}
+
+We know the mean is 0 and since the standard deviation is 1 that the curve approximately stretches between -3 and +3.
+
+Now draw in approximately where 2.5 would sit and shade in the correct part of the curve.
+
+![](images/clipboard-1212254114.png){width="648"}
+
+Let's work through a practical example.
+
+Suppose weights of the checked baggage of airline passengers follow a nearly normal distribution with mean 45 pounds and standard deviation 3.2 pounds. Most airlines charge a fee for baggage that weighs in excess of 50 pounds. How can this be expressed using probability notation P()?
+
+The first step is
+
+## Exercise Checkpoint 1 
+
+1.  Practice drawing
+
+    a\. P(Z \< −1.35)
+
+    b\. P(Z \> 1.48)
+
+    c\. P(−0.4 \< Z \< 1.5)
+
+    d\. P(\|Z\| \> 2)
+
+    e\.
+
+In the previous chapter, we learnt about discrete and continuous numerical variables.
+
+```{r}
+
+```
+
+You may be familiar with the bell curve

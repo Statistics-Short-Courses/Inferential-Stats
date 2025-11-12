@@ -1,0 +1,27 @@
+---
+title: "Chi squared"
+---
+
+```{r}
+armidale_data <- read.csv("Data sets/ABS_2011_Armidale_Weekly_Income.csv")
+```
+
+Let's take a look at the structure of the data.
+
+```{r}
+str(armidale_data)
+```
+
+We can see that we have 390 observations and 28 variables. For the purposes of this workshop, we don't need all of these variables. We can create a new dataframe with the variables we would like.
+
+```{r} library(tidyverse)}
+new_armidale_data <- armidale_data %>%   select(c(Age, Sex, Total.Personal.Income..weekly.))
+```
+
+We can take a look at the structure again to make sure it is ok.
+
+```{r}
+str(new_armidale_data)
+```
+
+We can do some cleaning up of the data. You might notice that all the variables

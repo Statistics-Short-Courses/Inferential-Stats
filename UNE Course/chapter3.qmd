@@ -109,3 +109,5 @@ Below is a helpful way to remember how to perform hypothesis testing for a norma
 A **test statistic** is
 
 A **p-value** is
+
+## Are airlines safer
