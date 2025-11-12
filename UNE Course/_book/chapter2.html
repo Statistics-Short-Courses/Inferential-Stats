@@ -69,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="include/webex.css">
 </head>
@@ -165,7 +194,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#probability-distributions" id="toc-probability-distributions" class="nav-link active" data-scroll-target="#probability-distributions"><span class="header-section-number">4</span> Probability Distributions</a></li>
+  <li><a href="#the-normal-distribution" id="toc-the-normal-distribution" class="nav-link active" data-scroll-target="#the-normal-distribution"><span class="header-section-number">3.1</span> The Normal Distribution</a></li>
+  <li><a href="#exercise-checkpoint-1" id="toc-exercise-checkpoint-1" class="nav-link" data-scroll-target="#exercise-checkpoint-1"><span class="header-section-number">3.2</span> Exercise Checkpoint 1</a></li>
   </ul>
 </nav>
     </div>
@@ -191,8 +221,56 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="probability-distributions" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Probability Distributions</h1>
+<section id="the-normal-distribution" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-normal-distribution"><span class="header-section-number">3.1</span> The Normal Distribution</h2>
+<p>In the previous chapter, we’ve described what we <em>see</em> in data. Understanding probability can help us reason about what we <em>expect</em> from our data.</p>
+<p>A <strong>random variable</strong> is a variable whose value is determined by chance. For example, if we are looking at the number of heads in a series of coin flips, then the number of heads is a random variable.</p>
+<p>A <strong>probability distribution</strong> is a model that describes the likelihood of each outcome. If we know what type of distribution to expect based on the kind of experiment or observation we are doing, we can model the probability or chance of those outcomes. In the case of counting the number of heads in a series of coin flips, this is known as a Bernoulli trial because each head can be counted as a success. The number of successes in several independent Bernoulli trials can be modeled by the binomial distribution. We will look at this in more detail later.</p>
+<p>A <strong>normal distribution</strong> is a continuous, symmetric, bell-shaped probability distribution defined by a mean (<span class="math inline">\(\mu\)</span>) and standard deviation (<span class="math inline">\(\sigma\)</span>). Normal distributions have:</p>
+<ul>
+<li><p>approximately 68% of data points within 1 standard deviation of the mean</p></li>
+<li><p>approximately 95% of data points within 2 standard deviations of the mean</p></li>
+<li><p>approximately 99.7% (i.e., almost all) data points within 3 standard deviation of the mean</p></li>
+</ul>
+<p>This is also known as the <strong>68-85-99.7 rule</strong>. This means that if you know the mean and the standard deviation of a normal data set you can calculate the range of values in which 68%, 95% and 99.7% of the data will fall.</p>
+<p><img src="images/clipboard-901656027.png" class="img-fluid"></p>
+<p>A <strong>standard normal distribution</strong> is a special case of the normal distribution that has a mean of 0 and a standard deviation of 1, which is denoted as <span class="math inline">\(Z \sim N(0,1)\)</span> where <span class="math inline">\(Z\)</span> represents a standarised random variable . If the random variable is not represented by <span class="math inline">\(Z\)</span> and is represented by <span class="math inline">\(X\)</span> or any other letter, it is generally not a standardised normal variable. That is, <span class="math inline">\(X \sim (\mu, \sigma^2)\)</span>. You can convert any normal variable <span class="math inline">\(X\)</span> to a standard normal variable using:</p>
+<p><span class="math inline">\(Z=\frac{X-\mu}{\sigma}\)</span></p>
+<p>where <span class="math inline">\(Z \sim N(0,1)\)</span>.</p>
+<p>We might also want to find the probability of certain values occurring, which is represented by the area under the curve. For example, in a standard normal distribution, the probability that a value is greater than 2.5 (that is, <span class="math inline">\(P(Z&gt;2.5)\)</span> . We can draw a graph and label the axes.</p>
+<p><img src="images/clipboard-3351712630.png" class="img-fluid" width="618"></p>
+<p>We know the mean is 0 and since the standard deviation is 1 that the curve approximately stretches between -3 and +3.</p>
+<p>Now draw in approximately where 2.5 would sit and shade in the correct part of the curve.</p>
+<p><img src="images/clipboard-1212254114.png" class="img-fluid" width="648"></p>
+<p>Let’s work through a practical example.</p>
+<p>Suppose weights of the checked baggage of airline passengers follow a nearly normal distribution with mean 45 pounds and standard deviation 3.2 pounds. Most airlines charge a fee for baggage that weighs in excess of 50 pounds. How can this be expressed using probability notation P()?</p>
+<p>What is the mean? <input class="webex-solveme nospaces" size="2" data-answer="[&quot;45&quot;]"></p>
+<p>What is the standard deviation? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;3.2&quot;]"></p>
+<p>What is 1 standard deviation, 2 standard deviation, and 3 deviation ABOVE the mean, in that order? You can write your answer separated by commas (for example: <code>1, 2, 3</code>). <input class="webex-solveme nospaces ignorecase regex" size="16" data-answer="[&quot;48.2, 51.4, 54.6&quot;]"></p>
+<p>What is 1 standard deviation, 2 standard deviation, and 3 deviation BELOW the mean, in that order? You can write your answer separated by commas (for example: <code>1, 2, 3</code>). <input class="webex-solveme nospaces ignorecase regex" size="16" data-answer="[&quot;41.8, 38.6, 35.4&quot;]"></p>
+<p>What probability relationship are we modelling? <select class="webex-select"><option value="blank"></option><option value="">P(X&lt;3.2)</option><option value="answer">P(X&gt;50)</option><option value="">P(Z&gt;50)</option><option value="">P(Z&lt;50)</option></select></p>
+<p>Now that we have identified the mean, standard deviation, and the type of relationship we want to model, we can start drawing our diagram. Try having a go below.</p>
+<p><img src="images/clipboard-214006668.png" class="img-fluid"></p>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<p>We are looking for <span class="math inline">\(P(X&gt;50)\)</span>, where <span class="math inline">\(X \sim (45, 3.2^2)\)</span>.</p>
+<p><img src="images/clipboard-1790724682.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="exercise-checkpoint-1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="exercise-checkpoint-1"><span class="header-section-number">3.2</span> Exercise Checkpoint 1</h2>
+<ol type="1">
+<li><p>Practice drawing</p>
+<p>a. P(Z &lt; −1.35)</p>
+<p>b. P(Z &gt; 1.48)</p>
+<p>c. P(−0.4 &lt; Z &lt; 1.5)</p>
+<p>d. P(|Z| &gt; 2)</p>
+<p>e.</p></li>
+</ol>
+<p>In the previous chapter, we learnt about discrete and continuous numerical variables.</p>
+<p>You may be familiar with the bell curve</p>
 
 
 </section>

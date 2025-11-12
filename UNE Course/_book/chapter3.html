@@ -231,7 +231,10 @@ window.Quarto = {
   <li><a href="#foundations-of-hypothesis-testing" id="toc-foundations-of-hypothesis-testing" class="nav-link active" data-scroll-target="#foundations-of-hypothesis-testing"><span class="header-section-number">4.1</span> Foundations of Hypothesis Testing</a></li>
   <li><a href="#exercise-checkpoint-1" id="toc-exercise-checkpoint-1" class="nav-link" data-scroll-target="#exercise-checkpoint-1"><span class="header-section-number">4.2</span> Exercise Checkpoint 1</a></li>
   <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">5</span> </a></li>
-  <li><a href="#how-to-test-an-idea" id="toc-how-to-test-an-idea" class="nav-link" data-scroll-target="#how-to-test-an-idea"><span class="header-section-number">6</span> <strong>How to test an idea</strong></a></li>
+  <li><a href="#how-to-test-an-idea" id="toc-how-to-test-an-idea" class="nav-link" data-scroll-target="#how-to-test-an-idea"><span class="header-section-number">6</span> <strong>How to test an idea</strong></a>
+  <ul class="collapse">
+  <li><a href="#are-airlines-safer" id="toc-are-airlines-safer" class="nav-link" data-scroll-target="#are-airlines-safer"><span class="header-section-number">6.1</span> Are airlines safer</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -258,7 +261,7 @@ window.Quarto = {
 
 
 <p>Before starting this lesson, you’ll need to download some data.</p>
-<p>We will be using the <a href="https://github.com/fivethirtyeight/data/tree/master/airline-safety">airline safety dataset</a> from the Five Thirty Eight data archive. FiveThirtyEight, also known as 538, was a popular American website that covered a variety of topics like politics, economics, and sports through a strong focus on data and statistical analysis. If you enjoy exploring interesting or unusual datasets, you might want to take a look at the full archive <a href="https://github.com/fivethirtyeight/data">here</a>.</p>
+<p>We will be using the <a href="https://github.com/fivethirtyeight/data/tree/master/airline-safety">airline safety dataset</a> from the FiveThirtyEight data archive. FiveThirtyEight, also known as 538, was a popular American website that covered a variety of topics like politics, economics, and sports through a strong focus on data and statistical analysis. If you enjoy exploring interesting or unusual datasets, you might want to take a look at the full archive <a href="https://github.com/fivethirtyeight/data">here</a>.</p>
 <p>You should save the file in your <strong>Datasets</strong> folder in your <strong>InferentialStats</strong> project folder that you created in the Introduction.</p>
 <p>Once you’ve saved the file, you can load the dataset into R by typing:</p>
 <div class="cell">
@@ -267,23 +270,23 @@ window.Quarto = {
 <p>You can find a description of the data here:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="wkskatxgvh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wkskatxgvh table {
+<div id="evuyyxzbde" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#evuyyxzbde table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wkskatxgvh thead, #wkskatxgvh tbody, #wkskatxgvh tfoot, #wkskatxgvh tr, #wkskatxgvh td, #wkskatxgvh th {
+#evuyyxzbde thead, #evuyyxzbde tbody, #evuyyxzbde tfoot, #evuyyxzbde tr, #evuyyxzbde td, #evuyyxzbde th {
   border-style: none;
 }
 
-#wkskatxgvh p {
+#evuyyxzbde p {
   margin: 0;
   padding: 0;
 }
 
-#wkskatxgvh .gt_table {
+#evuyyxzbde .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -309,12 +312,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_caption {
+#evuyyxzbde .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wkskatxgvh .gt_title {
+#evuyyxzbde .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -326,7 +329,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#wkskatxgvh .gt_subtitle {
+#evuyyxzbde .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -338,7 +341,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#wkskatxgvh .gt_heading {
+#evuyyxzbde .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -350,13 +353,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_bottom_border {
+#evuyyxzbde .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_col_headings {
+#evuyyxzbde .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -371,7 +374,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_col_heading {
+#evuyyxzbde .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -391,7 +394,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#wkskatxgvh .gt_column_spanner_outer {
+#evuyyxzbde .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -403,15 +406,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#wkskatxgvh .gt_column_spanner_outer:first-child {
+#evuyyxzbde .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wkskatxgvh .gt_column_spanner_outer:last-child {
+#evuyyxzbde .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wkskatxgvh .gt_column_spanner {
+#evuyyxzbde .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -423,11 +426,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#wkskatxgvh .gt_spanner_row {
+#evuyyxzbde .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wkskatxgvh .gt_group_heading {
+#evuyyxzbde .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -453,7 +456,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#wkskatxgvh .gt_empty_group_heading {
+#evuyyxzbde .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -468,15 +471,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#wkskatxgvh .gt_from_md > :first-child {
+#evuyyxzbde .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wkskatxgvh .gt_from_md > :last-child {
+#evuyyxzbde .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wkskatxgvh .gt_row {
+#evuyyxzbde .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -495,7 +498,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#wkskatxgvh .gt_stub {
+#evuyyxzbde .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -508,7 +511,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkskatxgvh .gt_stub_row_group {
+#evuyyxzbde .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -522,15 +525,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#wkskatxgvh .gt_row_group_first td {
+#evuyyxzbde .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wkskatxgvh .gt_row_group_first th {
+#evuyyxzbde .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wkskatxgvh .gt_summary_row {
+#evuyyxzbde .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -540,16 +543,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkskatxgvh .gt_first_summary_row {
+#evuyyxzbde .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_first_summary_row.thick {
+#evuyyxzbde .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wkskatxgvh .gt_last_summary_row {
+#evuyyxzbde .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -559,7 +562,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_grand_summary_row {
+#evuyyxzbde .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -569,7 +572,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkskatxgvh .gt_first_grand_summary_row {
+#evuyyxzbde .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -579,7 +582,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_last_grand_summary_row_top {
+#evuyyxzbde .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -589,11 +592,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_striped {
+#evuyyxzbde .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wkskatxgvh .gt_table_body {
+#evuyyxzbde .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -602,7 +605,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_footnotes {
+#evuyyxzbde .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -616,7 +619,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_footnote {
+#evuyyxzbde .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -625,7 +628,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkskatxgvh .gt_sourcenotes {
+#evuyyxzbde .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -639,7 +642,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkskatxgvh .gt_sourcenote {
+#evuyyxzbde .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -647,72 +650,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkskatxgvh .gt_left {
+#evuyyxzbde .gt_left {
   text-align: left;
 }
 
-#wkskatxgvh .gt_center {
+#evuyyxzbde .gt_center {
   text-align: center;
 }
 
-#wkskatxgvh .gt_right {
+#evuyyxzbde .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wkskatxgvh .gt_font_normal {
+#evuyyxzbde .gt_font_normal {
   font-weight: normal;
 }
 
-#wkskatxgvh .gt_font_bold {
+#evuyyxzbde .gt_font_bold {
   font-weight: bold;
 }
 
-#wkskatxgvh .gt_font_italic {
+#evuyyxzbde .gt_font_italic {
   font-style: italic;
 }
 
-#wkskatxgvh .gt_super {
+#evuyyxzbde .gt_super {
   font-size: 65%;
 }
 
-#wkskatxgvh .gt_footnote_marks {
+#evuyyxzbde .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wkskatxgvh .gt_asterisk {
+#evuyyxzbde .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wkskatxgvh .gt_indent_1 {
+#evuyyxzbde .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wkskatxgvh .gt_indent_2 {
+#evuyyxzbde .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wkskatxgvh .gt_indent_3 {
+#evuyyxzbde .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wkskatxgvh .gt_indent_4 {
+#evuyyxzbde .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wkskatxgvh .gt_indent_5 {
+#evuyyxzbde .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wkskatxgvh .katex-display {
+#evuyyxzbde .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wkskatxgvh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#evuyyxzbde div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -808,8 +811,11 @@ window.Quarto = {
 <p><img src="images/clipboard-993912647.png" class="img-fluid"></p>
 <p>A <strong>test statistic</strong> is</p>
 <p>A <strong>p-value</strong> is</p>
+<section id="are-airlines-safer" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="are-airlines-safer"><span class="header-section-number">6.1</span> Are airlines safer</h2>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

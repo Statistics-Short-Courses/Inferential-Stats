@@ -2,8 +2,6 @@
 title: "Probability Distributions"
 ---
 
-# Probability Distributions
-
 ## The Normal Distribution 
 
 In the previous chapter, we've described what we *see* in data. Understanding probability can help us reason about what we *expect* from our data.
@@ -44,7 +42,27 @@ Let's work through a practical example.
 
 Suppose weights of the checked baggage of airline passengers follow a nearly normal distribution with mean 45 pounds and standard deviation 3.2 pounds. Most airlines charge a fee for baggage that weighs in excess of 50 pounds. How can this be expressed using probability notation P()?
 
-The first step is
+What is the mean? `r fitb(45)`
+
+What is the standard deviation? `r fitb(3.2)`
+
+What are the values that are 1, 2, and 3 standard deviations **above** the mean, in that order? Write your answers separated by commas (for example: `1, 2, 3`). `r fitb("48.2, 51.4, 54.6", ignore_case = TRUE, ignore_ws = TRUE, regex=TRUE)`
+
+What are the values that are 1, 2, and 3 standard deviations **below** the mean, in that order? Write your answers separated by commas (for example: `1, 2, 3`). `r fitb("41.8, 38.6, 35.4", ignore_case = TRUE, ignore_ws = TRUE, regex=TRUE)`
+
+Which probability expression are we modelling? `r mcq(c("P(X<3.2)", answer = "P(X>50)", "P(Z>50)", "P(Z<50)"))`
+
+Now that we have identified the mean, standard deviation, and the type of relationship we want to model, we can start drawing our diagram. Try having a go below.
+
+![](images/clipboard-214006668.png)
+
+`r hide("Solution")`
+
+We are looking for $P(X>50)$, where $X \sim (45, 3.2^2)$.
+
+![](images/clipboard-1790724682.png)
+
+`r unhide()`
 
 ## Exercise Checkpoint 1 
 
