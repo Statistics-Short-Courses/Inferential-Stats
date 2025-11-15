@@ -2,52 +2,6 @@
 title: "Hypothesis Testing"
 ---
 
-Before starting this lesson, you'll need to download some data.
-
-We will be using the [airline safety dataset](https://github.com/fivethirtyeight/data/tree/master/airline-safety) from the FiveThirtyEight data archive. FiveThirtyEight, also known as 538, was a popular American website that covered a variety of topics like politics, economics, and sports through a strong focus on data and statistical analysis. If you enjoy exploring interesting or unusual datasets, you might want to take a look at the full archive [here](https://github.com/fivethirtyeight/data).
-
-You should save the file in your **Datasets** folder in your **InferentialStats** project folder that you created in the Introduction.
-
-Once you’ve saved the file, you can load the dataset into R by typing:
-
-```{r}
-airlines <- read.csv("Data sets/airline-safety.csv")
-```
-
-You can find a description of the data here:
-
-```{r, echo=FALSE, warning = FALSE}
-library(gt)
-
-airline_defs <- data.frame(
-  Header = c(
-    "airline",
-    "avail_seat_km_per_week",
-    "incidents_85_99",
-    "fatal_accidents_85_99",
-    "fatalities_85_99",
-    "incidents_00_14",
-    "fatal_accidents_00_14",
-    "fatalities_00_14"
-  ),
-  Definition = c(
-    "Airline (asterisk indicates that regional subsidiaries are included)",
-    "Available seat kilometers flown every week",
-    "Total number of incidents, 1985–1999",
-    "Total number of fatal accidents, 1985–1999",
-    "Total number of fatalities, 1985–1999",
-    "Total number of incidents, 2000–2014",
-    "Total number of fatal accidents, 2000–2014",
-    "Total number of fatalities, 2000–2014"
-  ),
-  check.names = FALSE
-)
-
-gt(airline_defs) %>%
-  tab_header(title = "Airline Dataset Variable Definitions")
-
-```
-
 ## Foundations of Hypothesis Testing
 
 Now that we’re familiar with variables and probability distributions, we can start exploring **hypothesis testing**. Hypothesis testing provides a structured framework for approaching statistical problems and drawing conclusions from data.
@@ -110,4 +64,4 @@ A **test statistic** is
 
 A **p-value** is
 
-## Are airlines safer
+## 

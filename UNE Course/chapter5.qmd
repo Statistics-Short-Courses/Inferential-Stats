@@ -14,9 +14,7 @@ str(armidale_data)
 
 We can see that we have 390 observations and 28 variables. For the purposes of this workshop, we don't need all of these variables. We can create a new dataframe with the variables we would like.
 
-```{r} library(tidyverse)}
-new_armidale_data <- armidale_data %>%   select(c(Age, Sex, Total.Personal.Income..weekly.))
-```
+`{r} library(tidyverse)} new_armidale_data <- armidale_data %>%   select(c(Age, Sex, Total.Personal.Income..weekly.))`
 
 We can take a look at the structure again to make sure it is ok.
 

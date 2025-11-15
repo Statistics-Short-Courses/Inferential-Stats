@@ -2,7 +2,7 @@
 title: "Probability Distributions"
 ---
 
-## The Normal Distribution 
+## The Normal Distribution
 
 In the previous chapter, we've described what we *see* in data. Understanding probability can help us reason about what we *expect* from our data.
 
@@ -64,7 +64,7 @@ We are looking for $P(X>50)$, where $X \sim (45, 3.2^2)$.
 
 `r unhide()`
 
-## Exercise Checkpoint 1 
+## Exercise Checkpoint 1
 
 1.  Practice drawing
 
