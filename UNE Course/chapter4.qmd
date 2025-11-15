@@ -116,14 +116,6 @@ Our null and alternative hypothesis indicate that we are interested in the **pop
 
 ### **Does our data meet the right conditions?**
 
--   if the observations are from a simple random sample and consist of fewer than 10% of the population, they are likely to be independent.
-
--   if subjects are randomly assigned between treatment groups, they are likely to be independent.
-
--   if a sample is from a seemingly random process, checking independence can be challenging: use your best judgement.
-
-In our data, we have n=72 observations
-
 # 
 
 # Paired t-test 
