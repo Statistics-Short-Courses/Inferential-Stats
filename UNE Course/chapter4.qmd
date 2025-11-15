@@ -40,7 +40,7 @@ If you open the file, you may notice that the first row is simply a title. We ca
 
 Once you’ve saved the file, you can load the dataset into R by typing:
 
-```{r}
+```{r, message = FALSE}
 library(ggplot2)
 library(tidyverse)
 
@@ -61,7 +61,7 @@ str(asthma)
 2.  How many numerical variables are there? `r fitb(1)`
 3.  How many observations are there? `r fitb(74)`
 
-We can also fix the variable types to ensure they are the correct format. Recall that we want categorical variables to be stored as a `Factor` variable.
+We can also fix the variable types to ensure they are the correct format. Recall that we want categorical variables to be stored as a `Factor` variable. You may also notice that `Number` is stored as a`chr` variable rather than a numerical variable. It has been stored this way because there is a comma. We can fix this by removing the comma and converting it to `num`.
 
 ```{r}
 
