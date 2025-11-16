@@ -2,6 +2,10 @@
 title: "Paired t-test and ANOVA"
 ---
 
+# **Hypothesis tests using the t-distribution**
+
+![](images/clipboard-312548449.png)
+
 # Paired t-test
 
 The next data set we will be using is the [Respiratory Disease hospitalisations](https://www.healthstats.nsw.gov.au/indicator?name=-res-cat-hos&location=NSW&view=Table&measure=DSTRate&confidence=true&groups=Period,Disease%20type,Sex,Remoteness%20category&compare=Disease%20type,Sex,Period,Remoteness%20category&filter=Sex,Males,Females&filter=Disease%20type,Asthma&filter=Period,01/02,05/06,07/08,06/07,02/03,18/19,04/05,09/10,20/21,19/20,03/04,16/17,17/18,08/09,15/16,10/11,11/12,12/13,13/14,14/15,21/22&filter=Remoteness%20category,NSW) dataset provided by HealthStats NSW. You will want to ensure that you only have "Asthma" under Disease Type and "Males" and "Females" under Sex, and "NSW" for Remoteness Category selected. You can then select the Download Icon in the bottom right corner of the graph, and then select "Download Data as CSV".
