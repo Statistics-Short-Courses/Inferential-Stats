@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; t-tests: one sample and two sample – UNE Course</title>
+<title>6&nbsp; Paired t-test and ANOVA – UNE Course</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter5.html" rel="next">
-<link href="./chapter3.html" rel="prev">
+<link href="./summary.html" rel="next">
+<link href="./chapter4.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="include/webex.css">
 </head>
@@ -82,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter4.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">t-tests: one sample and two sample</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter5.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Paired t-test and ANOVA</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -139,13 +202,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter4.html" class="sidebar-item-text sidebar-link active">
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">t-tests: one sample and two sample</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Paired t-test and ANOVA</span></span></a>
   </div>
 </li>
@@ -171,10 +234,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#one-sample-t-test" id="toc-one-sample-t-test" class="nav-link active" data-scroll-target="#one-sample-t-test"><span class="header-section-number">6</span> <strong>One Sample t-test</strong></a></li>
-  <li><a href="#two-sample-t-test" id="toc-two-sample-t-test" class="nav-link" data-scroll-target="#two-sample-t-test"><span class="header-section-number">7</span> Two Sample t-test</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">8</span> </a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">9</span> </a></li>
+  <li><a href="#paired-t-test" id="toc-paired-t-test" class="nav-link active" data-scroll-target="#paired-t-test"><span class="header-section-number">7</span> Paired t-test</a>
+  <ul class="collapse">
+  <li><a href="#write-hypotheses" id="toc-write-hypotheses" class="nav-link" data-scroll-target="#write-hypotheses"><span class="header-section-number">7.0.1</span> Write Hypotheses</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -183,7 +246,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">t-tests: one sample and two sample</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Paired t-test and ANOVA</span></h1>
 </div>
 
 
@@ -200,39 +263,114 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We will be covering a number of statistical tests throughout this course. Which statistical test you choose, depends on the type of experiment or study has been conducted and what type of data we have. In this chapter, we will specifically focus on applying one-sample and two-sample t-tests.</p>
-<p><img src="images/clipboard-2601389475.png" class="img-fluid"></p>
-<p>Instead of using the normal (Z) distribution, t-tests use the t-distribution. This is because t-tests are usually based on smaller sample sizes, so we need to account for extra uncertainty in the standard error and critical values. As the sample size gets bigger, the t-distribution becomes almost identical to the Z-distribution, as can be seen below.</p>
-<p><img src="images/clipboard-2771836569.png" class="img-fluid" width="709"></p>
-<p>Like the previous chapter, we can use a hypothesis testing framework to approach our research questions.</p>
-<p><img src="images/clipboard-312548449.png" class="img-fluid"></p>
-<p>Before starting this lesson, you’ll need to download some data.</p>
-<p>Let’s apply our skills to some real data provided by the NSW Government, and see how even the skills we have learnt in three chapters can already be useful to the real world.</p>
-<p><a href="https://data.nsw.gov.au/">Data.NSW</a> is an open data poral with over 16,724 NSW public sector datasets to download. You can also access additional Open Data Portals listed here:</p>
-<ul>
-<li><p><a href="https://api.nsw.gov.au/">API.NSW</a></p></li>
-<li><p><a href="https://www.seed.nsw.gov.au/">Environmental Data Portal, SEED</a></p></li>
-<li><p><a href="http://www.healthstats.nsw.gov.au/">HealthStats NSW</a></p></li>
-<li><p><a href="https://opendata.transport.nsw.gov.au/">Transport Open Data Hub</a></p></li>
-<li><p><a href="https://bocsar.nsw.gov.au/statistics-dashboards/open-datasets.html">NSW Bureau of Crime Statistics and Research</a></p></li>
-<li><p><a href="https://portal.spatial.nsw.gov.au/client">Spatial Collaboration Portal</a></p></li>
-<li><p><a href="https://flooddata.ses.nsw.gov.au/">NSW Flood Data Portal</a></p></li>
-<li><p><a href="https://www.planningportal.nsw.gov.au/spatialviewer/">NSW Planning Portal Spatial Viewer</a></p></li>
-<li><p><a href="https://www.sira.nsw.gov.au/open-data-schemes">State Insurance Regulatory Authority</a></p></li>
-</ul>
-<section id="one-sample-t-test" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> <strong>One Sample t-test</strong></h1>
-</section>
-<section id="two-sample-t-test" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Two Sample t-test</h1>
-</section>
-<section id="section" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> </h1>
-</section>
-<section id="section-1" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> </h1>
+<section id="paired-t-test" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Paired t-test</h1>
+<p>The next data set we will be using is the <a href="https://www.healthstats.nsw.gov.au/indicator?name=-res-cat-hos&amp;location=NSW&amp;view=Table&amp;measure=DSTRate&amp;confidence=true&amp;groups=Period,Disease%20type,Sex,Remoteness%20category&amp;compare=Disease%20type,Sex,Period,Remoteness%20category&amp;filter=Sex,Males,Females&amp;filter=Disease%20type,Asthma&amp;filter=Period,01/02,05/06,07/08,06/07,02/03,18/19,04/05,09/10,20/21,19/20,03/04,16/17,17/18,08/09,15/16,10/11,11/12,12/13,13/14,14/15,21/22&amp;filter=Remoteness%20category,NSW">Respiratory Disease hospitalisations</a> dataset provided by HealthStats NSW. You will want to ensure that you only have “Asthma” under Disease Type and “Males” and “Females” under Sex, and “NSW” for Remoteness Category selected. You can then select the Download Icon in the bottom right corner of the graph, and then select “Download Data as CSV”.</p>
+<p>You can then save the file in your Datasets folder in your InferentialStats project folder that you created in the Introduction. You can give it a new name so that it is easier to call into R Studio.</p>
+<p>If you open the file, you may notice that the first row is simply a title. We can ignore the title by including <code>skip</code> when we load in the data.</p>
+<p>Once you’ve saved the file, you can load the dataset into R by typing:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>asthma <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/respiratory_disease.csv"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">skip =</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can take a look at the data to ensure it has been loaded in correctly.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(asthma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   74 obs. of  5 variables:
+ $ Disease.type       : chr  "Asthma" "Asthma" "Asthma" "Asthma" ...
+ $ Sex                : chr  "Males" "Males" "Males" "Males" ...
+ $ Period             : chr  "21/22" "20/21" "19/20" "18/19" ...
+ $ Remoteness.category: chr  "NSW" "NSW" "NSW" "NSW" ...
+ $ Number             : chr  "3,226" "3,578" "4,231" "5,317" ...</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>How many categorical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;4&quot;]"></li>
+<li>How many numerical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;1&quot;]"></li>
+<li>How many observations are there? <input class="webex-solveme nospaces" size="2" data-answer="[&quot;74&quot;]"></li>
+</ol>
+<p>If you open the data set, you may notice there are “Sources”, “Notes”, and “Coding” underneath the dataset. This can be problematic when we try to analyse the data. To avoid this, we can take a “subset” of the data - in other words, we are dropping these unnecessary rows we don’t need. We will also need to convert it to wide format to compare the paired data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>clean_asthma <span class="ot">&lt;-</span> <span class="fu">subset</span>(asthma, Sex <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Males"</span>, <span class="st">"Females"</span>)) </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>clean_asthma <span class="ot">&lt;-</span> clean_asthma <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Period, Sex, Number) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Number =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, Number))) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Sex, <span class="at">values_from =</span> Number)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(clean_asthma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="write-hypotheses" class="level3" data-number="7.0.1">
+<h3 data-number="7.0.1" class="anchored" data-anchor-id="write-hypotheses"><span class="header-section-number">7.0.1</span> Write Hypotheses</h3>
+<p>The dataset includes the number of asthma hospitalisations for males and females for each year from 2001 to 2022. Although the data span a long period, we are not analysing trends over time in this task. Time needs to be handled carefully in statistics because consecutive years are usually correlated, which means they are not fully independent. However, each male value has a corresponding female value for the same year, so the two observations form a natural pair. This allows us to compare males and females within each year and then look at whether these yearly differences are consistently above or below zero across the 21-year period.</p>
+<p>Because we are keeping the dataset simple, a natural research question is whether there is a difference in the average number of asthma hospitalisations between males and females across these paired yearly observations.</p>
+<p><span class="math inline">\(H_0:\)</span> On average, there is no difference in the number of asthma hospitalisations between males and females across the 21 years.</p>
+<p><span class="math inline">\(H_A:\)</span> On average, there is asignificant difference in the number of asthma hospitalisations between males and females across the 21 years.</p>
+<p>We can express this in mathematical notation:</p>
+<p><span class="math inline">\(H_0:\)</span> <span class="math inline">\(\mu_{diff}=0\)</span></p>
+<p><span class="math inline">\(H_A:\)</span> <span class="math inline">\(\mu_{diff} \neq 0\)</span></p>
+<p>What we need to calculate the difference between the hospitalisations for male and females. We can do that with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>clean_asthma<span class="sc">$</span>diff <span class="ot">&lt;-</span> (clean_asthma<span class="sc">$</span>Males <span class="sc">-</span> clean_asthma<span class="sc">$</span>Females)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>clean_asthma<span class="sc">$</span>diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -356 -246 -951 -647 -504 -598 -242 -189  -23  475  195  520  295  328   67
+[16]  172  255   64 -132 -135  139</code></pre>
+</div>
+</div>
+<p>We can check for skewness and normality.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>clean_asthma, <span class="fu">aes</span>(<span class="at">y=</span>diff, <span class="at">x=</span><span class="st">""</span>))<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"mistyrose"</span>, <span class="at">col=</span><span class="st">"pink4"</span>)<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>clean_asthma, <span class="fu">aes</span>(<span class="at">sample=</span>diff))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>(<span class="at">col=</span><span class="st">"navyblue"</span>)<span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>(<span class="at">col=</span><span class="st">"steelblue"</span>)<span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Theoretical quantiles"</span>, <span class="at">y=</span><span class="st">"Sample quantiles"</span>)<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can now run our t-test:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Females, Males, <span class="at">paired =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  Females and Males
+t = 0.85326, df = 20, p-value = 0.4036
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -104.0871  248.1824
+sample estimates:
+mean difference 
+       72.04762 </code></pre>
+</div>
+</div>
+<p>The p-value (<span class="math inline">\(t_{20}=0.85326, p=0.4036\)</span>) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in mean hospitalisations for asthma between males and females.</p>
+<p>With 95% confidence, there are between 104 fewer hospitalisations to 248 more hospitalisations in females compared to males. Because this interval includes zero, the data do not support a real difference between the sexes. <strong>Note that if 0 was <u>NOT</u> in the confidence interval, this would suggest a significant difference</strong>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -861,13 +999,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter3.html" class="pagination-link" aria-label="Hypothesis Testing">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span>
+      <a href="./chapter4.html" class="pagination-link" aria-label="t-tests: one sample and two sample">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">t-tests: one sample and two sample</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter5.html" class="pagination-link" aria-label="Paired t-test and ANOVA">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Paired t-test and ANOVA</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./summary.html" class="pagination-link" aria-label="Summary">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

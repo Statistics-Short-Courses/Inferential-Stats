@@ -1,6 +1,16 @@
 ---
-title: "t-tests: one sample, two sample, and paired"
+title: "t-tests: one sample and two sample"
 ---
+
+We will be covering a number of statistical tests throughout this course. Which statistical test you choose, depends on the type of experiment or study has been conducted and what type of data we have. In this chapter, we will specifically focus on applying one-sample and two-sample t-tests.
+
+![](images/clipboard-2601389475.png)
+
+Instead of using the normal (Z) distribution, t-tests use the t-distribution. This is because t-tests are usually based on smaller sample sizes, so we need to account for extra uncertainty in the standard error and critical values. As the sample size gets bigger, the t-distribution becomes almost identical to the Z-distribution, as can be seen below.
+
+![](images/clipboard-2771836569.png){width="709"}
+
+Like the previous chapter, we can use a hypothesis testing framework to approach our research questions.
 
 ![](images/clipboard-312548449.png)
 
@@ -32,90 +42,6 @@ Let's apply our skills to some real data provided by the NSW Government, and see
 
 # Two Sample t-test
 
-The next data set we will be using is the [Respiratory Disease hospitalisations](https://www.healthstats.nsw.gov.au/indicator?name=-res-cat-hos&location=NSW&view=Table&measure=DSTRate&confidence=true&groups=Period,Disease%20type,Sex,Remoteness%20category&compare=Disease%20type,Sex,Period,Remoteness%20category&filter=Sex,Males,Females&filter=Disease%20type,Asthma&filter=Period,01/02,05/06,07/08,06/07,02/03,18/19,04/05,09/10,20/21,19/20,03/04,16/17,17/18,08/09,15/16,10/11,11/12,12/13,13/14,14/15,21/22&filter=Remoteness%20category,NSW) dataset provided by HealthStats NSW. You will want to ensure that you only have "Asthma" under Disease Type and "Males" and "Females" under Sex, and "NSW" for Remoteness Category selected. You can then select the Download Icon in the bottom right corner of the graph, and then select "Download Data as CSV".
-
-You can then save the file in your Datasets folder in your InferentialStats project folder that you created in the Introduction. You can give it a new name so that it is easier to call into R Studio.
-
-If you open the file, you may notice that the first row is simply a title. We can ignore the title by including `skip` when we load in the data.
-
-Once you’ve saved the file, you can load the dataset into R by typing:
-
-```{r, message = FALSE}
-library(ggplot2)
-library(tidyverse)
-
-asthma <- read.csv(
-  "Data sets/respiratory_disease.csv",
-  skip = 1
-)
-
-```
-
-We can take a look at the data to ensure it has been loaded in correctly.
-
-```{r}
-str(asthma)
-```
-
-1.  How many categorical variables are there? `r fitb(4)`
-2.  How many numerical variables are there? `r fitb(1)`
-3.  How many observations are there? `r fitb(74)`
-
-We can also fix the variable types to ensure they are the correct format. Recall that we want categorical variables to be stored as a `Factor` variable. You may also notice that `Number` is stored as a`chr` variable rather than a numerical variable. It has been stored this way because there is a comma. We can fix this by removing the comma and converting it to `num`.
-
-```{r}
-
-clean_asthma <- asthma %>% 
-  mutate(
-    across(c(Disease.type, Sex, Period, Remoteness.category), as.factor),
-    Number = as.numeric(gsub(",", "", Number))
-  )
-```
-
-If you open the data set, you may notice there are "Sources", "Notes", and "Coding" underneath the dataset. This can be problematic when we try to analyse the data. To avoid this, we can take a "subset" of the data - in other words, we are dropping these unnecessary rows we don't need.
-
-```{r}
-clean_asthma <- subset(clean_asthma, Sex %in% c("Males", "Females"))
-```
-
-### Write Hypotheses
-
-The dataset includes the number of asthma hospitalisations for males and females for each year from 2001 to 2022. Although the data span a long period, we are not analysing trends over time in this task. Time needs to be handled carefully in statistics because consecutive years are usually correlated, which means they are not fully independent.
-
-Because we are keeping the dataset simple, a natural research question is whether there is a difference in the average number of asthma hospitalisations between males and females. Since our question only asks whether there is a difference in the average number of hospitalisations between males and females, we will ignore the `Period` variable and treat each year’s value as an independent summary.
-
-$H_0:$ The mean number of asthma hospitalisations is the same for males and females.
-
-$H_A:$ The mean number of asthma hospitalisations is significantly different for males and females.
-
-We can express this in mathematical notation:
-
-$H_0:$ $\mu_{males} = \mu_{females}$
-
-$H_A:$ $\mu_{males} \neq \mu_{females}$
-
-It's always a good idea to generate some plots to check the data.
-
-```{r}
-ggplot(clean_asthma, aes(x=Number))+
-  geom_histogram(fill="mistyrose", col="pink3", bins=30)
-```
-
-```{r}
-ggplot(clean_asthma, aes(x=Sex, y=Number))+
-  geom_boxplot(fill = c("darkolivegreen1", "darkorange"))
-```
-
-```{r}
-t.test(Number ~ Sex, data = clean_asthma)
-```
-
-### Identify an appropriate point-estimate of the parameter of interest
-
-Our null and alternative hypothesis indicate that we are interested in the **population mean**, so we can use the most natural point estimate of this (from the sample itself) - the **sample mean**.
-
-### **Does our data meet the right conditions?**
-
 # 
 
-# Paired t-test 
+# 
