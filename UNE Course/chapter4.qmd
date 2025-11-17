@@ -30,7 +30,7 @@ Let's apply our skills to some real data provided by the NSW Government, and see
 
 -   [NSW Bureau of Crime Statistics and Research](https://bocsar.nsw.gov.au/statistics-dashboards/open-datasets.html)
 
--   [Spatial Collaboration Portal ](https://portal.spatial.nsw.gov.au/client)
+-   [Spatial Collaboration Portal](https://portal.spatial.nsw.gov.au/client)
 
 -   [NSW Flood Data Portal](https://flooddata.ses.nsw.gov.au/)
 
@@ -38,10 +38,143 @@ Let's apply our skills to some real data provided by the NSW Government, and see
 
 -   [State Insurance Regulatory Authority](https://www.sira.nsw.gov.au/open-data-schemes)
 
-# **One Sample t-test** 
+# **One Sample t-test**
 
 # Two Sample t-test
 
-# 
+For our Two Sample t-test, we will look at the [2023 Early Childhood Education and Care (ECEC) survey](https://data.nsw.gov.au/data/dataset/ecec-survey-2023?nsw_prev=aHR0cHM6Ly9kYXRhLm5zdy5nb3YuYXUvZGF0YS9kYXRhc2V0P3E9c3VydmV5JmV4dF9iYm94PSZz%0Ab3J0PXNjb3JlK2Rlc2MlMkMrbWV0YWRhdGFfbW9kaWZpZWQrZGVzYyZleHRfZnJvbV9kYXk9JmV4%0AdF9mcm9tX21vbnRoPSZleHRfZnJvbV95ZWFyPSZleHRfdG9fZGF5PSZleHRfdG9fbW9udGg9JmV4%0AdF90b195ZWFyPSZyZXNfZm9ybWF0PUNTVg%3D%3D%0A). This survey collected responses from around 2,000 NSW parents and carers during January and February 2023, and was designed to understand which policy options families value most and what barriers affect their access to early childhood education and care. The dataset includes a broad mix of information: demographics, employment patterns, commuting times, childcare usage, costs, and satisfaction ratings. Because it contains both continuous and categorical variables, it provides a useful starting point for learning how to apply statistical tests to real-world data.
 
-# 
+Working with real survey data can be messy, so we will go step by step and decide what needs cleaning and what does not. We’ll begin by loading the required packages and importing the dataset.
+
+```{r, message = FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+ecec <- read.csv("Data sets/ecec-survey-2023.csv", check.names = TRUE)
+
+```
+
+Let's take a look at the first six rows.
+
+```{r}
+str(ecec)
+```
+
+Wow! There is a lot going on. Don't worry about the `NA` values you see. Missing data is extremely common in large surveys, and we’ll make sure to remove any NA entries that would interfere with our analysis.
+
+You may also notice that some of the variable names aren’t very descriptive. That can happen depending on how the original survey was designed or exported. Instead of renaming everything, we’ll concentrate on the specific variables we need for our t-test. If you want to see the exact wording of the survey questions, you can refer to the questionnaire provided alongside the dataset [here](https://data.nsw.gov.au/data/dataset/d6190b60-0c23-4255-9c5f-0d1a29406a4f/resource/615ad37d-0af5-494a-8fb2-2ed85a1e1ee5/download/ecec-survey-2023_questionnaire.pdf).
+
+`SQ1` represents gender, so we can go ahead and rename it to `Gender`.
+
+`D6_1` represents the average commute time from home to work and `D6_2` represents the average commute time from work to home in minutes. Rather than renaming both of these, we can combine them to create a single `Commute_Time` variable that reflects the total daily commute.
+
+Before we begin cleaning the data, we need to set out our hypotheses. We are interested in whether total commute time differs between male and female carers in NSW.
+
+$H_0:$ On average, there is no difference in the total commute time to work between male and female carers in NSW.
+
+$H_A:$ On average, there is a significant difference in the total commute time to work between males and females carers in NSW.
+
+We can express this in mathematical notation:
+
+$H_0:$ $\mu_{males}=\mu_{females}$
+
+$H_A:$ $\mu_{males} \neq \mu_{females}$
+
+With the hypotheses established, we can now move on to cleaning and preparing the dataset.
+
+```{r}
+# We rename SQ1 to Gender 
+# We select the variables we want to do analysis on
+# We will also drop the NA from the variables we want to do analysis on 
+ecec_new <- ecec %>%
+  rename(Gender = SQ1) %>%
+  select(Gender, D6_1, D6_2) %>%
+  drop_na(Gender, D6_1, D6_2) 
+
+# Let's add a total commute time column
+ecec_new$Commute_Time <- ecec_new$D6_1 + ecec_new$D6_2
+```
+
+Great! We will also need to turn `Gender` into a `Factor` variable.
+
+```{r}
+ecec_new$Gender <- as.factor(ecec_new$Gender)
+```
+
+Let's take a look at the structure of our new data set.
+
+```{r}
+str(ecec_new)
+```
+
+You might notice that there are 3 levels of `Gender`. We can check this:
+
+```{r}
+table(ecec_new$Gender)
+```
+
+We have 922 female respondents, 614 male respondents, and 3 Non-binary. Since we want to do a two sample t-test and we have a very low response rate from non-binary individuals, we will focus our analysis on males and females. We can filter the data as such:
+
+```{r}
+ecec_new1 <- ecec_new %>%
+  filter(Gender %in% c("Male", "Female"))
+```
+
+```{r}
+str(ecec_new1)
+```
+
+Don't worry that it says 3 levels. The data has been filtered (we can tell by comparing the observations from before filtering and after).
+
+1.  How many observations are there? `r fitb(1536)`
+2.  How many variables are there? `r fitb(4)`
+3.  How many categorical variables are there? `r fitb(1)`
+4.  How many discrete numerical variables are there? `r fitb(0)`
+5.  How many continuous numerical variables are there? `r fitb(3)`
+
+```{r}
+attach(ecec_new1)
+```
+
+We can now plot the data and check conditions.
+
+```{r}
+ggplot(data=ecec_new1, aes(x=Gender, y=Commute_Time))+
+  geom_boxplot(fill = c("lavenderblush1", "lemonchiffon"))+
+  labs(x="Sex", y="Average Commute Time (mins)")+
+  theme_bw()
+```
+
+```{r}
+ggplot(ecec_new1, aes(sample=Commute_Time))+
+  geom_qq()+
+  geom_qq_line(col="red")+
+  labs(x="Theoretical quantiles", y="Sample quantiles")+
+  theme_bw()+
+  facet_wrap(~Gender)
+```
+
+We can see that there are a lot of outliers for both females and males. Even so, the main part of each boxplot looks fairly similar in shape, so there’s no obvious imbalance between the groups.
+
+Looking at the Q-Q plots, there is some deviation in the upper tail for females, and males shows some slight deviation as well with one extreme value. However, most of the points still fall close to the line, so we can argue that the data look approximately normal in the middle of the distribution even if the tails stretch out.
+
+A bit of skewness is fine with big samples. Slight skewness is usually ok with sample sizes around 15, moderate skewness with 30, and even strong skewness becomes acceptable once you get past about 60. Since our sample sizes are very large (female: 922 and male: 614), the t-test can handle the skewness without much trouble.
+
+We can calculate the point estimates, and standard errors. A convenient way to do this across groups is:
+
+```{r}
+aggregate(Commute_Time~Gender, FUN=mean)
+aggregate(Commute_Time~Gender, FUN=sd)
+aggregate(Commute_Time~Gender, FUN=length)
+```
+
+Now we can perform the test.
+
+```{r}
+t.test(Commute_Time ~ Gender)
+```
+
+The p-value ($t_{1025}=-1.2137, p=0.2251$) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in average commute time to work between males and females carers across NSW.
+
+With 95% confidence, the average commute time for females could be about 16 minutes less or about 4 minutes more than the average for males. Because this range includes zero, it doesn’t point to a clear difference between the two groups.

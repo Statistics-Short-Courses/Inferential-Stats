@@ -97,3 +97,5 @@ t.test(Females, Males, paired = TRUE)
 The p-value ($t_{20}=0.85326, p=0.4036$) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in mean hospitalisations for asthma between males and females.
 
 With 95% confidence, there are between 104 fewer hospitalisations to 248 more hospitalisations in females compared to males. Because this interval includes zero, the data do not support a real difference between the sexes. **Note that if 0 was [NOT]{.underline} in the confidence interval, this would suggest a significant difference**.
+
+# ANOVA

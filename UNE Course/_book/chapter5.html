@@ -234,10 +234,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#paired-t-test" id="toc-paired-t-test" class="nav-link active" data-scroll-target="#paired-t-test"><span class="header-section-number">7</span> Paired t-test</a>
+  <li><a href="#hypothesis-tests-using-the-t-distribution" id="toc-hypothesis-tests-using-the-t-distribution" class="nav-link active" data-scroll-target="#hypothesis-tests-using-the-t-distribution"><span class="header-section-number">7</span> <strong>Hypothesis tests using the t-distribution</strong></a></li>
+  <li><a href="#paired-t-test" id="toc-paired-t-test" class="nav-link" data-scroll-target="#paired-t-test"><span class="header-section-number">8</span> Paired t-test</a>
   <ul class="collapse">
-  <li><a href="#write-hypotheses" id="toc-write-hypotheses" class="nav-link" data-scroll-target="#write-hypotheses"><span class="header-section-number">7.0.1</span> Write Hypotheses</a></li>
+  <li><a href="#write-hypotheses" id="toc-write-hypotheses" class="nav-link" data-scroll-target="#write-hypotheses"><span class="header-section-number">8.0.1</span> Write Hypotheses</a></li>
   </ul></li>
+  <li><a href="#anova" id="toc-anova" class="nav-link" data-scroll-target="#anova"><span class="header-section-number">9</span> ANOVA</a></li>
   </ul>
 </nav>
     </div>
@@ -263,8 +265,12 @@ window.Quarto = {
 </header>
 
 
-<section id="paired-t-test" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Paired t-test</h1>
+<section id="hypothesis-tests-using-the-t-distribution" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> <strong>Hypothesis tests using the t-distribution</strong></h1>
+<p><img src="images/clipboard-312548449.png" class="img-fluid"></p>
+</section>
+<section id="paired-t-test" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Paired t-test</h1>
 <p>The next data set we will be using is the <a href="https://www.healthstats.nsw.gov.au/indicator?name=-res-cat-hos&amp;location=NSW&amp;view=Table&amp;measure=DSTRate&amp;confidence=true&amp;groups=Period,Disease%20type,Sex,Remoteness%20category&amp;compare=Disease%20type,Sex,Period,Remoteness%20category&amp;filter=Sex,Males,Females&amp;filter=Disease%20type,Asthma&amp;filter=Period,01/02,05/06,07/08,06/07,02/03,18/19,04/05,09/10,20/21,19/20,03/04,16/17,17/18,08/09,15/16,10/11,11/12,12/13,13/14,14/15,21/22&amp;filter=Remoteness%20category,NSW">Respiratory Disease hospitalisations</a> dataset provided by HealthStats NSW. You will want to ensure that you only have “Asthma” under Disease Type and “Males” and “Females” under Sex, and “NSW” for Remoteness Category selected. You can then select the Download Icon in the bottom right corner of the graph, and then select “Download Data as CSV”.</p>
 <p>You can then save the file in your Datasets folder in your InferentialStats project folder that you created in the Introduction. You can give it a new name so that it is easier to call into R Studio.</p>
 <p>If you open the file, you may notice that the first row is simply a title. We can ignore the title by including <code>skip</code> when we load in the data.</p>
@@ -304,8 +310,8 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(clean_asthma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="write-hypotheses" class="level3" data-number="7.0.1">
-<h3 data-number="7.0.1" class="anchored" data-anchor-id="write-hypotheses"><span class="header-section-number">7.0.1</span> Write Hypotheses</h3>
+<section id="write-hypotheses" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="write-hypotheses"><span class="header-section-number">8.0.1</span> Write Hypotheses</h3>
 <p>The dataset includes the number of asthma hospitalisations for males and females for each year from 2001 to 2022. Although the data span a long period, we are not analysing trends over time in this task. Time needs to be handled carefully in statistics because consecutive years are usually correlated, which means they are not fully independent. However, each male value has a corresponding female value for the same year, so the two observations form a natural pair. This allows us to compare males and females within each year and then look at whether these yearly differences are consistently above or below zero across the 21-year period.</p>
 <p>Because we are keeping the dataset simple, a natural research question is whether there is a difference in the average number of asthma hospitalisations between males and females across these paired yearly observations.</p>
 <p><span class="math inline">\(H_0:\)</span> On average, there is no difference in the number of asthma hospitalisations between males and females across the 21 years.</p>
@@ -368,9 +374,12 @@ mean difference
 </div>
 <p>The p-value (<span class="math inline">\(t_{20}=0.85326, p=0.4036\)</span>) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in mean hospitalisations for asthma between males and females.</p>
 <p>With 95% confidence, there are between 104 fewer hospitalisations to 248 more hospitalisations in females compared to males. Because this interval includes zero, the data do not support a real difference between the sexes. <strong>Note that if 0 was <u>NOT</u> in the confidence interval, this would suggest a significant difference</strong>.</p>
-
-
 </section>
+</section>
+<section id="anova" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> ANOVA</h1>
+
+
 </section>
 
 </main> <!-- /main -->
