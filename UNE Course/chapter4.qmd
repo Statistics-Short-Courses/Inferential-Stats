@@ -65,7 +65,19 @@ You may also notice that some of the variable names aren’t very descriptive. T
 
 `D6_1` represents the average commute time from home to work.
 
-The average commuting time in Australia is 29 minutes, according to the [Research Report 144](https://www.bitre.gov.au/sites/default/files/rr_144.pdf) from the Department of Infrastructure and Regional Development. A potential research question we could ask given this is whether there is a difference in the average commute time across Australia to the average commute time from home to work for female carers across NSW.
+The average commuting time in Australia is 29 minutes, according to the [Research Report 144](https://www.bitre.gov.au/sites/default/files/rr_144.pdf) from the Department of Infrastructure and Regional Development. A useful research question to explore from here is whether the average commute from home to work for female carers in NSW is greater than this national benchmark.
+
+Before cleaning the data, we need to set out our hypotheses.
+
+$H_0:$ The average work commute time from home to work for female carers across NSW is not significantly different from 29 mins.
+
+$H_A:$ The average work commute time from home to work for female carers across NSW was significantly greater than 29 mins.
+
+We can express this in mathematical notation:
+
+$H_0:$ $\mu = 29$
+
+$H_A:$ $\mu > 29$
 
 Let's prepare the data.
 
@@ -105,9 +117,13 @@ str(ecec_2)
 Don't worry that it says 3 levels. The data has been filtered (we can tell by comparing the observations from before filtering and after).
 
 1.  How many observations are there? `r fitb(938)`
+
 2.  How many variables are there? `r fitb(2)`
+
 3.  How many categorical variables are there? `r fitb(1)`
+
 4.  How many discrete numerical variables are there? `r fitb(0)`
+
 5.  How many continuous numerical variables are there? `r fitb(1)`
 
 ```{r}
