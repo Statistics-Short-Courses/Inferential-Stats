@@ -40,19 +40,15 @@ Let's apply our skills to some real data provided by the NSW Government, and see
 
 # **One Sample t-test**
 
-# Two Sample t-test
-
-For our Two Sample t-test, we will look at the [2023 Early Childhood Education and Care (ECEC) survey](https://data.nsw.gov.au/data/dataset/ecec-survey-2023?nsw_prev=aHR0cHM6Ly9kYXRhLm5zdy5nb3YuYXUvZGF0YS9kYXRhc2V0P3E9c3VydmV5JmV4dF9iYm94PSZz%0Ab3J0PXNjb3JlK2Rlc2MlMkMrbWV0YWRhdGFfbW9kaWZpZWQrZGVzYyZleHRfZnJvbV9kYXk9JmV4%0AdF9mcm9tX21vbnRoPSZleHRfZnJvbV95ZWFyPSZleHRfdG9fZGF5PSZleHRfdG9fbW9udGg9JmV4%0AdF90b195ZWFyPSZyZXNfZm9ybWF0PUNTVg%3D%3D%0A). This survey collected responses from around 2,000 NSW parents and carers during January and February 2023, and was designed to understand which policy options families value most and what barriers affect their access to early childhood education and care. The dataset includes a broad mix of information: demographics, employment patterns, commuting times, childcare usage, costs, and satisfaction ratings. Because it contains both continuous and categorical variables, it provides a useful starting point for learning how to apply statistical tests to real-world data.
+We will look at the [2023 Early Childhood Education and Care (ECEC) survey](https://data.nsw.gov.au/data/dataset/ecec-survey-2023?nsw_prev=aHR0cHM6Ly9kYXRhLm5zdy5nb3YuYXUvZGF0YS9kYXRhc2V0P3E9c3VydmV5JmV4dF9iYm94PSZz%0Ab3J0PXNjb3JlK2Rlc2MlMkMrbWV0YWRhdGFfbW9kaWZpZWQrZGVzYyZleHRfZnJvbV9kYXk9JmV4%0AdF9mcm9tX21vbnRoPSZleHRfZnJvbV95ZWFyPSZleHRfdG9fZGF5PSZleHRfdG9fbW9udGg9JmV4%0AdF90b195ZWFyPSZyZXNfZm9ybWF0PUNTVg%3D%3D%0A). This survey collected responses from around 2,000 NSW parents and carers during January and February 2023, and was designed to understand which policy options families value most and what barriers affect their access to early childhood education and care. The dataset includes a broad mix of information: demographics, employment patterns, commuting times, childcare usage, costs, and satisfaction ratings. Because it contains both continuous and categorical variables, it provides a useful starting point for learning how to apply statistical tests to real-world data.
 
 Working with real survey data can be messy, so we will go step by step and decide what needs cleaning and what does not. We’ll begin by loading the required packages and importing the dataset.
 
 ```{r, message = FALSE}
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-
-ecec <- read.csv("Data sets/ecec-survey-2023.csv", check.names = TRUE)
-
+library(dplyr) 
+library(tidyr) 
+library(ggplot2)  
+ecec <- read.csv("Data sets/ecec-survey-2023.csv", check.names = TRUE) 
 ```
 
 Let's take a look at the first six rows.
@@ -67,7 +63,92 @@ You may also notice that some of the variable names aren’t very descriptive. T
 
 `SQ1` represents gender, so we can go ahead and rename it to `Gender`.
 
-`D6_1` represents the average commute time from home to work and `D6_2` represents the average commute time from work to home in minutes. Rather than renaming both of these, we can combine them to create a single `Commute_Time` variable that reflects the total daily commute.
+`D6_1` represents the average commute time from home to work.
+
+The average commuting time in Australia is 29 minutes, according to the [Research Report 144](https://www.bitre.gov.au/sites/default/files/rr_144.pdf) from the Department of Infrastructure and Regional Development. A potential research question we could ask given this is whether there is a difference in the average commute time across Australia to the average commute time from home to work for female carers across NSW.
+
+Let's prepare the data.
+
+```{r}
+ecec_1 <- ecec %>%
+  rename(Gender = SQ1,
+        Work_Commute = D6_1) %>%
+  select(Gender, Work_Commute) %>%
+  drop_na(Gender, Work_Commute) 
+
+ecec_1$Gender <- as.factor(ecec_1$Gender)
+```
+
+Let's take a look at the structure of our new data set.
+
+```{r}
+str(ecec_1)
+```
+
+You might notice that there are 3 levels of `Gender`. We can check this:
+
+```{r}
+table(ecec_1$Gender)
+```
+
+Since we only interested in female carers, we can filter the data.
+
+```{r}
+ecec_2 <- ecec_1 %>%
+  filter(Gender %in% "Female")
+```
+
+```{r}
+str(ecec_2)
+```
+
+Don't worry that it says 3 levels. The data has been filtered (we can tell by comparing the observations from before filtering and after).
+
+1.  How many observations are there? `r fitb(938)`
+2.  How many variables are there? `r fitb(2)`
+3.  How many categorical variables are there? `r fitb(1)`
+4.  How many discrete numerical variables are there? `r fitb(0)`
+5.  How many continuous numerical variables are there? `r fitb(1)`
+
+```{r}
+ggplot(data=ecec_2, aes(x=Work_Commute))+
+  geom_histogram(bins=12, col="grey56", fill="grey76")+
+  theme_bw()+
+  labs(x="Commute Time From Home to Work (mins)")
+
+ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
+  geom_boxplot(fill="pink")+
+  theme_bw()+
+  labs(y="Commute Time From Home to Work (mins)")
+```
+
+```{r}
+ggplot(data=ecec_2, aes(sample=Work_Commute))+
+  geom_qq()+ #This creates the points
+  geom_qq_line(col="orange")+ #this creates the line
+  labs(x="Theoretical quantiles", y="Sample quantiles")+
+  theme_bw()
+```
+
+```{r}
+ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
+  geom_boxplot(fill="pink")+
+  theme_bw()+
+  labs(y="Commute Time From Home to Work (mins)")+
+  geom_jitter(col="pink4")
+```
+
+```{r}
+t.test(ecec_2$Work_Commute, mu = 29, alternative = "greater")
+```
+
+# Two Sample t-test
+
+For our Two Sample t-test,
+
+`D6_1` represents the average commute time from home to work and `D6_2` represents the average commute time from work to home in minutes.
+
+Rather than renaming both of these, we can combine them to create a single `Commute_Time` variable that reflects the total daily commute.
 
 Before we begin cleaning the data, we need to set out our hypotheses. We are interested in whether total commute time differs between male and female carers in NSW.
 
@@ -119,6 +200,9 @@ We have 922 female respondents, 614 male respondents, and 3 Non-binary. Since we
 ```{r}
 ecec_new1 <- ecec_new %>%
   filter(Gender %in% c("Male", "Female"))
+```
+
+```         
 ```
 
 ```{r}
