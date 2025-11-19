@@ -234,7 +234,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#one-sample-t-test" id="toc-one-sample-t-test" class="nav-link active" data-scroll-target="#one-sample-t-test"><span class="header-section-number">6</span> <strong>One Sample t-test</strong></a></li>
+  <li><a href="#one-sample-t-test" id="toc-one-sample-t-test" class="nav-link active" data-scroll-target="#one-sample-t-test"><span class="header-section-number">6</span> <strong>One Sample t-test</strong></a>
+  <ul class="collapse">
+  <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses"><span class="header-section-number">6.1</span> Hypotheses</a></li>
+  </ul></li>
   <li><a href="#two-sample-t-test" id="toc-two-sample-t-test" class="nav-link" data-scroll-target="#two-sample-t-test"><span class="header-section-number">7</span> Two Sample t-test</a></li>
   </ul>
 </nav>
@@ -283,17 +286,13 @@ window.Quarto = {
 </ul>
 <section id="one-sample-t-test" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> <strong>One Sample t-test</strong></h1>
-</section>
-<section id="two-sample-t-test" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Two Sample t-test</h1>
-<p>For our Two Sample t-test, we will look at the <a href="https://data.nsw.gov.au/data/dataset/ecec-survey-2023?nsw_prev=aHR0cHM6Ly9kYXRhLm5zdy5nb3YuYXUvZGF0YS9kYXRhc2V0P3E9c3VydmV5JmV4dF9iYm94PSZz%0Ab3J0PXNjb3JlK2Rlc2MlMkMrbWV0YWRhdGFfbW9kaWZpZWQrZGVzYyZleHRfZnJvbV9kYXk9JmV4%0AdF9mcm9tX21vbnRoPSZleHRfZnJvbV95ZWFyPSZleHRfdG9fZGF5PSZleHRfdG9fbW9udGg9JmV4%0AdF90b195ZWFyPSZyZXNfZm9ybWF0PUNTVg%3D%3D%0A">2023 Early Childhood Education and Care (ECEC) survey</a>. This survey collected responses from around 2,000 NSW parents and carers during January and February 2023, and was designed to understand which policy options families value most and what barriers affect their access to early childhood education and care. The dataset includes a broad mix of information: demographics, employment patterns, commuting times, childcare usage, costs, and satisfaction ratings. Because it contains both continuous and categorical variables, it provides a useful starting point for learning how to apply statistical tests to real-world data.</p>
+<p>We will look at the <a href="https://data.nsw.gov.au/data/dataset/ecec-survey-2023?nsw_prev=aHR0cHM6Ly9kYXRhLm5zdy5nb3YuYXUvZGF0YS9kYXRhc2V0P3E9c3VydmV5JmV4dF9iYm94PSZz%0Ab3J0PXNjb3JlK2Rlc2MlMkMrbWV0YWRhdGFfbW9kaWZpZWQrZGVzYyZleHRfZnJvbV9kYXk9JmV4%0AdF9mcm9tX21vbnRoPSZleHRfZnJvbV95ZWFyPSZleHRfdG9fZGF5PSZleHRfdG9fbW9udGg9JmV4%0AdF90b195ZWFyPSZyZXNfZm9ybWF0PUNTVg%3D%3D%0A">2023 Early Childhood Education and Care (ECEC) survey</a>. This survey collected responses from around 2,000 NSW parents and carers during January and February 2023, and was designed to understand which policy options families value most and what barriers affect their access to early childhood education and care. The dataset includes a broad mix of information: demographics, employment patterns, commuting times, childcare usage, costs, and satisfaction ratings. Because it contains both continuous and categorical variables, it provides a useful starting point for learning how to apply statistical tests to real-world data.</p>
 <p>Working with real survey data can be messy, so we will go step by step and decide what needs cleaning and what does not. We’ll begin by loading the required packages and importing the dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ecec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/ecec-survey-2023.csv"</span>, <span class="at">check.names =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ecec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/ecec-survey-2023.csv"</span>, <span class="at">check.names =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s take a look at the first six rows.</p>
 <div class="cell">
@@ -404,8 +403,199 @@ window.Quarto = {
 </div>
 <p>Wow! There is a lot going on. Don’t worry about the <code>NA</code> values you see. Missing data is extremely common in large surveys, and we’ll make sure to remove any NA entries that would interfere with our analysis.</p>
 <p>You may also notice that some of the variable names aren’t very descriptive. That can happen depending on how the original survey was designed or exported. Instead of renaming everything, we’ll concentrate on the specific variables we need for our t-test. If you want to see the exact wording of the survey questions, you can refer to the questionnaire provided alongside the dataset <a href="https://data.nsw.gov.au/data/dataset/d6190b60-0c23-4255-9c5f-0d1a29406a4f/resource/615ad37d-0af5-494a-8fb2-2ed85a1e1ee5/download/ecec-survey-2023_questionnaire.pdf">here</a>.</p>
+<section id="hypotheses" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="hypotheses"><span class="header-section-number">6.1</span> Hypotheses</h2>
+<p><img src="images/clipboard-2607643104.png" class="img-fluid" width="540"></p>
+<p>Photo by <a href="https://unsplash.com/@niko_nguyen_10?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">niko nguyen</a> on <a href="https://unsplash.com/photos/a-red-train-traveling-down-train-tracks-next-to-tall-buildings-L7U0tY7nhMA?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
 <p><code>SQ1</code> represents gender, so we can go ahead and rename it to <code>Gender</code>.</p>
-<p><code>D6_1</code> represents the average commute time from home to work and <code>D6_2</code> represents the average commute time from work to home in minutes. Rather than renaming both of these, we can combine them to create a single <code>Commute_Time</code> variable that reflects the total daily commute.</p>
+<p><code>D6_1</code> represents the average commute time from home to work.</p>
+<p>The average commuting time in Australia is 29 minutes, according to the <a href="https://www.bitre.gov.au/sites/default/files/rr_144.pdf">Research Report 144</a> from the Department of Infrastructure and Regional Development. A useful research question to explore from here is whether the average commute from home to work for female carers in NSW is greater than this national benchmark.</p>
+<p>Before cleaning the data, we need to set out our hypotheses.</p>
+<p><span class="math inline">\(H_0:\)</span> The average work commute time from home to work for female carers across NSW is not significantly different from 29 mins.</p>
+<p><span class="math inline">\(H_A:\)</span> The average work commute time from home to work for female carers across NSW was significantly greater than 29 mins.</p>
+<p>We can express this in mathematical notation:</p>
+<p><span class="math inline">\(H_0:\)</span> <span class="math inline">\(\mu = 29\)</span></p>
+<p><span class="math inline">\(H_A:\)</span> <span class="math inline">\(\mu &gt; 29\)</span></p>
+<p>Let’s prepare the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ecec_1 <span class="ot">&lt;-</span> ecec <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Gender =</span> SQ1,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">Work_Commute =</span> D6_1) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Gender, Work_Commute) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Gender, Work_Commute) </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ecec_1<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(ecec_1<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s take a look at the structure of our new data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   1567 obs. of  2 variables:
+ $ Gender      : Factor w/ 3 levels "Female","Male",..: 1 1 1 2 2 1 2 1 1 1 ...
+ $ Work_Commute: int  65 30 900 40 960 30 34 15 30 15 ...</code></pre>
+</div>
+</div>
+<p>You might notice that there are 3 levels of <code>Gender</code>. We can check this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ecec_1<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Female       Male Non-binary 
+       938        626          3 </code></pre>
+</div>
+</div>
+<p>Since we only interested in female carers, we can filter the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ecec_2 <span class="ot">&lt;-</span> ecec_1 <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">%in%</span> <span class="st">"Female"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s take a look at the structure again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   938 obs. of  2 variables:
+ $ Gender      : Factor w/ 3 levels "Female","Male",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Work_Commute: int  65 30 900 30 15 30 15 20 45 30 ...</code></pre>
+</div>
+</div>
+<p>Don’t worry that it says 3 levels. The data has been filtered (we can tell by comparing the observations from before filtering and after).</p>
+<ol type="1">
+<li>How many observations are there? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;938&quot;]"></li>
+<li>How many variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;2&quot;]"></li>
+<li>How many categorical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;1&quot;]"></li>
+<li>How many discrete numerical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;0&quot;]"></li>
+<li>How many continuous numerical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;1&quot;]"></li>
+</ol>
+<p>Now we can move on to checking the conditions. To start, we’ll create a few useful plots of the home-to-work commute data. These will help us assess whether the observations can reasonably be treated as independent and whether the distribution is close enough to normal for our purposes. The normality requirement becomes less strict as the sample size grows. Slight skewness is fine around n = 15, moderate skewness is acceptable around n = 30, and even strong skewness is workable once the sample size exceeds about 60.</p>
+<div class="webex-solution">
+<button>
+I need a hint
+</button>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ecec_2, <span class="fu">aes</span>(<span class="at">x=</span>Work_Commute))<span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">12</span>, <span class="at">col=</span><span class="st">"darkseagreen4"</span>, <span class="at">fill=</span><span class="st">"darkseagreen2"</span>)<span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Commute Time From Home to Work (mins)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ecec_2, <span class="fu">aes</span>(<span class="at">y=</span>Work_Commute, <span class="at">x=</span><span class="st">""</span>))<span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"mediumpurple1"</span>)<span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Commute Time From Home to Work (mins)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ecec_2, <span class="fu">aes</span>(<span class="at">sample=</span>Work_Commute))<span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>()<span class="sc">+</span> <span class="co">#This creates the points</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>(<span class="at">col=</span><span class="st">"firebrick1"</span>)<span class="sc">+</span> <span class="co">#this creates the line</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Theoretical quantiles"</span>, <span class="at">y=</span><span class="st">"Sample quantiles"</span>)<span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ecec_2, <span class="fu">aes</span>(<span class="at">y=</span>Work_Commute, <span class="at">x=</span><span class="st">""</span>))<span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"mediumpurple1"</span>)<span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Commute Time From Home to Work (mins)"</span>)<span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">col=</span><span class="st">"mediumpurple4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With 938 observations, the sample size is well above the point where normality becomes a concern. The plots show that the data are strongly right-skewed with some very large outliers. With a sample this large, the Central Limit Theorem kicks in, so the mean will still have an approximately normal sampling distribution.</p>
+<p>For independence, we can lean on a few simple checks. Our data represent 938 female carers in NSW, which is only a tiny fraction of the overall population of female carers in the state, so we’re safely under the 10% guideline.</p>
+<p>Because this comes from what appears to be a large, population-level survey rather, it’s reasonable to treat each person’s commute time as an independent observation.</p>
+</div>
+<p>Now that we’ve checked conditions, we can proceed with t-test. We can do this with one simple line of code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ecec_2<span class="sc">$</span>Work_Commute, <span class="at">mu =</span> <span class="dv">29</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  ecec_2$Work_Commute
+t = 2.1482, df = 937, p-value = 0.01598
+alternative hypothesis: true mean is greater than 29
+95 percent confidence interval:
+ 29.69916      Inf
+sample estimates:
+mean of x 
+  31.9936 </code></pre>
+</div>
+</div>
+<p><img src="images/clipboard-815495603.png" class="img-fluid"></p>
+<ul>
+<li><p>the t-value (the statistic), the degrees of freedom (which is n-1), and the p-value: these allow us to draw our conclusion.</p></li>
+<li><p>the sample mean.</p></li>
+<li><p>and the confidence interval – though for a 1-sided test this isn’t a priority.</p></li>
+</ul>
+<p>The p-value (<span class="math inline">\(t_{937}=2.1482, p=0.0.01598\)</span>) is less than 0.05, so we have evidence to reject the null hypothesis. Therefore, there is evidence that the mean commute time from home to work for female carers in NSW is significantly greater than 29 minutes.</p>
+<p>Note that if instead the alternative hypothesis had been Ha:&nbsp;μ&lt;29&nbsp;we would instead have:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ecec_2<span class="sc">$</span>Work_Commute, <span class="at">mu =</span> <span class="dv">29</span>, <span class="at">alternative =</span> <span class="st">"less"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  ecec_2$Work_Commute
+t = 2.1482, df = 937, p-value = 0.984
+alternative hypothesis: true mean is less than 29
+95 percent confidence interval:
+     -Inf 34.28805
+sample estimates:
+mean of x 
+  31.9936 </code></pre>
+</div>
+</div>
+<p>or if it was Ha:&nbsp;μ≠29&nbsp;we would have</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ecec_2<span class="sc">$</span>Work_Commute, <span class="at">mu =</span> <span class="dv">29</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  ecec_2$Work_Commute
+t = 2.1482, df = 937, p-value = 0.03195
+alternative hypothesis: true mean is not equal to 29
+95 percent confidence interval:
+ 29.25878 34.72843
+sample estimates:
+mean of x 
+  31.9936 </code></pre>
+</div>
+</div>
+<p><strong>NOTE</strong>&nbsp;that you can only calculate the confidence intervals with the two sided t-test. EG&nbsp;<code>alternative="two.sided"</code>. If you need the confidence intervals, then you need to run this test regardless of what your alternative hypothesis is. You should use the p-value from the test that corresponds to your alternative hypothesis though.</p>
+<p>Therefore, using the output from the two-sided test, with 95% confidence, the average commute time from home-to-work for female carers across NSW is between 29 minutes and 35 minutes longer than the national average. Because this range does not include zero, it points to a clear difference.</p>
+</section>
+</section>
+<section id="two-sample-t-test" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Two Sample t-test</h1>
+<p>For our Two Sample t-test,</p>
+<p><code>D6_1</code> represents the average commute time from home to work and <code>D6_2</code> represents the average commute time from work to home in minutes.</p>
+<p>Rather than renaming both of these, we can combine them to create a single <code>Commute_Time</code> variable that reflects the total daily commute.</p>
 <p>Before we begin cleaning the data, we need to set out our hypotheses. We are interested in whether total commute time differs between male and female carers in NSW.</p>
 <p><span class="math inline">\(H_0:\)</span> On average, there is no difference in the total commute time to work between male and female carers in NSW.</p>
 <p><span class="math inline">\(H_A:\)</span> On average, there is a significant difference in the total commute time to work between males and females carers in NSW.</p>
@@ -414,24 +604,24 @@ window.Quarto = {
 <p><span class="math inline">\(H_A:\)</span> <span class="math inline">\(\mu_{males} \neq \mu_{females}\)</span></p>
 <p>With the hypotheses established, we can now move on to cleaning and preparing the dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We rename SQ1 to Gender </span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We select the variables we want to do analysis on</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># We will also drop the NA from the variables we want to do analysis on </span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ecec_new <span class="ot">&lt;-</span> ecec <span class="sc">%&gt;%</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Gender =</span> SQ1) <span class="sc">%&gt;%</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Gender, D6_1, D6_2) <span class="sc">%&gt;%</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Gender, D6_1, D6_2) </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's add a total commute time column</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ecec_new<span class="sc">$</span>Commute_Time <span class="ot">&lt;-</span> ecec_new<span class="sc">$</span>D6_1 <span class="sc">+</span> ecec_new<span class="sc">$</span>D6_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We rename SQ1 to Gender </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We select the variables we want to do analysis on</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># We will also drop the NA from the variables we want to do analysis on </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>ecec_new <span class="ot">&lt;-</span> ecec <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Gender =</span> SQ1) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Gender, D6_1, D6_2) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Gender, D6_1, D6_2) </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's add a total commute time column</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>ecec_new<span class="sc">$</span>Commute_Time <span class="ot">&lt;-</span> ecec_new<span class="sc">$</span>D6_1 <span class="sc">+</span> ecec_new<span class="sc">$</span>D6_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Great! We will also need to turn <code>Gender</code> into a <code>Factor</code> variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ecec_new<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(ecec_new<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ecec_new<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(ecec_new<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s take a look at the structure of our new data set.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   1539 obs. of  4 variables:
  $ Gender      : Factor w/ 3 levels "Female","Male",..: 1 1 1 2 2 1 2 1 1 1 ...
@@ -442,7 +632,7 @@ window.Quarto = {
 </div>
 <p>You might notice that there are 3 levels of <code>Gender</code>. We can check this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ecec_new<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ecec_new<span class="sc">$</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Female       Male Non-binary 
@@ -451,11 +641,12 @@ window.Quarto = {
 </div>
 <p>We have 922 female respondents, 614 male respondents, and 3 Non-binary. Since we want to do a two sample t-test and we have a very low response rate from non-binary individuals, we will focus our analysis on males and females. We can filter the data as such:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ecec_new1 <span class="ot">&lt;-</span> ecec_new <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ecec_new1 <span class="ot">&lt;-</span> ecec_new <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<pre><code></code></pre>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_new1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_new1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   1536 obs. of  4 variables:
  $ Gender      : Factor w/ 3 levels "Female","Male",..: 1 1 1 2 2 1 2 1 1 1 ...
@@ -473,33 +664,33 @@ window.Quarto = {
 <li>How many continuous numerical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;3&quot;]"></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(ecec_new1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(ecec_new1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now plot the data and check conditions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ecec_new1, <span class="fu">aes</span>(<span class="at">x=</span>Gender, <span class="at">y=</span>Commute_Time))<span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"lavenderblush1"</span>, <span class="st">"lemonchiffon"</span>))<span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Sex"</span>, <span class="at">y=</span><span class="st">"Average Commute Time (mins)"</span>)<span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ecec_new1, <span class="fu">aes</span>(<span class="at">x=</span>Gender, <span class="at">y=</span>Commute_Time))<span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"lavenderblush1"</span>, <span class="st">"lemonchiffon"</span>))<span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Sex"</span>, <span class="at">y=</span><span class="st">"Average Commute Time (mins)"</span>)<span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter4_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter4_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ecec_new1, <span class="fu">aes</span>(<span class="at">sample=</span>Commute_Time))<span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>()<span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>(<span class="at">col=</span><span class="st">"red"</span>)<span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Theoretical quantiles"</span>, <span class="at">y=</span><span class="st">"Sample quantiles"</span>)<span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ecec_new1, <span class="fu">aes</span>(<span class="at">sample=</span>Commute_Time))<span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>()<span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>(<span class="at">col=</span><span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Theoretical quantiles"</span>, <span class="at">y=</span><span class="st">"Sample quantiles"</span>)<span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter4_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter4_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -509,19 +700,19 @@ window.Quarto = {
 <p>A bit of skewness is fine with big samples. Slight skewness is usually ok with sample sizes around 15, moderate skewness with 30, and even strong skewness becomes acceptable once you get past about 60. Since our sample sizes are very large (female: 922 and male: 614), the t-test can handle the skewness without much trouble.</p>
 <p>We can calculate the point estimates, and standard errors. A convenient way to do this across groups is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Commute_Time<span class="sc">~</span>Gender, <span class="at">FUN=</span>mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Commute_Time<span class="sc">~</span>Gender, <span class="at">FUN=</span>mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Gender Commute_Time
 1 Female     64.65835
 2   Male     70.60912</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Commute_Time<span class="sc">~</span>Gender, <span class="at">FUN=</span>sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Commute_Time<span class="sc">~</span>Gender, <span class="at">FUN=</span>sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Gender Commute_Time
 1 Female     75.21018
 2   Male    104.84408</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Commute_Time<span class="sc">~</span>Gender, <span class="at">FUN=</span>length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Commute_Time<span class="sc">~</span>Gender, <span class="at">FUN=</span>length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Gender Commute_Time
 1 Female          922
@@ -530,7 +721,7 @@ window.Quarto = {
 </div>
 <p>Now we can perform the test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Commute_Time <span class="sc">~</span> Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Commute_Time <span class="sc">~</span> Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test

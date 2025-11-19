@@ -61,6 +61,12 @@ Wow! There is a lot going on. Don't worry about the `NA` values you see. Missing
 
 You may also notice that some of the variable names aren’t very descriptive. That can happen depending on how the original survey was designed or exported. Instead of renaming everything, we’ll concentrate on the specific variables we need for our t-test. If you want to see the exact wording of the survey questions, you can refer to the questionnaire provided alongside the dataset [here](https://data.nsw.gov.au/data/dataset/d6190b60-0c23-4255-9c5f-0d1a29406a4f/resource/615ad37d-0af5-494a-8fb2-2ed85a1e1ee5/download/ecec-survey-2023_questionnaire.pdf).
 
+## Hypotheses
+
+![](images/clipboard-2607643104.png){width="540"}
+
+Photo by [niko nguyen](https://unsplash.com/@niko_nguyen_10?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-red-train-traveling-down-train-tracks-next-to-tall-buildings-L7U0tY7nhMA?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+
 `SQ1` represents gender, so we can go ahead and rename it to `Gender`.
 
 `D6_1` represents the average commute time from home to work.
@@ -110,6 +116,8 @@ ecec_2 <- ecec_1 %>%
   filter(Gender %in% "Female")
 ```
 
+Let's take a look at the structure again.
+
 ```{r}
 str(ecec_2)
 ```
@@ -117,23 +125,26 @@ str(ecec_2)
 Don't worry that it says 3 levels. The data has been filtered (we can tell by comparing the observations from before filtering and after).
 
 1.  How many observations are there? `r fitb(938)`
-
 2.  How many variables are there? `r fitb(2)`
-
 3.  How many categorical variables are there? `r fitb(1)`
-
 4.  How many discrete numerical variables are there? `r fitb(0)`
-
 5.  How many continuous numerical variables are there? `r fitb(1)`
+
+Now we can move on to checking the conditions. To start, we’ll create a few useful plots of the home-to-work commute data. These will help us assess whether the observations can reasonably be treated as independent and whether the distribution is close enough to normal for our purposes. The normality requirement becomes less strict as the sample size grows. Slight skewness is fine around n = 15, moderate skewness is acceptable around n = 30, and even strong skewness is workable once the sample size exceeds about 60.
+
+`r hide("I need a hint")`
 
 ```{r}
 ggplot(data=ecec_2, aes(x=Work_Commute))+
-  geom_histogram(bins=12, col="grey56", fill="grey76")+
+  geom_histogram(bins=12, col="darkseagreen4", fill="darkseagreen2")+
   theme_bw()+
   labs(x="Commute Time From Home to Work (mins)")
 
+```
+
+```{r}
 ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
-  geom_boxplot(fill="pink")+
+  geom_boxplot(fill="mediumpurple1")+
   theme_bw()+
   labs(y="Commute Time From Home to Work (mins)")
 ```
@@ -141,22 +152,60 @@ ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
 ```{r}
 ggplot(data=ecec_2, aes(sample=Work_Commute))+
   geom_qq()+ #This creates the points
-  geom_qq_line(col="orange")+ #this creates the line
+  geom_qq_line(col="firebrick1")+ #this creates the line
   labs(x="Theoretical quantiles", y="Sample quantiles")+
   theme_bw()
 ```
 
 ```{r}
 ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
-  geom_boxplot(fill="pink")+
+  geom_boxplot(fill="mediumpurple1")+
   theme_bw()+
   labs(y="Commute Time From Home to Work (mins)")+
-  geom_jitter(col="pink4")
+  geom_jitter(col="mediumpurple4")
 ```
+
+With 938 observations, the sample size is well above the point where normality becomes a concern. The plots show that the data are strongly right-skewed with some very large outliers. With a sample this large, the Central Limit Theorem kicks in, so the mean will still have an approximately normal sampling distribution.
+
+For independence, we can lean on a few simple checks. Our data represent 938 female carers in NSW, which is only a tiny fraction of the overall population of female carers in the state, so we’re safely under the 10% guideline.
+
+Because this comes from what appears to be a large, population-level survey rather, it’s reasonable to treat each person’s commute time as an independent observation.
+
+`r unhide()`
+
+Now that we've checked conditions, we can proceed with t-test. We can do this with one simple line of code:
 
 ```{r}
 t.test(ecec_2$Work_Commute, mu = 29, alternative = "greater")
 ```
+
+![](images/clipboard-815495603.png)
+
+-   the t-value (the statistic), the degrees of freedom (which is n-1), and the p-value: these allow us to draw our conclusion.
+
+-   the sample mean.
+
+-   and the confidence interval -- though for a 1-sided test this isn't a priority.
+
+The p-value ($t_{937}=2.1482, p=0.0.01598$) is less than 0.05, so we have evidence to reject the null hypothesis. Therefore, there is evidence that the mean commute time from home to work for female carers in NSW is significantly greater than 29 minutes.
+
+Note that if instead the alternative hypothesis had been Ha: μ<29 we would instead have:
+
+```{r}
+t.test(ecec_2$Work_Commute, mu = 29, alternative = "less")
+```
+
+or if it was Ha: μ≠29 we would have
+
+```{r}
+t.test(ecec_2$Work_Commute, mu = 29, alternative = "two.sided")
+```
+
+**NOTE** that you can only calculate the confidence intervals with the two sided t-test. EG `alternative="two.sided"`. If you need the confidence intervals, then you need to run this test regardless of what your alternative hypothesis is. You should use the p-value from the test that corresponds to your alternative hypothesis though.
+
+Therefore, using the output from the two-sided test, with 95% confidence, the average commute time from home-to-work for female carers across NSW is between 29 minutes and 35 minutes longer than the national average. Because this range does not include zero, it points to a clear difference.
+
+This naturally raises other questions. For instance, because we are looking at all of NSW, it’s possible that cities like Sydney are pushing the average up. These are the kinds of patterns you could explore further with the dataset.
 
 # Two Sample t-test
 
