@@ -48,7 +48,7 @@ Working with real survey data can be messy, so we will go step by step and decid
 library(dplyr) 
 library(tidyr) 
 library(ggplot2)  
-ecec <- read.csv("Data sets/ecec-survey-2023.csv", check.names = TRUE) 
+ecec <- read.csv("Data sets/ecec-survey-2023.csv") 
 ```
 
 Let's take a look at the first six rows.

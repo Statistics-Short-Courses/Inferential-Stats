@@ -292,7 +292,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ecec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/ecec-survey-2023.csv"</span>, <span class="at">check.names =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ecec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/ecec-survey-2023.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s take a look at the first six rows.</p>
 <div class="cell">
@@ -589,6 +589,7 @@ mean of x
 </div>
 <p><strong>NOTE</strong>&nbsp;that you can only calculate the confidence intervals with the two sided t-test. EG&nbsp;<code>alternative="two.sided"</code>. If you need the confidence intervals, then you need to run this test regardless of what your alternative hypothesis is. You should use the p-value from the test that corresponds to your alternative hypothesis though.</p>
 <p>Therefore, using the output from the two-sided test, with 95% confidence, the average commute time from home-to-work for female carers across NSW is between 29 minutes and 35 minutes longer than the national average. Because this range does not include zero, it points to a clear difference.</p>
+<p>This naturally raises other questions. For instance, because we are looking at all of NSW, it’s possible that cities like Sydney are pushing the average up. These are the kinds of patterns you could explore further with the dataset.</p>
 </section>
 </section>
 <section id="two-sample-t-test" class="level1" data-number="7">
