@@ -6,6 +6,8 @@ title: "Paired t-test and ANOVA"
 
 ![](images/clipboard-312548449.png)
 
+![](images/clipboard-2601389475.png)
+
 # Paired t-test
 
 The next dataset we will be using comes from the Living Well Multicultural – Lifestyle Modification Program. This file contains paired pre- and post-intervention measurements for adults who participated in the program between 2014 and 2017.
@@ -277,13 +279,13 @@ To determine these:
 
 ```{r}
 ggplot(living_well_aov, aes(x=Education, y=Post_week8))+
-  geom_boxplot(fill = c("cadetblue1",
-                        "aquamarine2",
-                        "steelblue1",
-                        "cyan2",
-                        "dodgerblue1",
-                        "deepskyblue1",
-                        "slateblue1"))+
+  geom_boxplot(fill = c("#f94144",
+                        "#f3722c",
+                        "#f8961e",
+                        "#f9c74f",
+                        "#90be6d",
+                        "#43aa8b",
+                        "#577590"))+
   theme_bw() +   
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
@@ -368,11 +370,23 @@ values
 ```{r}
 #create errorbar plot
 ggplot(data=values, aes(x=group, y=mean))+
-  geom_errorbar(aes(ymin=lower, ymax=upper), linewidth=1.5, col="green3")+
-  geom_point(size=2, col="darkgreen")+
+  geom_errorbar(aes(ymin=lower,
+                    ymax=upper), 
+                linewidth=1.5, 
+                col=c("#f94144",
+                      "#f3722c",
+                      "#f8961e",
+                      "#f9c74f",
+                      "#90be6d",
+                      "#43aa8b",
+                      "#577590"))+
+  geom_point(size=2, 
+             col="#0F151A")+
   theme_bw()+
   labs(y="BMI (mean+CIs)") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, 
+                                   hjust = 1))
 
 
 ```
