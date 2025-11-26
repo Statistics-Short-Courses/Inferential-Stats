@@ -189,7 +189,7 @@ t.test(ecec_2$Work_Commute, mu = 29, alternative = "greater")
 
 The p-value ($t_{937}=2.1482, p=0.0.01598$) is less than 0.05, so we have evidence to reject the null hypothesis. Therefore, there is evidence that the mean commute time from home to work for female carers in NSW is significantly greater than 29 minutes.
 
-Note that if instead the alternative hypothesis had been Ha: μ<29 we would instead have:
+Note that if instead the alternative hypothesis had been Ha: μ\<29 we would instead have:
 
 ```{r}
 t.test(ecec_2$Work_Commute, mu = 29, alternative = "less")

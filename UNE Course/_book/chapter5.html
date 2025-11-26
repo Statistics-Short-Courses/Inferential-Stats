@@ -271,113 +271,646 @@ window.Quarto = {
 </section>
 <section id="paired-t-test" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Paired t-test</h1>
-<p>The next data set we will be using is the <a href="https://www.healthstats.nsw.gov.au/indicator?name=-res-cat-hos&amp;location=NSW&amp;view=Table&amp;measure=DSTRate&amp;confidence=true&amp;groups=Period,Disease%20type,Sex,Remoteness%20category&amp;compare=Disease%20type,Sex,Period,Remoteness%20category&amp;filter=Sex,Males,Females&amp;filter=Disease%20type,Asthma&amp;filter=Period,01/02,05/06,07/08,06/07,02/03,18/19,04/05,09/10,20/21,19/20,03/04,16/17,17/18,08/09,15/16,10/11,11/12,12/13,13/14,14/15,21/22&amp;filter=Remoteness%20category,NSW">Respiratory Disease hospitalisations</a> dataset provided by HealthStats NSW. You will want to ensure that you only have “Asthma” under Disease Type and “Males” and “Females” under Sex, and “NSW” for Remoteness Category selected. You can then select the Download Icon in the bottom right corner of the graph, and then select “Download Data as CSV”.</p>
+<p>The next dataset we will be using comes from the Living Well Multicultural – Lifestyle Modification Program. This file contains paired pre- and post-intervention measurements for adults who participated in the program between 2014 and 2017.</p>
 <p>You can then save the file in your Datasets folder in your InferentialStats project folder that you created in the Introduction. You can give it a new name so that it is easier to call into R Studio.</p>
 <p>If you open the file, you may notice that the first row is simply a title. We can ignore the title by including <code>skip</code> when we load in the data.</p>
 <p>Once you’ve saved the file, you can load the dataset into R by typing:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>asthma <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/respiratory_disease.csv"</span>, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">skip =</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>living_well <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/Cleaned_data_pre_post.csv"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can take a look at the data to ensure it has been loaded in correctly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(asthma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(living_well)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>'data.frame':   74 obs. of  5 variables:
- $ Disease.type       : chr  "Asthma" "Asthma" "Asthma" "Asthma" ...
- $ Sex                : chr  "Males" "Males" "Males" "Males" ...
- $ Period             : chr  "21/22" "20/21" "19/20" "18/19" ...
- $ Remoteness.category: chr  "NSW" "NSW" "NSW" "NSW" ...
- $ Number             : chr  "3,226" "3,578" "4,231" "5,317" ...</code></pre>
+<pre><code>'data.frame':   1112 obs. of  100 variables:
+ $ Time           : Factor w/ 2 levels "Baseline","Post week8": 1 1 1 1 1 1 1 1 2 2 ...
+ $ Community      : Factor w/ 9 levels "Afghani","Arabic-speaking",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ Location       : Factor w/ 30 levels "44","Acacia Ridge",..: 6 6 6 6 6 6 6 6 6 6 ...
+ $ ID             : Factor w/ 554 levels "ABA200879","ABD 010160",..: 295 294 38 296 191 192 297 10 295 294 ...
+ $ Drop_yn        : Factor w/ 1 level "Complete": 1 1 1 1 1 1 1 1 1 1 ...
+ $ Dose_yn        : Factor w/ 2 levels "&lt;=6 doses, Incomplete",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ Dose           : int  8 8 8 8 7 7 7 8 8 8 ...
+ $ Age            : int  21 20 49 19 52 20 22 55 21 20 ...
+ $ Gender         : Factor w/ 2 levels "Female","Male": 2 1 1 1 2 2 1 2 2 1 ...
+ $ Country_b      : Factor w/ 23 levels "1 Afghanistan",..: 22 22 22 22 22 17 22 22 22 22 ...
+ $ Country_b_other: Factor w/ 21 levels " ","Australia",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Time_aus       : Factor w/ 6 levels "&gt;20 years","1-5 years",..: 2 4 3 4 3 3 3 4 2 4 ...
+ $ language       : Factor w/ 18 levels " ","1 Arabic",..: 2 2 3 2 3 17 17 2 2 2 ...
+ $ language_others: Factor w/ 51 levels " ","20 Samoan",..: 25 25 1 25 1 1 1 1 25 25 ...
+ $ Ethnicity      : Factor w/ 82 levels " ","Acholi","Afghan",..: 1 1 1 1 1 1 1 35 1 1 ...
+ $ Postcode_SEIFA : Factor w/ 4 levels "999","High","Low",..: 4 4 2 4 2 2 2 4 4 4 ...
+ $ Postcode       : int  4109 4109 4152 4109 4152 4152 4152 4109 4109 4109 ...
+ $ Edu_combine    : Factor w/ 5 levels "999","Bachelor‎/Postgraduate",..: 3 3 5 3 3 3 2 5 3 3 ...
+ $ Education      : Factor w/ 8 levels "999","Bachelor degree",..: 6 6 4 6 5 5 2 4 6 6 ...
+ $ Country_Q      : Factor w/ 4 levels " ","999","Australia",..: 3 3 4 3 4 3 3 4 3 3 ...
+ $ Employ_comb    : Factor w/ 5 levels "999","No paid work",..: 4 4 3 4 3 4 5 5 4 4 ...
+ $ Employment     : Factor w/ 11 levels "999","Casual paid work",..: 9 9 7 9 6 9 2 2 9 9 ...
+ $ Household      : Factor w/ 6 levels "999","Couple, no children",..: 6 6 3 6 3 6 6 3 6 6 ...
+ $ Referral       : Factor w/ 13 levels " ","1 ECCQ website/newsletter",..: 1 9 9 9 9 3 3 9 1 9 ...
+ $ Weight         : num  55.5 48.5 88.9 52.3 90.7 75.7 54 77 55 48 ...
+ $ Height         : num  167 161 160 159 173 ...
+ $ BMI_cate2      : Factor w/ 5 levels "999","Normal weight",..: 2 2 3 2 3 2 2 4 2 2 ...
+ $ BMI_cate1      : Factor w/ 5 levels "999","Normal weight",..: 2 2 3 2 3 2 2 4 2 2 ...
+ $ BMI            : num  19.9 18.8 34.6 20.8 30.3 24.5 21.5 26.2 19.7 18.6 ...
+ $ Waist          : num  74 71 106 70 102 ...
+ $ Risk_new       : Factor w/ 3 levels "999","No","Yes": 2 2 3 2 3 2 2 2 2 2 ...
+ $ Risk           : Factor w/ 4 levels " ","999","No",..: 3 3 4 3 4 3 3 3 3 3 ...
+ $ WHtR_yn        : Factor w/ 3 levels "999","High risk",..: 3 3 2 3 2 2 3 2 3 3 ...
+ $ WHtR           : num  0.44 0.44 0.66 0.44 0.59 0.53 0.46 0.56 0.44 0.44 ...
+ $ BP_systolic    : int  110 88 111 110 140 109 110 146 90 102 ...
+ $ BP_diastolic   : int  70 54 63 60 58 59 64 78 75 60 ...
+ $ High_BP        : Factor w/ 4 levels " ","999","No",..: 3 3 3 3 3 3 3 4 3 3 ...
+ $ Weight_pc_cate : Factor w/ 6 levels "999","A healthy weight",..: 2 3 3 6 3 3 4 3 2 2 ...
+ $ Weight_pc      : Factor w/ 7 levels " ","1 A healthy weight",..: 2 3 3 5 3 3 6 3 2 2 ...
+ $ Weight_stt     : Factor w/ 6 levels " ","1 Lost weight",..: 5 3 4 3 2 3 4 3 4 2 ...
+ $ Chronic_con    : Factor w/ 4 levels " ","999","No",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ Chronic_name   : Factor w/ 174 levels " ","Arteritis",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Smoke_stt      : Factor w/ 4 levels " ","999","No",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ Smoke_re       : Factor w/ 8 levels " ","3","999",..: 4 4 4 4 4 4 4 4 4 4 ...
+ $ Smoke_num      : Factor w/ 24 levels " ","0","0 (quit)",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Alcohol_stt    : Factor w/ 4 levels " ","999","No",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ Alcohol_safe   : Factor w/ 4 levels " ","999","Not safe",..: NA NA NA NA NA NA NA NA NA NA ...
+ $ Alcohol_re     : Factor w/ 5 levels " ","999","I don't consume alcohol",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ Alcohol_freq   : Factor w/ 9 levels " ","1 Everyday",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Alcohol_amt    : Factor w/ 6 levels " ","1 Less than 1",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Fruit_yn       : Factor w/ 3 levels "999","Meet the guideline",..: 2 2 2 2 2 3 2 2 2 2 ...
+ $ Fruit_cate     : Factor w/ 8 levels " ","999","Don't eat fruit",..: 4 8 7 4 4 6 4 4 7 7 ...
+ $ Fruit          : Factor w/ 9 levels " ","0 Don't eat fruit",..: 8 6 7 8 8 5 8 8 7 7 ...
+ $ Vegetables_yn  : Factor w/ 3 levels "999","Don't meet the guideline",..: 2 2 2 2 2 2 2 2 2 3 ...
+ $ Veggie_cate    : Factor w/ 9 levels " ","999","Don't eat vegetables",..: 7 8 6 8 8 3 8 7 9 4 ...
+ $ Veggie         : Factor w/ 10 levels " ","0 Don't eat vegetables",..: 5 7 4 7 7 2 7 5 6 9 ...
+ $ Milk_combine   : Factor w/ 5 levels " ","999","Full fat‎/cream",..: 3 5 4 3 3 3 3 3 4 4 ...
+ $ Milk_cate      : Factor w/ 10 levels " ","999","Don't consume any milk",..: 10 3 6 10 10 10 10 10 6 6 ...
+ $ Milk           : Factor w/ 14 levels " ","0 Don't consume any milk",..: 5 4 6 5 5 5 5 5 6 6 ...
+ $ Takeaway_comb  : Factor w/ 5 levels "&lt;= 1 a week",..: 3 1 1 3 1 5 1 1 1 1 ...
+ $ Takeaway_cate  : Factor w/ 9 levels " ","2-3 times per week",..: 2 7 7 2 7 8 7 7 9 7 ...
+ $ Takeaway       : Factor w/ 10 levels " ","0 Never or rarely",..: 5 3 3 5 3 2 3 3 4 3 ...
+ $ Chips_comb     : Factor w/ 6 levels " ","&lt;=1 per week",..: 4 2 2 2 2 6 2 2 2 2 ...
+ $ Chips_cate     : Factor w/ 9 levels " ","2-3 times per week",..: 2 9 7 9 7 8 7 7 7 7 ...
+ $ Chips          : Factor w/ 12 levels " ","0 Never or rarely",..: 6 5 4 5 4 2 4 4 4 4 ...
+ $ Salty_snk3gr   : Factor w/ 5 levels " ","1-3 times‎ per week",..: 2 2 5 2 5 2 5 5 5 5 ...
+ $ Salty_snk_new  : Factor w/ 6 levels " ","&gt;=4 times‎/week",..: 3 3 5 3 6 3 6 5 6 6 ...
+ $ Salty_snk_cate : Factor w/ 8 levels " ","1-3 times week",..: 2 2 6 2 7 2 7 6 7 7 ...
+ $ Salty_snk      : Factor w/ 8 levels " ","0 Never or rarely",..: 4 4 3 4 2 4 2 3 2 2 ...
+ $ Sweet_snk3gr   : Factor w/ 5 levels " ","1-3 times per week",..: 3 5 2 3 5 2 2 3 5 5 ...
+ $ Sweet_snk_cate : Factor w/ 8 levels " ","2 or more times per day",..: 5 7 4 2 6 4 4 8 6 6 ...
+ $ Sweet_snk      : Factor w/ 9 levels " ","0 Don’t consume any milk",..: 6 3 5 8 4 5 5 7 4 4 ...
+ $ Softdrink_3gr  : Factor w/ 4 levels "1-3 times per week",..: 2 4 1 4 1 2 4 1 1 4 ...
+ $ Softdrink_cate : Factor w/ 8 levels " ","2 or more times per day",..: 2 7 4 7 4 8 6 4 4 6 ...
+ $ Softdrink      : Factor w/ 8 levels " ","0 Never or rarely",..: 7 2 4 2 4 6 3 4 4 3 ...
+ $ Pr_meat_3gr    : Factor w/ 4 levels "1-2 times per week",..: 2 1 4 2 1 2 4 4 4 4 ...
+ $ Pr_meat        : Factor w/ 7 levels " ","1-2 times per week",..: 4 2 6 4 2 3 6 6 6 6 ...
+ $ Processed_meat : Factor w/ 7 levels " ","0 Never or rarely",..: 6 4 3 6 4 5 3 3 3 3 ...
+ $ Vegetarian     : Factor w/ 11 levels " ","30","300",..: 10 10 10 10 10 10 10 10 10 10 ...
+ $ Walking        : int  90 95 0 120 45 100 200 120 120 250 ...
+ $ Vigorous_lb    : int  60 100 30 30 150 10 200 900 60 70 ...
+ $ Md_act         : int  60 30 5 10 0 0 30 90 60 30 ...
+ $ Vigorous_act   : int  30 30 0 15 0 0 100 90 120 250 ...
+ $ Act_comp_cate  : Factor w/ 7 levels "999","A little less",..: 3 6 3 6 5 6 4 4 3 7 ...
+ $ Act_comparison : Factor w/ 8 levels " ","1 Significantly less",..: 5 2 5 2 7 2 4 4 5 6 ...
+ $ KL1            : Factor w/ 8 levels " ","999","A",..: 7 6 6 4 8 5 6 6 6 6 ...
+ $ KL2            : Factor w/ 8 levels " ","999","A",..: 8 5 8 5 8 3 3 6 3 3 ...
+ $ KL3            : Factor w/ 8 levels " ","999","A",..: 6 5 5 5 8 7 7 5 5 5 ...
+ $ KL4            : Factor w/ 7 levels " ","999","A",..: 4 6 5 5 6 6 6 6 6 6 ...
+ $ KL5            : Factor w/ 7 levels " ","999","A",..: 7 7 3 4 7 5 7 5 5 5 ...
+ $ KL6            : Factor w/ 7 levels " ","999","A",..: 7 4 7 5 7 7 6 5 6 6 ...
+ $ KL7            : Factor w/ 7 levels " ","999","A",..: 5 5 6 6 5 5 5 5 5 5 ...
+ $ conf_risk      : int  10 8 8 10 1 7 7 9 9 10 ...
+ $ conf_manage    : int  10 8 8 10 1 6 7 10 9 10 ...
+ $ Physic_act_yn  : Factor w/ 3 levels "999","No","Yes": 3 3 2 3 3 2 3 3 3 3 ...
+ $ Physic_moderate: int  150 125 5 130 45 100 230 210 180 280 ...
+ $ Physic_vigo    : int  90 130 30 45 150 10 300 990 180 320 ...
+ $ Physic_all     : int  240 255 35 175 195 110 530 1200 360 600 ...
+ $ Knowledge      : int  1 4 2 1 2 3 4 5 6 6 ...
+  [list output truncated]</code></pre>
 </div>
 </div>
 <ol type="1">
-<li>How many categorical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;4&quot;]"></li>
-<li>How many numerical variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;1&quot;]"></li>
-<li>How many observations are there? <input class="webex-solveme nospaces" size="2" data-answer="[&quot;74&quot;]"></li>
+<li>How many variables are there? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;100&quot;]"></li>
+<li>How many observations are there? <input class="webex-solveme nospaces" size="4" data-answer="[&quot;1112&quot;]"></li>
 </ol>
-<p>If you open the data set, you may notice there are “Sources”, “Notes”, and “Coding” underneath the dataset. This can be problematic when we try to analyse the data. To avoid this, we can take a “subset” of the data - in other words, we are dropping these unnecessary rows we don’t need. We will also need to convert it to wide format to compare the paired data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>clean_asthma <span class="ot">&lt;-</span> <span class="fu">subset</span>(asthma, Sex <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Males"</span>, <span class="st">"Females"</span>)) </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>clean_asthma <span class="ot">&lt;-</span> clean_asthma <span class="sc">%&gt;%</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Period, Sex, Number) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Number =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, Number))) <span class="sc">%&gt;%</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Sex, <span class="at">values_from =</span> Number)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(living_well<span class="sc">$</span>Time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Baseline   Post week8
+Levels: Baseline Post week8</code></pre>
+</div>
+</div>
+<p>If we look at the <code>Time</code> variable, we can see that there are two levels: <code>Baseline</code> and <code>Post week8</code>. We also have an <code>ID</code> variable, which indicates that we have a repeated measurement for the baseline and post week 8 measurements. As we have one row for each measurement, this means our data is in <strong>long format</strong>. Another way to think about long format is that the same participant appears multiple times in the data set.</p>
+<p>To be able to perform a paired t-test to compare the pre- and post-measurements, we need to convert the data to <strong>wide format</strong>. This means that we want one row per participant, with separate columns for each time point, such as a pre value and post value in the same row.</p>
+<p>You may notice that there are many rows that have observations recorded as <code>999</code>. At times, <code>999</code> is used as a placeholder for <code>NA</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>living_well_wide <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  living_well,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_cols =</span> ID,               </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_from =</span> Time,          </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_from =</span> BMI           </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Values from `BMI` are not uniquely identified; output will contain list-cols.
+• Use `values_fn = list` to suppress this warning.
+• Use `values_fn = {summary_fun}` to summarise duplicates.
+• Use the following dplyr code to identify duplicates.
+  {data} |&gt;
+  dplyr::summarise(n = dplyr::n(), .by = c(ID, Time)) |&gt;
+  dplyr::filter(n &gt; 1L)</code></pre>
+</div>
+</div>
+<p>You can see an error appears when we try to convert the data. This is telling us there are duplicates for the ID beyond the two that we are expecting. Let’s try using the code provided in the warning to see what’s going on.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>living_well <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">c</span>(ID, Time)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          ID       Time n
+1  PIR201181   Baseline 2
+2  PIR201181 Post week8 2
+3 ABD 010187   Baseline 2
+4 ABD 010187 Post week8 2</code></pre>
+</div>
+</div>
+<p>There are four IDs that have two baseline measurements and two post week8 measurements. Let’s investigate these rows closer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>living_well[living_well<span class="sc">$</span>ID <span class="sc">==</span> <span class="st">"PIR201181"</span>, <span class="fu">c</span>(<span class="st">"ID"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Time"</span>, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"BMI"</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Weight"</span>) ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           ID       Time  BMI Weight
+647 PIR201181   Baseline 27.5   74.3
+651 PIR201181   Baseline 21.0   50.4
+655 PIR201181 Post week8 26.2   71.0
+659 PIR201181 Post week8 21.0   49.7</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(clean_asthma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>living_well[living_well<span class="sc">$</span>ID <span class="sc">==</span> <span class="st">"ABD 010187"</span>, <span class="fu">c</span>(<span class="st">"ID"</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Time"</span>, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"BMI"</span>, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Weight"</span>) ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            ID       Time  BMI Weight
+813 ABD 010187   Baseline 26.4   63.4
+816 ABD 010187   Baseline 21.7   59.0
+831 ABD 010187 Post week8 26.7   64.2
+834 ABD 010187 Post week8 26.7   64.2</code></pre>
 </div>
+</div>
+<p>This confirms what we expected - that there are four measurements per ID, when we were expecting two. This was likely a data entry error, which can happen in real world datasets. It is impossible to tell which pre- and post-measurements match each other, so the safest option is to drop these observations. As we have 1112 observations, this shouldn’t impact our analysis too much.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>bad_ID <span class="ot">&lt;-</span> living_well <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">c</span>(ID, Time)) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>L) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(ID)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>living_well_clean <span class="ot">&lt;-</span> living_well <span class="sc">%&gt;%</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>ID <span class="sc">%in%</span> bad_ID<span class="sc">$</span>ID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s try convert our data to wide format again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>living_well_wide <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  living_well_clean,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_cols =</span> ID,               </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_from =</span> Time,          </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_from =</span> BMI,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_glue =</span> <span class="st">"{str_replace_all(Time, ' ', '_')}"</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>No warning this time! That’s a good sign our method worked. Let’s take a look at our dataset now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(living_well_wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [552 × 3] (S3: tbl_df/tbl/data.frame)
+ $ ID        : Factor w/ 554 levels "ABA200879","ABD 010160",..: 295 294 38 296 191 192 297 10 453 452 ...
+ $ Baseline  : num [1:552] 19.9 18.8 34.6 20.8 30.3 24.5 21.5 26.2 19.6 19.9 ...
+ $ Post_week8: num [1:552] 19.7 18.6 33.7 19.6 30.2 24.3 20.7 25.7 19.5 19.8 ...</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>How many variables are there? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;3&quot;]"></li>
+<li>How many observations are there? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;552&quot;]"></li>
+</ol>
+<p>Remember, we have 552 observations now because we combined the pre- and post-measurements into one row. We started with 1112, removed 8, and then combined the two measurements which results in 552.</p>
+<p>Now we can check if there are any 999 values and drop them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(living_well_wide<span class="sc">$</span>Baseline <span class="sc">==</span> <span class="dv">999</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(living_well_wide<span class="sc">$</span>Post_week8<span class="sc">==</span> <span class="dv">999</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>As we have TRUE for both variables, we can convert the 999 to NA and then remove.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>living_well_wide <span class="ot">&lt;-</span> living_well_wide <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Baseline =</span> <span class="fu">na_if</span>(Baseline, <span class="dv">999</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Post_week8 =</span> <span class="fu">na_if</span>(Post_week8, <span class="dv">999</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Baseline, Post_week8)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(living_well_wide<span class="sc">$</span>Baseline <span class="sc">==</span> <span class="dv">999</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(living_well_wide<span class="sc">$</span>Post_week8<span class="sc">==</span> <span class="dv">999</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>We have officially cleaned our data! We can now get into our statistical analysis.</p>
 <section id="write-hypotheses" class="level3" data-number="8.0.1">
 <h3 data-number="8.0.1" class="anchored" data-anchor-id="write-hypotheses"><span class="header-section-number">8.0.1</span> Write Hypotheses</h3>
-<p>The dataset includes the number of asthma hospitalisations for males and females for each year from 2001 to 2022. Although the data span a long period, we are not analysing trends over time in this task. Time needs to be handled carefully in statistics because consecutive years are usually correlated, which means they are not fully independent. However, each male value has a corresponding female value for the same year, so the two observations form a natural pair. This allows us to compare males and females within each year and then look at whether these yearly differences are consistently above or below zero across the 21-year period.</p>
-<p>Because we are keeping the dataset simple, a natural research question is whether there is a difference in the average number of asthma hospitalisations between males and females across these paired yearly observations.</p>
-<p><span class="math inline">\(H_0:\)</span> On average, there is no difference in the number of asthma hospitalisations between males and females across the 21 years.</p>
-<p><span class="math inline">\(H_A:\)</span> On average, there is asignificant difference in the number of asthma hospitalisations between males and females across the 21 years.</p>
+<p>Because we are keeping the dataset simple, a natural research question is whether there is a significant difference</p>
+<p><span class="math inline">\(H_0:\)</span> For participants in the Living Well Multicultural – Lifestyle Modification Program, the mean BMI after the program is not significantly different than the mean BMI before the program.</p>
+<p><span class="math inline">\(H_A:\)</span> For participants in the Living Well Multicultural – Lifestyle Modification Program, the mean BMI after the program is significantly lower than the mean BMI before the program.</p>
 <p>We can express this in mathematical notation:</p>
 <p><span class="math inline">\(H_0:\)</span> <span class="math inline">\(\mu_{diff}=0\)</span></p>
-<p><span class="math inline">\(H_A:\)</span> <span class="math inline">\(\mu_{diff} \neq 0\)</span></p>
-<p>What we need to calculate the difference between the hospitalisations for male and females. We can do that with:</p>
+<p><span class="math inline">\(H_A:\)</span> <span class="math inline">\(\mu_{diff} &gt; 0\)</span></p>
+<p>where <span class="math inline">\(diff = BMI_{Baseline} - BMI_{Post Week 8}\)</span>. Now we need to calculate the difference between the baseline BMI and Post Week 8 BMI . We can do that with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>clean_asthma<span class="sc">$</span>diff <span class="ot">&lt;-</span> (clean_asthma<span class="sc">$</span>Males <span class="sc">-</span> clean_asthma<span class="sc">$</span>Females)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>clean_asthma<span class="sc">$</span>diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>living_well_wide<span class="sc">$</span>diff <span class="ot">&lt;-</span> (living_well_wide<span class="sc">$</span>Baseline <span class="sc">-</span> living_well_wide<span class="sc">$</span>Post_week8)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>living_well_wide<span class="sc">$</span>diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -356 -246 -951 -647 -504 -598 -242 -189  -23  475  195  520  295  328   67
-[16]  172  255   64 -132 -135  139</code></pre>
+<pre><code>  [1]  0.20  0.20  0.90  1.20  0.10  0.20  0.80  0.50  0.10  0.10  0.00  0.40
+ [13]  1.50  0.30  0.30 -0.10  0.10  0.80  1.10  1.20  0.80  0.30 -0.06  0.26
+ [25]  0.45  0.53  0.32  0.42 -0.01 -0.03  0.31  0.60  0.50  0.70  0.40  0.40
+ [37]  1.50  0.40  0.40  0.30  0.40  0.40  0.30  0.70  0.00  1.60  1.00 -0.20
+ [49] -0.60  0.40  0.20  0.10  0.40  1.00  0.50  1.20  0.50  0.30  0.00 -0.10
+ [61]  0.70 -1.70 -4.90  0.40  0.10  0.20  0.30  0.00  0.70  0.90  0.10  0.90
+ [73]  0.60  0.10  1.70  0.40  0.10  0.30  1.10  0.20  0.10  0.20  0.00  0.40
+ [85]  0.10 -0.40  0.00  0.40  0.20  0.00  0.30 -0.10  0.00  0.80  1.00  0.80
+ [97]  0.40 -0.20  1.50  0.30  0.30 -0.20  0.70  0.40 -0.30  1.40  0.70  0.60
+[109]  0.50  0.30  0.30  1.80 -0.10  1.00  0.50  0.40 -0.20  0.90  0.50  0.50
+[121]  1.00  0.50  0.80  0.30  1.30  0.60  1.10  0.70  0.70  0.60  0.90  0.80
+[133]  0.80 -0.80  0.30  0.20  1.40  2.30 -0.70  0.70  1.10  0.40 -0.90  1.20
+[145] -1.70  2.00  0.00  1.40  1.40  3.60  0.80  0.40  0.80  1.00  0.40  0.50
+[157] -0.80  0.80  0.70  1.40  1.30  1.00  0.70 -0.20  0.70 -1.50 -2.10  2.00
+[169] -1.10 -0.60  0.80  1.00  0.10 -0.40  2.10 -0.30  0.90 -0.30  0.70 -0.30
+[181] -2.90 -0.50 -0.80  1.60  0.50  1.30  0.60  0.30  0.00  0.00  0.50  0.10
+[193]  0.60  0.00  0.90  0.30  0.90  0.00  0.00 -0.40 -0.40 -1.40  0.30  0.10
+[205] -1.60  0.00  0.20  0.50  0.20  0.20  0.00  0.00  0.50  0.00  0.20  0.40
+[217] -0.30  0.30  0.00  0.10  0.40 -0.50  0.30  0.40 -0.90  0.00 -0.20 -0.50
+[229]  0.80  0.30  0.60  0.10  0.10 -0.40  0.20  0.20  0.10  0.30  0.10  0.20
+[241]  0.20  0.00  0.10  0.40  0.40  0.00  0.00  0.10  0.00  0.20  0.90  0.90
+[253]  0.30  0.70  0.40  0.70  0.70  0.00  0.40  1.00  0.90  0.30  0.00  1.20
+[265] -0.40  0.30  1.40  0.50 -0.30 -0.40 -0.10 -0.30  0.30 -0.40 -0.20  0.70
+[277]  0.40  0.10  1.30  0.00  0.80 -0.70  0.40  0.30  0.00  0.40  0.50  0.00
+[289] -2.00  0.40  0.40  0.40  0.60  0.60 -0.10  0.30  0.50  0.60 -0.30  0.30
+[301] -0.30 -0.30  0.20  1.00  0.30  1.00  0.80 -0.20 -0.80  0.00 -1.00 -0.40
+[313]  0.00  0.90 -0.50  0.20 -0.90 -0.30  0.60  0.10  0.40  0.10  0.30  0.50
+[325]  1.20 -0.10  0.20  0.10  0.70  0.20  0.00  0.80  0.90 -0.90  0.50  0.20
+[337]  0.30  0.50  0.80  1.40  0.60 -0.40  0.30  0.80  0.80 -0.20  0.10  0.20
+[349] -0.10  0.80  0.50 -0.10  1.00  0.10  0.20  0.60  0.10 -0.80  0.30  0.20
+[361]  0.60  0.70  0.80  0.70  0.20  0.90  0.60  0.60  0.40  1.10  1.60 -0.20
+[373] -0.30  0.70  0.10 -0.60  0.30  0.30  0.30  0.30 -0.10  0.50  0.80 -0.30
+[385]  0.70 -0.30  0.90 -0.90  0.10  1.50  1.60  0.90 -0.20 -0.30  0.70  1.20
+[397]  1.90  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00 -0.10 -0.70  0.00
+[409]  0.00  0.00 -0.10  0.70 -0.50  0.80  0.20  0.30  0.20  0.20  0.60  0.00
+[421]  0.40  0.60  0.20  0.00  0.40  0.40  0.40 -0.50 -0.60 -0.50  1.10 -1.00
+[433]  0.10  0.20  0.70  0.30 -1.10  0.60 -0.30 -0.80 -0.10  0.00 -0.30  0.30
+[445]  0.70  0.10  0.20 -1.30 -0.30 -0.30 -0.10  1.20  0.60  0.30 -0.30  1.60
+[457]  1.20  0.20  0.00  0.70  0.20  0.00  0.00  0.20 -0.10  0.40  0.30  0.60
+[469]  0.30  1.20  1.40  0.70  0.20  0.10  0.00  0.20 -0.20 -0.50 -0.10  0.20
+[481] -0.30 -0.30 -2.10  0.70 -0.90 -1.30  1.00  0.30  0.00  0.00 -0.70  0.90
+[493] -0.90  0.20 -0.20 -0.40  0.40 -0.20 -0.40 -0.70  0.80  1.10 -0.40  1.80
+[505]  0.30 -0.30  0.70  0.40  2.20  0.20  0.60  0.10  3.70  1.10  0.00  1.30
+[517]  0.80  0.50  0.40  0.80  0.10  0.40 -0.10  0.10  0.70 -1.20  0.40  0.50
+[529]  0.10  0.20  0.10  0.20  0.00  0.00  0.00  0.50  0.30  0.00  0.80 -0.20
+[541]  0.00  0.80 -0.10  0.40  0.10 -3.80  0.90  0.20  0.00</code></pre>
 </div>
+</div>
+<p>We can attach the data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(living_well_wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can check for skewness and normality.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>clean_asthma, <span class="fu">aes</span>(<span class="at">y=</span>diff, <span class="at">x=</span><span class="st">""</span>))<span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"mistyrose"</span>, <span class="at">col=</span><span class="st">"pink4"</span>)<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>living_well_wide, <span class="fu">aes</span>(<span class="at">y=</span>diff, <span class="at">x=</span><span class="st">""</span>))<span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"mistyrose"</span>, <span class="at">col=</span><span class="st">"pink4"</span>)<span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter5_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>clean_asthma, <span class="fu">aes</span>(<span class="at">sample=</span>diff))<span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>(<span class="at">col=</span><span class="st">"navyblue"</span>)<span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>(<span class="at">col=</span><span class="st">"steelblue"</span>)<span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Theoretical quantiles"</span>, <span class="at">y=</span><span class="st">"Sample quantiles"</span>)<span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>living_well_wide, <span class="fu">aes</span>(<span class="at">sample=</span>diff))<span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>(<span class="at">col=</span><span class="st">"navyblue"</span>)<span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>(<span class="at">col=</span><span class="st">"steelblue"</span>)<span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Theoretical quantiles"</span>, <span class="at">y=</span><span class="st">"Sample quantiles"</span>)<span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter5_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>We can now run our t-test:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Females, Males, <span class="at">paired =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Baseline, Post_week8, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Paired t-test
 
-data:  Females and Males
-t = 0.85326, df = 20, p-value = 0.4036
-alternative hypothesis: true mean difference is not equal to 0
+data:  Baseline and Post_week8
+t = 9.0896, df = 548, p-value &lt; 2.2e-16
+alternative hypothesis: true mean difference is greater than 0
 95 percent confidence interval:
- -104.0871  248.1824
+ 0.2275603       Inf
 sample estimates:
 mean difference 
-       72.04762 </code></pre>
+      0.2779417 </code></pre>
 </div>
 </div>
-<p>The p-value (<span class="math inline">\(t_{20}=0.85326, p=0.4036\)</span>) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in mean hospitalisations for asthma between males and females.</p>
-<p>With 95% confidence, there are between 104 fewer hospitalisations to 248 more hospitalisations in females compared to males. Because this interval includes zero, the data do not support a real difference between the sexes. <strong>Note that if 0 was <u>NOT</u> in the confidence interval, this would suggest a significant difference</strong>.</p>
+<p>The p-value (<span class="math inline">\(t_{548}=9.09, p=2.2*10^{-16}\)</span>) is much less than the 5% significance level (p&lt;0.05). We used <code>greater</code> because our hypothesis was that BMI would go down after the program. The t test calculates the difference as baseline minus post week 8, so if BMI really decreased, that difference would be positive. Using greater than tells R to test whether the average of those differences is greater than zero, meaning baseline values were higher than post week 8 values.</p>
+<p>Therefore, the mean BMI after the program is significantly lower than the mean BMI before the program.</p>
+<p>Let’s generate a two-sided paired t-test to get the confidence interval.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Baseline, Post_week8, <span class="at">paired =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  Baseline and Post_week8
+t = 9.0896, df = 548, p-value &lt; 2.2e-16
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ 0.2178774 0.3380060
+sample estimates:
+mean difference 
+      0.2779417 </code></pre>
+</div>
+</div>
+<p>With 95% confidence, there ia mean BMI difference of 0.22 and 0.34 BMI Because this interval includes zero, the data supports a real difference before and after the program. <strong>Note that if 0 was <u>IN</u> in the confidence interval, this would suggest there is <u>not</u> a significant difference</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(living_well_wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
 <section id="anova" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> ANOVA</h1>
+<p>For the second part of this lesson, we are going to explore ANOVA.</p>
+<p>We want to do ANOVA when we are comparing three or more groups (or categories) against a continuous response variable.</p>
+<p>We can continue on with our <code>living_well</code> dataset, but instead refocus our research question and restructure the dataset accordingly.</p>
+<p>An example of a research question we might ask with ANOVA is whether education level impacts post program BMI.</p>
+<p>Let’s rewrite our hypotheses.</p>
+<p><span class="math inline">\(H_0:\)</span> There is no difference in mean BMI at post week 8 between education groups in the Living Well Multicultural – Lifestyle Modification Program.</p>
+<p><span class="math inline">\(H_A:\)</span> At least one education group has a different mean BMI at post week 8.</p>
+<p>We can express this in mathematical notation:</p>
+<p><span class="math inline">\(H_0:\)</span> <span class="math inline">\(\mu_1=\mu_2=\mu_3=...=\mu_7\)</span></p>
+<p><span class="math inline">\(H_A:\)</span> At least one <span class="math inline">\(\mu_i\)</span> is different.</p>
+<p>Let’s tidy up the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>living_well_aov <span class="ot">&lt;-</span> living_well_clean <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> <span class="fu">c</span>(ID, Education),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> Time,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> BMI,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_glue =</span> <span class="st">"{str_replace_all(Time, ' ', '_')}"</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s be sure to remove any <code>999</code> values. How can we do this?</p>
+<div class="webex-solution">
+<button>
+I need a hint
+</button>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>living_well_aov <span class="ot">&lt;-</span> living_well_aov <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Education =</span> <span class="fu">factor</span>(<span class="fu">replace</span>(Education, Education <span class="sc">==</span> <span class="st">"999"</span>, <span class="cn">NA</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Baseline =</span> <span class="fu">na_if</span>(Baseline, <span class="dv">999</span>),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Post_week8 =</span> <span class="fu">na_if</span>(Post_week8, <span class="dv">999</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Baseline, Post_week8, Education)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Remember, because <code>Education</code> is a categorical variable, <code>999</code> will be stored as a string rather than a numerical variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(living_well_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [521 × 4] (S3: tbl_df/tbl/data.frame)
+ $ ID        : Factor w/ 554 levels "ABA200879","ABD 010160",..: 295 294 38 296 191 192 297 10 453 452 ...
+ $ Education : Factor w/ 7 levels "Bachelor degree",..: 5 5 3 5 4 4 1 3 1 1 ...
+ $ Baseline  : num [1:521] 19.9 18.8 34.6 20.8 30.3 24.5 21.5 26.2 19.6 19.9 ...
+ $ Post_week8: num [1:521] 19.7 18.6 33.7 19.6 30.2 24.3 20.7 25.7 19.5 19.8 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(living_well_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>For a one-way ANOVA we need to check</p>
+<ul>
+<li><p>Independence</p></li>
+<li><p>Normality of the response variable for each population.</p></li>
+<li><p>All populations have the same standard deviation.</p></li>
+</ul>
+<p>To determine these:</p>
+<ul>
+<li><p>We typically assume independence, as long as e.g., a random sample has been collected and each observation is a unique case/subject/participant.</p></li>
+<li><p>We can determine normality by considering side-by-side boxplots, or a quantile-quantile plot.</p></li>
+<li><p>We can compute the standard deviation for each group using <code>aggregate()</code> like we tried last week. A rule of thumb is that we are likely safe if the largest standard deviation is less than double the smallest standard deviation.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(living_well_aov, <span class="fu">aes</span>(<span class="at">x=</span>Education, <span class="at">y=</span>Post_week8))<span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"cadetblue1"</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"aquamarine2"</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"steelblue1"</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"cyan2"</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"dodgerblue1"</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"deepskyblue1"</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"slateblue1"</span>))<span class="sc">+</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span>   </span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>living_well_aov, <span class="fu">aes</span>(<span class="at">sample=</span>Post_week8))<span class="sc">+</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>()<span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()<span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Education)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Post_week8<span class="sc">~</span>Education, <span class="at">FUN=</span>sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        Education Post_week8
+1                 Bachelor degree   6.393231
+2 Certificate (trade or business)   8.088750
+3     Diploma or Associate degree   6.313799
+4     High school (up to 4 years)   8.743657
+5     High school (up to 6 years)   6.760607
+6              Posgraduate degree   4.549479
+7                  Primary school   7.602748</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(Post_week8<span class="sc">~</span>Education, <span class="at">FUN=</span>length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        Education Post_week8
+1                 Bachelor degree         93
+2 Certificate (trade or business)         54
+3     Diploma or Associate degree         60
+4     High school (up to 4 years)         69
+5     High school (up to 6 years)         95
+6              Posgraduate degree         48
+7                  Primary school        102</code></pre>
+</div>
+</div>
+<p>Based on these outputs, do you think the necessary conditions for our one-way ANOVA are met?</p>
+<div class="webex-solution">
+<button>
+I need a hint
+</button>
+<p>Each individual is unique and only sampled randomly once, so independence is met.</p>
+<p>The scatter in the q-q plot is reasonably straight and the boxplots are reasonably symmetrical about the median, so a normal distribution is met.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fl">4.55</span><span class="sc">/</span><span class="fl">8.74</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.520595</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(4.55/8.74 = 0.52 &lt; 2\)</span></p>
+<p>The largest standard deviation is less than twice that of the smallest, so constant variance is met.</p>
+</div>
+<p>We can now run an ANOVA on the data. Note these are two lines of code and thus need to be run one after the other.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>mod.aov <span class="ot">&lt;-</span> <span class="fu">lm</span>(Post_week8<span class="sc">~</span>Education, <span class="at">data =</span> living_well_aov)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod.aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: Post_week8
+           Df  Sum Sq Mean Sq F value  Pr(&gt;F)  
+Education   6   771.1 128.516  2.5519 0.01915 *
+Residuals 514 25885.8  50.362                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The key values we can see are the F statistic, and the p-value that is associated with that. Given that our p-value is less than 0.05, we have evidence to reject the null hypothesis.</p>
+<p>In regards to our research question we can say that:</p>
+<p><strong>There is a significant difference in mean BMI for at least some education levels.</strong></p>
+<p>We need to carefully check for differences between each group (correcting for multiple comparisons) to determine what is happening. To do this we can use a pairwise t-test with a Bonferroni correction. We use the Bonferroni adjustment because multiple pairwise comparisons increase the chance of finding a significant result just by chance. The adjustment makes the significance threshold more conservative, helping to control the overall Type I error rate (i.e.&nbsp;false positives) so that any detected differences are more likely to be real.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(Post_week8,Education,<span class="at">p.adj=</span><span class="st">'bonf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using t tests with pooled SD 
+
+data:  Post_week8 and Education 
+
+                                Bachelor degree Certificate (trade or business)
+Certificate (trade or business) 0.254           -                              
+Diploma or Associate degree     1.000           1.000                          
+High school (up to 4 years)     0.581           1.000                          
+High school (up to 6 years)     1.000           0.449                          
+Posgraduate degree              1.000           0.066                          
+Primary school                  1.000           1.000                          
+                                Diploma or Associate degree
+Certificate (trade or business) -                          
+Diploma or Associate degree     -                          
+High school (up to 4 years)     1.000                      
+High school (up to 6 years)     1.000                      
+Posgraduate degree              0.922                      
+Primary school                  1.000                      
+                                High school (up to 4 years)
+Certificate (trade or business) -                          
+Diploma or Associate degree     -                          
+High school (up to 4 years)     -                          
+High school (up to 6 years)     1.000                      
+Posgraduate degree              0.147                      
+Primary school                  1.000                      
+                                High school (up to 6 years) Posgraduate degree
+Certificate (trade or business) -                           -                 
+Diploma or Associate degree     -                           -                 
+High school (up to 4 years)     -                           -                 
+High school (up to 6 years)     -                           -                 
+Posgraduate degree              1.000                       -                 
+Primary school                  1.000                       1.000             
+
+P value adjustment method: bonferroni </code></pre>
+</div>
+</div>
+<p>Since there are seven education groups, the pairwise t-tests compare the mean post-week-8 BMI between each pair of education levels. This means we can look at differences such as Bachelor degree vs Certificate (trade or business), Bachelor degree vs Diploma or Associate degree, or High school (up to 4 years) vs Postgraduate degree, and so on. The table shows the p-values for each of these comparisons, adjusted using the Bonferroni method.</p>
+<p>The ANOVA showed a significant overall difference in post week 8 BMI between education groups (p = 0.019), meaning that at least one group had a different mean BMI compared to the others. However, when pairwise t tests were run with a Bonferroni adjustment, none of the individual group comparisons were statistically significant. This suggests that while there may be small differences in BMI across education levels overall, these differences are not strong enough between specific groups to remain significant once the stricter adjustment for multiple comparisons is applied.</p>
+<p>Finally, lets calculate some confidence intervals for each group. If two groups have confidence intervals that do not overlap, it suggests their mean BMI values are likely different. If the intervals overlap, we can’t say there is a clear difference between those groups.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate CIs for each group</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>mod.aov.ci <span class="ot">&lt;-</span> <span class="fu">lm</span>(Post_week8<span class="sc">~</span>Education<span class="dv">-1</span>, <span class="at">data =</span> living_well_aov)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>ci<span class="ot">&lt;-</span><span class="fu">confint</span>(mod.aov.ci)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>ci</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                            2.5 %   97.5 %
+EducationBachelor degree                 26.50376 29.39517
+EducationCertificate (trade or business) 29.11016 32.90466
+EducationDiploma or Associate degree     27.80344 31.40322
+EducationHigh school (up to 4 years)     28.76072 32.11754
+EducationHigh school (up to 6 years)     26.78538 29.64620
+EducationPosgraduate degree              24.81475 28.83942
+EducationPrimary school                  27.75092 30.51182</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate means for each group</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>mean_lw<span class="ot">&lt;-</span><span class="fu">aggregate</span>(Post_week8 <span class="sc">~</span> Education, <span class="at">data =</span> living_well_aov, <span class="at">FUN =</span> mean)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Add the means and CIs together in a dataframe to plot</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>values<span class="ot">&lt;-</span><span class="fu">cbind</span>(mean_lw,ci)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Rename the column headings and row headings</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(values)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"group"</span>,<span class="st">"mean"</span>, <span class="st">"lower"</span>,<span class="st">"upper"</span>)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(values)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>)</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            group     mean    lower    upper
+1                 Bachelor degree 27.94946 26.50376 29.39517
+2 Certificate (trade or business) 31.00741 29.11016 32.90466
+3     Diploma or Associate degree 29.60333 27.80344 31.40322
+4     High school (up to 4 years) 30.43913 28.76072 32.11754
+5     High school (up to 6 years) 28.21579 26.78538 29.64620
+6              Posgraduate degree 26.82708 24.81475 28.83942
+7                  Primary school 29.13137 27.75092 30.51182</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create errorbar plot</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>values, <span class="fu">aes</span>(<span class="at">x=</span>group, <span class="at">y=</span>mean))<span class="sc">+</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>lower, <span class="at">ymax=</span>upper), <span class="at">linewidth=</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="st">"green3"</span>)<span class="sc">+</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"darkgreen"</span>)<span class="sc">+</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"BMI (mean+CIs)"</span>) <span class="sc">+</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Because these intervals overlap, it suggests that the mean post-week-8 BMI values are quite similar across education groups. There isn’t clear separation between any of the groups, which means we can’t say any one education group’s mean BMI is significantly different from the others based on these confidence intervals.</p>
+<p>Therefore, the ANOVA indicated a significant overall difference in post week 8 BMI across education levels (p = 0.019), so the null hypothesis of equal means was rejected. However, post hoc tests and confidence intervals showed that no specific group comparisons were significant, suggesting that while some variation exists across education levels, the differences are small.</p>
 
 
 </section>

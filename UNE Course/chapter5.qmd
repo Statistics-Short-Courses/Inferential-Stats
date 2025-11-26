@@ -8,7 +8,7 @@ title: "Paired t-test and ANOVA"
 
 # Paired t-test
 
-The next data set we will be using is the [Respiratory Disease hospitalisations](https://www.healthstats.nsw.gov.au/indicator?name=-res-cat-hos&location=NSW&view=Table&measure=DSTRate&confidence=true&groups=Period,Disease%20type,Sex,Remoteness%20category&compare=Disease%20type,Sex,Period,Remoteness%20category&filter=Sex,Males,Females&filter=Disease%20type,Asthma&filter=Period,01/02,05/06,07/08,06/07,02/03,18/19,04/05,09/10,20/21,19/20,03/04,16/17,17/18,08/09,15/16,10/11,11/12,12/13,13/14,14/15,21/22&filter=Remoteness%20category,NSW) dataset provided by HealthStats NSW. You will want to ensure that you only have "Asthma" under Disease Type and "Males" and "Females" under Sex, and "NSW" for Remoteness Category selected. You can then select the Download Icon in the bottom right corner of the graph, and then select "Download Data as CSV".
+The next dataset we will be using comes from the Living Well Multicultural – Lifestyle Modification Program. This file contains paired pre- and post-intervention measurements for adults who participated in the program between 2014 and 2017.
 
 You can then save the file in your Datasets folder in your InferentialStats project folder that you created in the Introduction. You can give it a new name so that it is easier to call into R Studio.
 
@@ -19,69 +19,159 @@ Once you’ve saved the file, you can load the dataset into R by typing:
 ```{r, message = FALSE}
 library(ggplot2) 
 library(tidyverse)  
-asthma <- read.csv("Data sets/respiratory_disease.csv", 
-                   skip = 1) 
+living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE) 
 ```
 
 We can take a look at the data to ensure it has been loaded in correctly.
 
 ```{r}
-str(asthma)
+str(living_well)
 ```
 
-1.  How many categorical variables are there? `r fitb(4)`
-2.  How many numerical variables are there? `r fitb(1)`
-3.  How many observations are there? `r fitb(74)`
-
-If you open the data set, you may notice there are "Sources", "Notes", and "Coding" underneath the dataset. This can be problematic when we try to analyse the data. To avoid this, we can take a "subset" of the data - in other words, we are dropping these unnecessary rows we don't need. We will also need to convert it to wide format to compare the paired data.
+1.  How many variables are there? `r fitb(100)`
+2.  How many observations are there? `r fitb(1112)`
 
 ```{r}
-clean_asthma <- subset(asthma, Sex %in% c("Males", "Females")) 
+unique(living_well$Time)
+```
 
-clean_asthma <- clean_asthma %>% 
-  select(Period, Sex, Number) %>% 
-  mutate(Number = as.numeric(gsub(",", "", Number))) %>%
-  pivot_wider(names_from = Sex, values_from = Number)
+If we look at the `Time` variable, we can see that there are two levels: `Baseline` and `Post week8`. We also have an `ID` variable, which indicates that we have a repeated measurement for the baseline and post week 8 measurements. As we have one row for each measurement, this means our data is in **long format**. Another way to think about long format is that the same participant appears multiple times in the data set.
+
+To be able to perform a paired t-test to compare the pre- and post-measurements, we need to convert the data to **wide format**. This means that we want one row per participant, with separate columns for each time point, such as a pre value and post value in the same row.
+
+You may notice that there are many rows that have observations recorded as `999`. At times, `999` is used as a placeholder for `NA`.
+
+```{r}
+living_well_wide <- pivot_wider(
+  living_well,
+  id_cols = ID,               
+  names_from = Time,          
+  values_from = BMI           
+)
+```
+
+You can see an error appears when we try to convert the data. This is telling us there are duplicates for the ID beyond the two that we are expecting. Let's try using the code provided in the warning to see what's going on.
+
+```{r}
+living_well |>
+  dplyr::summarise(n = dplyr::n(), .by = c(ID, Time)) |>
+  dplyr::filter(n > 1L)
+```
+
+There are four IDs that have two baseline measurements and two post week8 measurements. Let's investigate these rows closer.
+
+```{r}
+living_well[living_well$ID == "PIR201181", c("ID",
+                                             "Time", 
+                                             "BMI", 
+                                             "Weight") ]
 ```
 
 ```{r}
+living_well[living_well$ID == "ABD 010187", c("ID",
+                                             "Time", 
+                                             "BMI", 
+                                             "Weight") ]
 
-attach(clean_asthma)
 ```
+
+This confirms what we expected - that there are four measurements per ID, when we were expecting two. This was likely a data entry error, which can happen in real world datasets. It is impossible to tell which pre- and post-measurements match each other, so the safest option is to drop these observations. As we have 1112 observations, this shouldn't impact our analysis too much.
+
+```{r}
+bad_ID <- living_well |>
+  dplyr::summarise(n = dplyr::n(), .by = c(ID, Time)) |>
+  dplyr::filter(n > 1L) %>%
+  distinct(ID)
+
+living_well_clean <- living_well %>%
+  filter(!ID %in% bad_ID$ID)
+```
+
+Let's try convert our data to wide format again.
+
+```{r}
+living_well_wide <- pivot_wider(
+  living_well_clean,
+  id_cols = ID,               
+  names_from = Time,          
+  values_from = BMI,
+  names_glue = "{str_replace_all(Time, ' ', '_')}"
+)
+```
+
+No warning this time! That's a good sign our method worked. Let's take a look at our dataset now.
+
+```{r}
+str(living_well_wide)
+```
+
+1.  How many variables are there? `r fitb(3)`
+2.  How many observations are there? `r fitb(552)`
+
+Remember, we have 552 observations now because we combined the pre- and post-measurements into one row. We started with 1112, removed 8, and then combined the two measurements which results in 552.
+
+Now we can check if there are any 999 values and drop them.
+
+```{r}
+any(living_well_wide$Baseline == 999, na.rm = TRUE)
+any(living_well_wide$Post_week8== 999, na.rm = TRUE)
+```
+
+As we have TRUE for both variables, we can convert the 999 to NA and then remove.
+
+```{r}
+living_well_wide <- living_well_wide %>%
+  mutate(
+    Baseline = na_if(Baseline, 999),
+    Post_week8 = na_if(Post_week8, 999)
+  ) %>%
+  drop_na(Baseline, Post_week8)
+
+any(living_well_wide$Baseline == 999, na.rm = TRUE)
+any(living_well_wide$Post_week8== 999, na.rm = TRUE)
+```
+
+We have officially cleaned our data! We can now get into our statistical analysis.
 
 ### Write Hypotheses
 
-The dataset includes the number of asthma hospitalisations for males and females for each year from 2001 to 2022. Although the data span a long period, we are not analysing trends over time in this task. Time needs to be handled carefully in statistics because consecutive years are usually correlated, which means they are not fully independent. However, each male value has a corresponding female value for the same year, so the two observations form a natural pair. This allows us to compare males and females within each year and then look at whether these yearly differences are consistently above or below zero across the 21-year period.
+Because we are keeping the dataset simple, a natural research question is whether there is a significant difference
 
-Because we are keeping the dataset simple, a natural research question is whether there is a difference in the average number of asthma hospitalisations between males and females across these paired yearly observations.
+$H_0:$ For participants in the Living Well Multicultural – Lifestyle Modification Program, the mean BMI after the program is not significantly different than the mean BMI before the program.
 
-$H_0:$ On average, there is no difference in the number of asthma hospitalisations between males and females across the 21 years.
-
-$H_A:$ On average, there is asignificant difference in the number of asthma hospitalisations between males and females across the 21 years.
+$H_A:$ For participants in the Living Well Multicultural – Lifestyle Modification Program, the mean BMI after the program is significantly lower than the mean BMI before the program.
 
 We can express this in mathematical notation:
 
 $H_0:$ $\mu_{diff}=0$
 
-$H_A:$ $\mu_{diff} \neq 0$
+$H_A:$ $\mu_{diff} > 0$
 
-What we need to calculate the difference between the hospitalisations for male and females. We can do that with:
+where $diff = BMI_{Baseline} - BMI_{Post Week 8}$. Now we need to calculate the difference between the baseline BMI and Post Week 8 BMI . We can do that with:
 
 ```{r}
-clean_asthma$diff <- (clean_asthma$Males - clean_asthma$Females)
-clean_asthma$diff
+living_well_wide$diff <- (living_well_wide$Baseline - living_well_wide$Post_week8)
+
+living_well_wide$diff
+```
+
+We can attach the data set.
+
+```{r}
+attach(living_well_wide)
 ```
 
 We can check for skewness and normality.
 
 ```{r}
-ggplot(data=clean_asthma, aes(y=diff, x=""))+
+ggplot(data=living_well_wide, aes(y=diff, x=""))+
   geom_boxplot(fill="mistyrose", col="pink4")+
   theme_bw()
 ```
 
 ```{r}
-ggplot(data=clean_asthma, aes(sample=diff))+
+ggplot(data=living_well_wide, aes(sample=diff))+
   geom_qq(col="navyblue")+
   geom_qq_line(col="steelblue")+
   labs(x="Theoretical quantiles", y="Sample quantiles")+
@@ -91,11 +181,202 @@ ggplot(data=clean_asthma, aes(sample=diff))+
 We can now run our t-test:
 
 ```{r}
-t.test(Females, Males, paired = TRUE) 
+t.test(Baseline, Post_week8, paired = TRUE, alternative = "greater") 
 ```
 
-The p-value ($t_{20}=0.85326, p=0.4036$) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in mean hospitalisations for asthma between males and females.
+The p-value ($t_{548}=9.09, p=2.2*10^{-16}$) is much less than the 5% significance level (p\<0.05). We used `greater` because our hypothesis was that BMI would go down after the program. The t test calculates the difference as baseline minus post week 8, so if BMI really decreased, that difference would be positive. Using greater than tells R to test whether the average of those differences is greater than zero, meaning baseline values were higher than post week 8 values.
 
-With 95% confidence, there are between 104 fewer hospitalisations to 248 more hospitalisations in females compared to males. Because this interval includes zero, the data do not support a real difference between the sexes. **Note that if 0 was [NOT]{.underline} in the confidence interval, this would suggest a significant difference**.
+Therefore, the mean BMI after the program is significantly lower than the mean BMI before the program.
+
+Let's generate a two-sided paired t-test to get the confidence interval.
+
+```{r}
+t.test(Baseline, Post_week8, paired = TRUE) 
+```
+
+With 95% confidence, there ia mean BMI difference of 0.22 and 0.34 BMI Because this interval includes zero, the data supports a real difference before and after the program. **Note that if 0 was [IN]{.underline} in the confidence interval, this would suggest there is [not]{.underline} a significant difference**.
+
+```{r}
+detach(living_well_wide)
+```
 
 # ANOVA
+
+For the second part of this lesson, we are going to explore ANOVA.
+
+We want to do ANOVA when we are comparing three or more groups (or categories) against a continuous response variable.
+
+We can continue on with our `living_well` dataset, but instead refocus our research question and restructure the dataset accordingly.
+
+An example of a research question we might ask with ANOVA is whether education level impacts post program BMI.
+
+Let's rewrite our hypotheses.
+
+$H_0:$ There is no difference in mean BMI at post week 8 between education groups in the Living Well Multicultural – Lifestyle Modification Program.
+
+$H_A:$ At least one education group has a different mean BMI at post week 8.
+
+We can express this in mathematical notation:
+
+$H_0:$ $\mu_1=\mu_2=\mu_3=...=\mu_7$
+
+$H_A:$ At least one $\mu_i$ is different.
+
+Let's tidy up the data.
+
+```{r}
+living_well_aov <- living_well_clean %>%
+  pivot_wider(
+    id_cols = c(ID, Education),
+    names_from = Time,
+    values_from = BMI,
+    names_glue = "{str_replace_all(Time, ' ', '_')}"
+  )
+```
+
+Let's be sure to remove any `999` values. How can we do this?
+
+`r hide("I need a hint")`
+
+```{r}
+
+living_well_aov <- living_well_aov %>%
+  mutate(Education = factor(replace(Education, Education == "999", NA))) %>%
+  mutate(
+    Baseline = na_if(Baseline, 999),
+    Post_week8 = na_if(Post_week8, 999)
+  ) %>%
+  drop_na(Baseline, Post_week8, Education)
+
+```
+
+Remember, because `Education` is a categorical variable, `999` will be stored as a string rather than a numerical variable.
+
+```{r}
+str(living_well_aov)
+attach(living_well_aov)
+```
+
+`r unhide()`
+
+For a one-way ANOVA we need to check
+
+-   Independence
+
+-   Normality of the response variable for each population.
+
+-   All populations have the same standard deviation.
+
+To determine these:
+
+-   We typically assume independence, as long as e.g., a random sample has been collected and each observation is a unique case/subject/participant.
+
+-   We can determine normality by considering side-by-side boxplots, or a quantile-quantile plot.
+
+-   We can compute the standard deviation for each group using `aggregate()` like we tried last week. A rule of thumb is that we are likely safe if the largest standard deviation is less than double the smallest standard deviation.
+
+```{r}
+ggplot(living_well_aov, aes(x=Education, y=Post_week8))+
+  geom_boxplot(fill = c("cadetblue1",
+                        "aquamarine2",
+                        "steelblue1",
+                        "cyan2",
+                        "dodgerblue1",
+                        "deepskyblue1",
+                        "slateblue1"))+
+  theme_bw() +   
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+```{r}
+ggplot(data=living_well_aov, aes(sample=Post_week8))+
+  geom_qq()+
+  geom_qq_line()+
+  theme_bw()+
+  facet_wrap(~Education)
+```
+
+```{r}
+aggregate(Post_week8~Education, FUN=sd)
+```
+
+```{r}
+aggregate(Post_week8~Education, FUN=length)
+```
+
+Based on these outputs, do you think the necessary conditions for our one-way ANOVA are met?
+
+`r hide("I need a hint")`
+
+Each individual is unique and only sampled randomly once, so independence is met.
+
+The scatter in the q-q plot is reasonably straight and the boxplots are reasonably symmetrical about the median, so a normal distribution is met.
+
+```{r}
+4.55/8.74
+```
+
+$4.55/8.74 = 0.52 < 2$
+
+The largest standard deviation is less than twice that of the smallest, so constant variance is met.
+
+`r unhide()`
+
+We can now run an ANOVA on the data. Note these are two lines of code and thus need to be run one after the other.
+
+```{r}
+mod.aov <- lm(Post_week8~Education, data = living_well_aov)
+anova(mod.aov)
+```
+
+The key values we can see are the F statistic, and the p-value that is associated with that. Given that our p-value is less than 0.05, we have evidence to reject the null hypothesis.
+
+In regards to our research question we can say that:
+
+**There is a significant difference in mean BMI for at least some education levels.**
+
+We need to carefully check for differences between each group (correcting for multiple comparisons) to determine what is happening. To do this we can use a pairwise t-test with a Bonferroni correction. We use the Bonferroni adjustment because multiple pairwise comparisons increase the chance of finding a significant result just by chance. The adjustment makes the significance threshold more conservative, helping to control the overall Type I error rate (i.e. false positives) so that any detected differences are more likely to be real.
+
+```{r}
+pairwise.t.test(Post_week8,Education,p.adj='bonf')
+```
+
+Since there are seven education groups, the pairwise t-tests compare the mean post-week-8 BMI between each pair of education levels. This means we can look at differences such as Bachelor degree vs Certificate (trade or business), Bachelor degree vs Diploma or Associate degree, or High school (up to 4 years) vs Postgraduate degree, and so on. The table shows the p-values for each of these comparisons, adjusted using the Bonferroni method.
+
+The ANOVA showed a significant overall difference in post week 8 BMI between education groups (p = 0.019), meaning that at least one group had a different mean BMI compared to the others. However, when pairwise t tests were run with a Bonferroni adjustment, none of the individual group comparisons were statistically significant. This suggests that while there may be small differences in BMI across education levels overall, these differences are not strong enough between specific groups to remain significant once the stricter adjustment for multiple comparisons is applied.
+
+Finally, lets calculate some confidence intervals for each group. If two groups have confidence intervals that do not overlap, it suggests their mean BMI values are likely different. If the intervals overlap, we can’t say there is a clear difference between those groups.
+
+```{r}
+#Calculate CIs for each group
+mod.aov.ci <- lm(Post_week8~Education-1, data = living_well_aov)
+ci<-confint(mod.aov.ci)
+ci
+```
+
+```{r}
+#Calculate means for each group
+mean_lw<-aggregate(Post_week8 ~ Education, data = living_well_aov, FUN = mean)
+#Add the means and CIs together in a dataframe to plot
+values<-cbind(mean_lw,ci)
+#Rename the column headings and row headings
+colnames(values)<-c("group","mean", "lower","upper")
+rownames(values)<-c(1, 2, 3, 4, 5, 6, 7)
+values
+```
+
+```{r}
+#create errorbar plot
+ggplot(data=values, aes(x=group, y=mean))+
+  geom_errorbar(aes(ymin=lower, ymax=upper), linewidth=1.5, col="green3")+
+  geom_point(size=2, col="darkgreen")+
+  theme_bw()+
+  labs(y="BMI (mean+CIs)") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+
+```
+
+Because these intervals overlap, it suggests that the mean post-week-8 BMI values are quite similar across education groups. There isn’t clear separation between any of the groups, which means we can’t say any one education group’s mean BMI is significantly different from the others based on these confidence intervals.
+
+Therefore, the ANOVA indicated a significant overall difference in post week 8 BMI across education levels (p = 0.019), so the null hypothesis of equal means was rejected. However, post hoc tests and confidence intervals showed that no specific group comparisons were significant, suggesting that while some variation exists across education levels, the differences are small.
