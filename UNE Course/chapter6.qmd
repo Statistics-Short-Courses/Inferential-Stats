@@ -8,19 +8,142 @@ When you are comparing two categorical variables, this is called a **chi-square 
 
 When you are comparing one categorical variable with specific proportions, this is called a **chi-square goodness of fit test**.
 
-# Chi-square Goodness of Fit Test 
+# Chi-square Goodness of Fit Test - Different Proportions
 
-`living_well`
+For our Chi-square Goodness of Fit Test, we can refer back to the `living_well` dataset we utilised in the previous chapter. Recall that baseline data was collected between October 2014 and June 2017 from the Living Well Multicultural—Lifestyle Modification Program. People living in ethnic communities in Queensland who were ≥18 years old, and not underweight were eligible to participate. The Living Well Multicultural–Lifestyle Modification Program is a tailored healthy lifestyle program.
 
-<https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity>
+According to the [Australian Institute of Health and Welfare](https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity), the distribution of BMI for females aged 18 and over as of 2022 are:
 
-<https://www.abs.gov.au/statistics/health/health-conditions-and-risks/hypertension-and-high-measured-blood-pressure/latest-release>
+-   2.23% underweight
+
+-   36% normal weight
+
+-   29.6% overweight
+
+-   17.4% obese (class 1)
+
+-   8% obese (class 2)
+
+-   5.4% obese (class 3)
+
+As we are given BMI and weight class for each individual, a potential research question we can ask is whether the participation in the Living Well Multicultural Program lead to a post-program BMI distribution that differs from the national BMI distribution of adult Australian females as reported by the AIHW (2022).
+
+We can combine Obese class 1, 2, and 3 as we don't differentiate between these classes in our dataset. This gives us 30.8%. Underweight individuals were not allowed to participate in the program, so we can ignore this for now. As we do not have an underweight class in our dataset (as underweight individuals were ineligible to participate), we can filter this out of the dataset.
+
+### Step 1: Hypotheses
+
+We can create our hypotheses:
+
+$H_0:$ The distribution of BMI categories (normal weight, overweight, obese) among female participants in the Living Well Multicultural Program after completing the program matches the national distribution of adult Australian females (normal = 0.36, overweight = 0.296, obese = 0.308).
+
+$H_A$: The distribution of BMI categories among female participants after the program differs from the national distribution.
+
+Mathematically, we can write the null hypothesis as:
+
+$H_0: p_{normal}=0.36$ , $p_{overweight}=0.296$ , $p_{obese}=0.308$
+
+We can't write $H_A$ as an equation, but note that it means at least one proportion is different to these null proportions.
+
+### Step 2: Conditions
+
+We require *independence*, and sufficient *sample size*.
+
+-   We will assume that random sampling was used and thus the observations are independent
+
+-   Sample size: As long as the expected values for each count are greater than 5 we're okay. As we're looking at different proportions for this question you'll need to take this into account. *Note - We'll come back to this in a few minutes!*
+
+### Step 3: Run the test
+
+We can now load in the dataset. Take a moment to attempt this step yourself by loading the data and the appropriate packages.
+
+```{r, message = FALSE}
+library(ggplot2) 
+library(tidyverse)  
+living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE) 
+```
+
+How can we filter the data to represent the relevant time we are interested in (baseline vs post week 8) and females? You can also select the variables we are interested in.
 
 ```{r}
+post_only <- living_well |>
+  filter(
+    Time == "Post week8",
+    Gender == "Female") %>%
+  select(ID, BMI, BMI_cate1, BMI_cate2)
 
 ```
 
-# Chi-square Test of Independence 
+We can now drop any NA values in the relevant columns. How can we do this?
+
+```{r}
+post_only <- post_only %>%
+  mutate(
+    BMI_cate1 = na_if(BMI_cate1, "999"),
+    BMI_cate2 = na_if(BMI_cate2, "999")
+  ) %>%
+  drop_na(BMI_cate1, BMI_cate2) %>%
+  droplevels()
+```
+
+Next, we create a table of observed counts for each BMI category in the dataset and relevel the factor so that the category order matches the order of the expected proportions.
+
+```{r}
+counts <- table(factor(
+  post_only$BMI_cate1,
+  levels = c("Normal weight", "Overweight", "Obese")
+))
+counts
+```
+
+We now need to ensure that the expected proportions are in the same order as the BMI category levels in our dataset.
+
+Because the underweight category was removed, the remaining national proportions no longer sum to 1. To address this, we simply normalise them by dividing each proportion by the total of the three raw proportions. **(If your proportions already sum to 1, this step is not required.)**
+
+```{r}
+raw <- c(Normal = 0.36, Overweight = 0.296, Obese = 0.308)
+prop <- raw / sum(raw)
+prop
+
+```
+
+We can now run the chi-square goodness of fit test.
+
+```{r}
+ChiT <- chisq.test(counts, p = prop)
+ChiT
+
+```
+
+Our output ($\chi^2 =24.296$, $df=2$, $p = 5.299*10^{-6}$) provides us with enough evidence to reject the null hypothesis and conclude that the BMI distribution of female participants after completing the program is different from the stated distribution.
+
+A couple of notes:
+
+-   We are able to make this conclusion as the p-value is less than 0.05
+
+-   The df (degrees of freedom) in this case is calculated as the number of categories minus 1. Given that there are three different BMI categories that are being examined the df = 3 - 1 = 2.
+
+-   RStudio can calculate the expected counts for you:
+
+```{r}
+ChiT$expected
+```
+
+As the expected counts are much greater than 5, this tells us that the conditions for the chi-square goodness of fit test has been satisfied.
+
+If you were interested in which BMI categories contributed to the significant result you could use:
+
+```{r}
+ChiT$stdres
+```
+
+This command will calculate standardised residual values for each category.
+
+As a rule of thumb, a standard residual value greater than 2 indicates that counts for that given category were higher than would be expected if the given proportions being tested was true.
+
+A standard residual value less than -2 indicates that counts for that given category were lower than would be expected if the given proportions being tested was true.
+
+# Chi-square Test of Independence
 
 Let's go back to our ECEC dataset from Chapter 4.
 
