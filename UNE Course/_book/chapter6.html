@@ -103,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="include/webex.css">
 </head>
@@ -211,8 +240,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#chi-square-goodness-of-fit-test" id="toc-chi-square-goodness-of-fit-test" class="nav-link active" data-scroll-target="#chi-square-goodness-of-fit-test"><span class="header-section-number">8</span> Chi-square Goodness of Fit Test</a></li>
-  <li><a href="#chi-square-test-of-independence" id="toc-chi-square-test-of-independence" class="nav-link" data-scroll-target="#chi-square-test-of-independence"><span class="header-section-number">9</span> Chi-square Test of Independence</a></li>
+  <li><a href="#chi-square-goodness-of-fit-test---different-proportions" id="toc-chi-square-goodness-of-fit-test---different-proportions" class="nav-link active" data-scroll-target="#chi-square-goodness-of-fit-test---different-proportions"><span class="header-section-number">8</span> Chi-square Goodness of Fit Test - Different Proportions</a>
+  <ul class="collapse">
+  <li><a href="#step-1-hypotheses" id="toc-step-1-hypotheses" class="nav-link" data-scroll-target="#step-1-hypotheses"><span class="header-section-number">8.0.1</span> Step 1: Hypotheses</a></li>
+  <li><a href="#step-2-conditions" id="toc-step-2-conditions" class="nav-link" data-scroll-target="#step-2-conditions"><span class="header-section-number">8.0.2</span> Step 2: Conditions</a></li>
+  <li><a href="#step-3-run-the-test" id="toc-step-3-run-the-test" class="nav-link" data-scroll-target="#step-3-run-the-test"><span class="header-section-number">8.0.3</span> Step 3: Run the test</a></li>
+  </ul></li>
+  <li><a href="#chi-square-test-of-independence" id="toc-chi-square-test-of-independence" class="nav-link" data-scroll-target="#chi-square-test-of-independence"><span class="header-section-number">9</span> Chi-square Test of Independence</a>
+  <ul class="collapse">
+  <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses"><span class="header-section-number">9.0.1</span> 1. Hypotheses</a></li>
+  <li><a href="#conditions" id="toc-conditions" class="nav-link" data-scroll-target="#conditions"><span class="header-section-number">9.0.2</span> 2. Conditions</a></li>
+  <li><a href="#run-the-test" id="toc-run-the-test" class="nav-link" data-scroll-target="#run-the-test"><span class="header-section-number">9.0.3</span> 3. Run the test</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -241,101 +280,229 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Our last set of statistical analysis tests are&nbsp;<strong>chi-square tests</strong>. These tests are looking at association patterns between either two categorical variables or one categorical variable with specific proportions.&nbsp;</p>
 <p>When you are comparing two categorical variables, this is called a <strong>chi-square test of independence</strong>.</p>
 <p>When you are comparing one categorical variable with specific proportions, this is called a <strong>chi-square goodness of fit test</strong>.</p>
-<section id="chi-square-goodness-of-fit-test" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Chi-square Goodness of Fit Test</h1>
-<p><code>living_well</code></p>
-<p><a href="https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity" class="uri">https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity</a></p>
-<p><a href="https://www.abs.gov.au/statistics/health/health-conditions-and-risks/hypertension-and-high-measured-blood-pressure/latest-release" class="uri">https://www.abs.gov.au/statistics/health/health-conditions-and-risks/hypertension-and-high-measured-blood-pressure/latest-release</a></p>
+<section id="chi-square-goodness-of-fit-test---different-proportions" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Chi-square Goodness of Fit Test - Different Proportions</h1>
+<p>For our Chi-square Goodness of Fit Test, we can refer back to the <code>living_well</code> dataset we utilised in the previous chapter. Recall that baseline data was collected between October 2014 and June 2017 from the Living Well Multicultural—Lifestyle Modification Program. People living in ethnic communities in Queensland who were ≥18 years old, and not underweight were eligible to participate. The Living Well Multicultural–Lifestyle Modification Program is a tailored healthy lifestyle program.</p>
+<p>According to the <a href="https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity">Australian Institute of Health and Welfare</a>, the distribution of BMI for females aged 18 and over as of 2022 are:</p>
+<ul>
+<li><p>2.23% underweight</p></li>
+<li><p>36% normal weight</p></li>
+<li><p>29.6% overweight</p></li>
+<li><p>17.4% obese (class 1)</p></li>
+<li><p>8% obese (class 2)</p></li>
+<li><p>5.4% obese (class 3)</p></li>
+</ul>
+<p>As we are given BMI and weight class for each individual, a potential research question we can ask is whether the participation in the Living Well Multicultural Program lead to a post-program BMI distribution that differs from the national BMI distribution of adult Australian females as reported by the AIHW (2022).</p>
+<p>We can combine Obese class 1, 2, and 3 as we don’t differentiate between these classes in our dataset. This gives us 30.8%. Underweight individuals were not allowed to participate in the program, so we can ignore this for now. As we do not have an underweight class in our dataset (as underweight individuals were ineligible to participate), we can filter this out of the dataset.</p>
+<section id="step-1-hypotheses" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="step-1-hypotheses"><span class="header-section-number">8.0.1</span> Step 1: Hypotheses</h3>
+<p>We can create our hypotheses:</p>
+<p><span class="math inline">\(H_0:\)</span> The distribution of BMI categories (normal weight, overweight, obese) among female participants in the Living Well Multicultural Program after completing the program matches the national distribution of adult Australian females (normal = 0.36, overweight = 0.296, obese = 0.308).</p>
+<p><span class="math inline">\(H_A\)</span>: The distribution of BMI categories among female participants after the program differs from the national distribution.</p>
+<p>Mathematically, we can write the null hypothesis as:</p>
+<p><span class="math inline">\(H_0: p_{normal}=0.36\)</span> , <span class="math inline">\(p_{overweight}=0.296\)</span> , <span class="math inline">\(p_{obese}=0.308\)</span></p>
+<p>We can’t write&nbsp;<span class="math inline">\(H_A\)</span>&nbsp;as an equation, but note that it means at least one proportion is different to these null proportions.</p>
+</section>
+<section id="step-2-conditions" class="level3" data-number="8.0.2">
+<h3 data-number="8.0.2" class="anchored" data-anchor-id="step-2-conditions"><span class="header-section-number">8.0.2</span> Step 2: Conditions</h3>
+<p>We require <em>independence</em>, and sufficient <em>sample size</em>.</p>
+<ul>
+<li><p>We will assume that random sampling was used and thus the observations are independent</p></li>
+<li><p>Sample size: As long as the expected values for each count are greater than 5 we’re okay. As we’re looking at different proportions for this question you’ll need to take this into account. <em>Note - We’ll come back to this in a few minutes!</em></p></li>
+</ul>
+</section>
+<section id="step-3-run-the-test" class="level3" data-number="8.0.3">
+<h3 data-number="8.0.3" class="anchored" data-anchor-id="step-3-run-the-test"><span class="header-section-number">8.0.3</span> Step 3: Run the test</h3>
+<p>We can now load in the dataset. Take a moment to attempt this step yourself by loading the data and the appropriate packages.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>living_well <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/Cleaned_data_pre_post.csv"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>How can we filter the data to represent the relevant time we are interested in (baseline vs post week 8) and females? You can also select the variables we are interested in.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>post_only <span class="ot">&lt;-</span> living_well <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    Time <span class="sc">==</span> <span class="st">"Post week8"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    Gender <span class="sc">==</span> <span class="st">"Female"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ID, BMI, BMI_cate1, BMI_cate2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now drop any NA values in the relevant columns. How can we do this?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>post_only <span class="ot">&lt;-</span> post_only <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">BMI_cate1 =</span> <span class="fu">na_if</span>(BMI_cate1, <span class="st">"999"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">BMI_cate2 =</span> <span class="fu">na_if</span>(BMI_cate2, <span class="st">"999"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(BMI_cate1, BMI_cate2) <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">droplevels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we create a table of observed counts for each BMI category in the dataset and relevel the factor so that the category order matches the order of the expected proportions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">factor</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  post_only<span class="sc">$</span>BMI_cate1,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Normal weight"</span>, <span class="st">"Overweight"</span>, <span class="st">"Obese"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Normal weight    Overweight         Obese 
+          101           132           159 </code></pre>
+</div>
+</div>
+<p>We now need to ensure that the expected proportions are in the same order as the BMI category levels in our dataset.</p>
+<p>Because the underweight category was removed, the remaining national proportions no longer sum to 1. To address this, we simply normalise them by dividing each proportion by the total of the three raw proportions. <strong>(If your proportions already sum to 1, this step is not required.)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>raw <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Normal =</span> <span class="fl">0.36</span>, <span class="at">Overweight =</span> <span class="fl">0.296</span>, <span class="at">Obese =</span> <span class="fl">0.308</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>prop <span class="ot">&lt;-</span> raw <span class="sc">/</span> <span class="fu">sum</span>(raw)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>prop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Normal Overweight      Obese 
+ 0.3734440  0.3070539  0.3195021 </code></pre>
+</div>
+</div>
+<p>We can now run the chi-square goodness of fit test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ChiT <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(counts, <span class="at">p =</span> prop)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ChiT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  counts
+X-squared = 24.296, df = 2, p-value = 5.299e-06</code></pre>
+</div>
+</div>
+<p>Our output&nbsp;(<span class="math inline">\(\chi^2 =24.296\)</span>, <span class="math inline">\(df=2\)</span>, <span class="math inline">\(p = 5.299*10^{-6}\)</span>) provides us with enough evidence to reject the null hypothesis and conclude that the BMI distribution of female participants after completing the program is different from the stated distribution.</p>
+<p>A couple of notes:</p>
+<ul>
+<li><p>We are able to make this conclusion as the p-value is less than 0.05</p></li>
+<li><p>The df (degrees of freedom) in this case is calculated as the number of categories minus 1. Given that there are three different BMI categories that are being examined the df = 3 - 1 = 2.</p></li>
+<li><p>RStudio can calculate the expected counts for you:</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ChiT<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Normal weight    Overweight         Obese 
+     146.3900      120.3651      125.2448 </code></pre>
+</div>
+</div>
+<p>As the expected counts are much greater than 5, this tells us that the conditions for the chi-square goodness of fit test has been satisfied.</p>
+<p>If you were interested in which BMI categories contributed to the significant result you could use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ChiT<span class="sc">$</span>stdres</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Normal weight    Overweight         Obese 
+    -4.739416      1.273975      3.656346 </code></pre>
+</div>
+</div>
+<p>This command will calculate standardised residual values for each category.</p>
+<p>As a rule of thumb, a standard residual value greater than 2 indicates that counts for that given category were higher than would be expected if the given proportions being tested was true.</p>
+<p>A standard residual value less than -2 indicates that counts for that given category were lower than would be expected if the given proportions being tested was true.</p>
+</section>
 </section>
 <section id="chi-square-test-of-independence" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Chi-square Test of Independence</h1>
-<p>Let’s go back to our ECEC dataset from Chapter 4.</p>
+<p>We will return to the 2023 Early Childhood Education and Care (ECEC) survey, which we first examined when learning about t-tests. This survey gathered responses from roughly 2,000 NSW parents and carers during January and February 2023, and aimed to understand which policy options families value most and what barriers influence their access to early childhood education and care.<br>
+</p>
+<p>Begin by loading the dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ecec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/ecec-survey-2023.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ecec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data sets/ecec-survey-2023.csv"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Is the distribution of income categories the same for different gender groups?</p>
+<p>A possible research question is: <em>Does the distribution of income categories differ between male and female carers?</em></p>
+<section id="hypotheses" class="level3" data-number="9.0.1">
+<h3 data-number="9.0.1" class="anchored" data-anchor-id="hypotheses"><span class="header-section-number">9.0.1</span> 1. Hypotheses</h3>
+<p><span class="math inline">\(H_0:\)</span> Gender and income level for carers across NSW is independent.</p>
+<p><span class="math inline">\(H_A:\)</span> Gender and income level for carers across NSW are associated.</p>
+<p><em>(we typically wouldn’t write these hypotheses as equations)</em></p>
+</section>
+<section id="conditions" class="level3" data-number="9.0.2">
+<h3 data-number="9.0.2" class="anchored" data-anchor-id="conditions"><span class="header-section-number">9.0.2</span> 2. Conditions</h3>
+<ul>
+<li><p>independence</p></li>
+<li><p>expected count greater than 5</p></li>
+</ul>
+<p>Try cleaning the dataset yourself. Filter the variables you need, rename any that will make the analysis clearer, and drop any unused factor levels.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ecec_chi <span class="ot">&lt;-</span> ecec <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Gender =</span> SQ1,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Annual_Income =</span> D13</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Gender, Annual_Income) <span class="sc">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Gender, Annual_Income) <span class="sc">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(Gender, Annual_Income), as.factor))<span class="sc">%&gt;%</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Annual_Income <span class="sc">!=</span> <span class="st">"Prefer not to answer"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">droplevels</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ecec_chi <span class="ot">&lt;-</span> ecec <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Gender =</span> SQ1,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Annual_Income =</span> D13</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Gender, Annual_Income) <span class="sc">%&gt;%</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Gender, Annual_Income) <span class="sc">%&gt;%</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Annual_Income <span class="sc">!=</span> <span class="st">"Prefer not to answer"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">droplevels</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_chi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ecec_chi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   1924 obs. of  2 variables:
  $ Gender       : Factor w/ 2 levels "Female","Male": 2 2 1 1 1 2 1 2 2 1 ...
  $ Annual_Income: Factor w/ 14 levels "$1 - $19,999 per year ($1 - $379 per week)",..: 5 2 3 2 2 13 5 4 2 4 ...</code></pre>
 </div>
 </div>
+<p>We can use a mosaic plot to visualise the relative proportions across groups. Because some of the labels are quite long, renaming them to more concise terms will help improve the readability of the plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ecec_chi3 <span class="ot">&lt;-</span> ecec_chi <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Income_Group =</span> <span class="fu">fct_collapse</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    Annual_Income,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Zero/Neg</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Negative or Zero Income"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">&lt;50k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$1 - $19,999 per year ($1 - $379 per week)"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">"$20,000 - $29,999 per year ($380 - $579 per week)"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">"$30,000 - $39,999 per year ($580 - $769 per week)"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">"$40,000 - $49,999 per year ($770 - $959 per week)"</span>),</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">50k-100k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$50,000 - $59,999 per year ($960 - $1149 per week)"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$60,000 - $79,999 per year ($1150 - $1529 per week)"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$80,000 - $99,999 per year ($1530 - $1919 per week)"</span>),</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">100k-150k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$100,000 - $124,999 per year ($1920 - $2399 per week)"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"$125,000 - $149,999 per year ($2400 - $2879 per week)"</span>),</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">150k+</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$150,000 - $199,999 per year ($2880 - $3839 per week)"</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"$200,000 - $249,999 per year ($3840 - $4799 per week)"</span>,</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"$250,000 - $299,999 per year ($4800 - $5759 per week)"</span>,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"$300,000 or more per year ($5760 or more per week)"</span>)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ecec_chi3) <span class="sc">+</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(Income_Group), </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> Gender, </span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                  <span class="at">weight =</span> <span class="dv">1</span>),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mosaic Plot: Gender by Income Group"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The `scale_name` argument of `continuous_scale()` is deprecated as of ggplot2
-3.5.0.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The `trans` argument of `continuous_scale()` is deprecated as of ggplot2 3.5.0.
-ℹ Please use the `transform` argument instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `unite_()` was deprecated in tidyr 1.2.0.
-ℹ Please use `unite()` instead.
-ℹ The deprecated feature was likely used in the ggmosaic package.
-  Please report the issue at &lt;https://github.com/haleyjeppson/ggmosaic&gt;.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ecec_chi3 <span class="ot">&lt;-</span> ecec_chi <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Income_Group =</span> <span class="fu">fct_collapse</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    Annual_Income,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Zero/Neg</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Negative or Zero Income"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">&lt;50k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$1 - $19,999 per year ($1 - $379 per week)"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">"$20,000 - $29,999 per year ($380 - $579 per week)"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">"$30,000 - $39,999 per year ($580 - $769 per week)"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">"$40,000 - $49,999 per year ($770 - $959 per week)"</span>),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">50k-100k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$50,000 - $59,999 per year ($960 - $1149 per week)"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$60,000 - $79,999 per year ($1150 - $1529 per week)"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$80,000 - $99,999 per year ($1530 - $1919 per week)"</span>),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">100k-150k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$100,000 - $124,999 per year ($1920 - $2399 per week)"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"$125,000 - $149,999 per year ($2400 - $2879 per week)"</span>),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">150k+</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$150,000 - $199,999 per year ($2880 - $3839 per week)"</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"$200,000 - $249,999 per year ($3840 - $4799 per week)"</span>,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"$250,000 - $299,999 per year ($4800 - $5759 per week)"</span>,</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"$300,000 or more per year ($5760 or more per week)"</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ecec_chi3) <span class="sc">+</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(Income_Group), </span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> Gender, </span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>                  <span class="at">weight =</span> <span class="dv">1</span>),</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gender by Income Group"</span>,</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Income Group"</span>,</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Gender"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter6_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter6_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="run-the-test" class="level3" data-number="9.0.3">
+<h3 data-number="9.0.3" class="anchored" data-anchor-id="run-the-test"><span class="header-section-number">9.0.3</span> 3. Run the test</h3>
+<p>Now try running the chi-square test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(<span class="fu">table</span>(ecec_chi<span class="sc">$</span>Annual_Income,ecec_chi<span class="sc">$</span>Gender))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ChiT_ecec <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(<span class="fu">table</span>(ecec_chi<span class="sc">$</span>Annual_Income,ecec_chi<span class="sc">$</span>Gender))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in chisq.test(table(ecec_chi$Annual_Income, ecec_chi$Gender)):
 Chi-squared approximation may be incorrect</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You may notice a warning. This typically appears when one of the expected counts is below 5.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ChiT_ecec<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                       
                                                             Female       Male
@@ -355,14 +522,19 @@ Chi-squared approximation may be incorrect</code></pre>
   Negative or Zero Income                                 1.947505   1.052495</code></pre>
 </div>
 </div>
+<p>In this case, the expected count for the ‘Negative or Zero Income’ category is 1.95 and 1.05, which is well under our condition of &gt;5. To address this, we can combine this category with the next lowest group, ‘$1–19,999 per year’, and create a new category labelled ‘under 20k’.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ecec_chi <span class="ot">&lt;-</span> ecec_chi <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Annual_Income =</span> <span class="fu">fct_collapse</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    Annual_Income,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Under $20k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Negative or Zero Income"</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"$1 - $19,999 per year ($1 - $379 per week)"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(ecec_chi<span class="sc">$</span>Annual_Income,ecec_chi<span class="sc">$</span>Gender))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ecec_chi <span class="ot">&lt;-</span> ecec_chi <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Annual_Income =</span> <span class="fu">fct_collapse</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    Annual_Income,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Under $20k</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Negative or Zero Income"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"$1 - $19,999 per year ($1 - $379 per week)"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After combining the categories, run the test again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ChiT_ecec <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(<span class="fu">table</span>(ecec_chi<span class="sc">$</span>Annual_Income,ecec_chi<span class="sc">$</span>Gender))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ChiT_ecec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -371,8 +543,53 @@ data:  table(ecec_chi$Annual_Income, ecec_chi$Gender)
 X-squared = 54.962, df = 12, p-value = 1.838e-07</code></pre>
 </div>
 </div>
+<p>Voila! No warnings are produced, indicating that the chi-square assumptions are satisfied. You can check the expected counts to verify.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ChiT_ecec<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                       
+                                                           Female       Male
+  Under $20k                                             26.61590  14.384096
+  $100,000 - $124,999 per year ($1920 - $2399 per week) 212.92723 115.072765
+  $125,000 - $149,999 per year ($2400 - $2879 per week) 148.01040  79.989605
+  $150,000 - $199,999 per year ($2880 - $3839 per week) 195.39969 105.600312
+  $20,000 - $29,999 per year ($380 - $579 per week)      45.44179  24.558212
+  $200,000 - $249,999 per year ($3840 - $4799 per week)  75.30353  40.696466
+  $250,000 - $299,999 per year ($4800 - $5759 per week)  20.77339  11.226611
+  $30,000 - $39,999 per year ($580 - $769 per week)      46.74012  25.259875
+  $300,000 or more per year ($5760 or more per week)     18.17672   9.823285
+  $40,000 - $49,999 per year ($770 - $959 per week)      46.09096  24.909044
+  $50,000 - $59,999 per year ($960 - $1149 per week)     70.11019  37.889813
+  $60,000 - $79,999 per year ($1150 - $1529 per week)   141.51871  76.481289
+  $80,000 - $99,999 per year ($1530 - $1919 per week)   201.89137 109.108628</code></pre>
+</div>
+</div>
+<p>Now that the chi-square assumptions have been met and the test is valid, try interpreting the output. Look at the p-value and decide whether to reject or not reject the null hypothesis, and explain what this result means in the context of the research question.</p>
+<p>%%%%%%%%%%%%%%%%%%%%%%</p>
+<p>You can also take a look at the standardised residuals.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ChiT_ecec<span class="sc">$</span>stdres</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                       
+                                                             Female        Male
+  Under $20k                                             2.77340715 -2.77340715
+  $100,000 - $124,999 per year ($1920 - $2399 per week) -1.76923708  1.76923708
+  $125,000 - $149,999 per year ($2400 - $2879 per week) -0.44495658  0.44495658
+  $150,000 - $199,999 per year ($2880 - $3839 per week) -2.81409940  2.81409940
+  $20,000 - $29,999 per year ($380 - $579 per week)      2.69377297 -2.69377297
+  $200,000 - $249,999 per year ($3840 - $4799 per week) -1.06441668  1.06441668
+  $250,000 - $299,999 per year ($4800 - $5759 per week)  0.08464871 -0.08464871
+  $30,000 - $39,999 per year ($580 - $769 per week)      3.84095076 -3.84095076
+  $300,000 or more per year ($5760 or more per week)    -2.46396134  2.46396134
+  $40,000 - $49,999 per year ($770 - $959 per week)      3.01775862 -3.01775862
+  $50,000 - $59,999 per year ($960 - $1149 per week)    -0.02286838  0.02286838
+  $60,000 - $79,999 per year ($1150 - $1529 per week)    0.97682805 -0.97682805
+  $80,000 - $99,999 per year ($1530 - $1919 per week)   -0.37521579  0.37521579</code></pre>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

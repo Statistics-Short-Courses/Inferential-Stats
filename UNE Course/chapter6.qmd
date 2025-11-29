@@ -145,7 +145,9 @@ A standard residual value less than -2 indicates that counts for that given cate
 
 # Chi-square Test of Independence
 
-Let's go back to our ECEC dataset from Chapter 4.
+We will return to the 2023 Early Childhood Education and Care (ECEC) survey, which we first examined when learning about t-tests. This survey gathered responses from roughly 2,000 NSW parents and carers during January and February 2023, and aimed to understand which policy options families value most and what barriers influence their access to early childhood education and care.\
+
+Begin by loading the dataset.
 
 ```{r, message=FALSE}
 library(dplyr) 
@@ -153,10 +155,27 @@ library(tidyr)
 library(ggplot2)  
 library(forcats)
 library(ggmosaic)
-ecec <- read.csv("Data sets/ecec-survey-2023.csv") 
+ecec <- read.csv("Data sets/ecec-survey-2023.csv",
+                 stringsAsFactors = TRUE) 
 ```
 
-Is the distribution of income categories the same for different gender groups?
+A possible research question is: *Does the distribution of income categories differ between male and female carers?*
+
+### 1. Hypotheses
+
+$H_0:$ Gender and income level for carers across NSW is independent.
+
+$H_A:$ Gender and income level for carers across NSW are associated.
+
+*(we typically wouldn't write these hypotheses as equations)*
+
+### 2. Conditions
+
+-   independence
+
+-   expected count greater than 5
+
+Try cleaning the dataset yourself. Filter the variables you need, rename any that will make the analysis clearer, and drop any unused factor levels.
 
 ```{r}
 ecec_chi <- ecec %>%
@@ -166,7 +185,6 @@ ecec_chi <- ecec %>%
   ) %>%
   select(Gender, Annual_Income) %>%
   drop_na(Gender, Annual_Income) %>%
-  mutate(across(c(Gender, Annual_Income), as.factor))%>%
   filter(Gender %in% c("Male", "Female")) %>%
   filter(Annual_Income != "Prefer not to answer") %>%
   droplevels() 
@@ -177,7 +195,9 @@ ecec_chi <- ecec %>%
 str(ecec_chi)
 ```
 
-```{r}
+We can use a mosaic plot to visualise the relative proportions across groups. Because some of the labels are quite long, renaming them to more concise terms will help improve the readability of the plot.
+
+```{r, warning = FALSE}
 ecec_chi3 <- ecec_chi %>%
   mutate(Income_Group = fct_collapse(
     Annual_Income,
@@ -203,15 +223,27 @@ ggplot(ecec_chi3) +
                   weight = 1),
               color = "white", size = 0.2) +
   theme_minimal() +
-  labs(title = "Mosaic Plot: Gender by Income Group")
+  labs(title = "Gender by Income Group",
+       x = "Income Group",
+      y = "Gender")
 
 ```
+
+### 3. Run the test
+
+Now try running the chi-square test.
 
 ```{r}
-a <- chisq.test(table(ecec_chi$Annual_Income,ecec_chi$Gender))
-
-a$expected
+ChiT_ecec <- chisq.test(table(ecec_chi$Annual_Income,ecec_chi$Gender))
 ```
+
+You may notice a warning. This typically appears when one of the expected counts is below 5.
+
+```{r}
+ChiT_ecec$expected
+```
+
+In this case, the expected count for the ‘Negative or Zero Income’ category is 1.95 and 1.05, which is well under our condition of \>5. To address this, we can combine this category with the next lowest group, ‘\$1–19,999 per year’, and create a new category labelled ‘under 20k’.
 
 ```{r}
 ecec_chi <- ecec_chi %>%
@@ -220,5 +252,28 @@ ecec_chi <- ecec_chi %>%
     `Under $20k` = c("Negative or Zero Income",
                      "$1 - $19,999 per year ($1 - $379 per week)")
   ))
-chisq.test(table(ecec_chi$Annual_Income,ecec_chi$Gender))
+
+```
+
+After combining the categories, run the test again.
+
+```{r}
+ChiT_ecec <- chisq.test(table(ecec_chi$Annual_Income,ecec_chi$Gender))
+ChiT_ecec
+```
+
+Voila! No warnings are produced, indicating that the chi-square assumptions are satisfied. You can check the expected counts to verify.
+
+```{r}
+ChiT_ecec$expected
+```
+
+Now that the chi-square assumptions have been met and the test is valid, try interpreting the output. Look at the p-value and decide whether to reject or not reject the null hypothesis, and explain what this result means in the context of the research question.
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+You can also take a look at the standardised residuals.
+
+```{r}
+ChiT_ecec$stdres
 ```
