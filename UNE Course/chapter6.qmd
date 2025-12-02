@@ -10,6 +10,10 @@ When you are comparing one categorical variable with specific proportions, this 
 
 # Chi-square Goodness of Fit Test - Different Proportions
 
+![](images/clipboard-1233813349.png){width="555"}
+
+*Photo by [Fitsum Admasu](https://unsplash.com/@fitmasu?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/silhouette-of-three-women-running-on-grey-concrete-road-oGv9xIl7DkY?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
+
 For our Chi-square Goodness of Fit Test, we can refer back to the `living_well` dataset we utilised in the previous chapter. Recall that baseline data was collected between October 2014 and June 2017 from the Living Well Multicultural—Lifestyle Modification Program. People living in ethnic communities in Queensland who were ≥18 years old, and not underweight were eligible to participate. The Living Well Multicultural–Lifestyle Modification Program is a tailored healthy lifestyle program.
 
 According to the [Australian Institute of Health and Welfare](https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity), the distribution of BMI for females aged 18 and over as of 2022 are:
@@ -28,19 +32,27 @@ According to the [Australian Institute of Health and Welfare](https://www.aihw.g
 
 As we are given BMI and weight class for each individual, a potential research question we can ask is whether the participation in the Living Well Multicultural Program lead to a post-program BMI distribution that differs from the national BMI distribution of adult Australian females as reported by the AIHW (2022).
 
-We can combine Obese class 1, 2, and 3 as we don't differentiate between these classes in our dataset. This gives us 30.8%. Underweight individuals were not allowed to participate in the program, so we can ignore this for now. As we do not have an underweight class in our dataset (as underweight individuals were ineligible to participate), we can filter this out of the dataset.
+We can combine Obese class 1, 2, and 3 as we don't differentiate between these classes in our dataset. This gives us 30.8%. Underweight individuals were not allowed to participate in the program, so we can ignore this for now. As we do not have an underweight class in our dataset (as underweight individuals were ineligible to participate), the remaining national proportions no longer sum to 1.
+
+To address this, we simply normalise them by dividing each proportion by the total of the three raw proportions. **(If your proportions already sum to 1, this step is not required.)**
+
+```{r}
+raw <- c(Normal = 0.36, Overweight = 0.296, Obese = 0.308) 
+prop <- raw / sum(raw) 
+prop 
+```
 
 ### Step 1: Hypotheses
 
 We can create our hypotheses:
 
-$H_0:$ The distribution of BMI categories (normal weight, overweight, obese) among female participants in the Living Well Multicultural Program after completing the program matches the national distribution of adult Australian females (normal = 0.36, overweight = 0.296, obese = 0.308).
+$H_0:$ The distribution of BMI categories (normal weight, overweight, obese) among female participants in the Living Well Multicultural Program after completing the program matches the national distribution of adult Australian females who are not underweight (normal = 0.373, overweight = 0.307, obese = 0.320).
 
 $H_A$: The distribution of BMI categories among female participants after the program differs from the national distribution.
 
 Mathematically, we can write the null hypothesis as:
 
-$H_0: p_{normal}=0.36$ , $p_{overweight}=0.296$ , $p_{obese}=0.308$
+$H_0: p_{normal}=0.373$ , $p_{overweight}=0.307$ , $p_{obese}=0.320$
 
 We can't write $H_A$ as an equation, but note that it means at least one proportion is different to these null proportions.
 
@@ -48,22 +60,36 @@ We can't write $H_A$ as an equation, but note that it means at least one propo
 
 We require *independence*, and sufficient *sample size*.
 
--   We will assume that random sampling was used and thus the observations are independent
+The chi-square test requires independent observations and adequate expected counts ($\geq 5$). In this study, data were collected from individual participants through face-to-face measurements and structured questionnaires at baseline, week 8, and week 14, administered by trained multicultural health workers.
 
--   Sample size: As long as the expected values for each count are greater than 5 we're okay. As we're looking at different proportions for this question you'll need to take this into account. *Note - We'll come back to this in a few minutes!*
+Each participant provided their own responses and measurements, so the observations can reasonably be treated as independent at a single time point.
+
+For sample size, the expected counts in each BMI category must exceed five. *Note - We'll come back to this in a few minutes!*
 
 ### Step 3: Run the test
 
 We can now load in the dataset. Take a moment to attempt this step yourself by loading the data and the appropriate packages.
 
+1.  Type the code for loading in tidyverse. `r fitb("library(tidyverse)", ignore_case = FALSE, ignore_ws = TRUE)`
+
+2.  Type the code to load in the data set. Name your dataset `living_well`. Be sure to convert strings to factors. `r fitb("living_well <- read.csv(\"Data sets/Cleaned_data_pre_post.csv\", stringsAsFactors = TRUE)", ignore_case = TRUE, ignore_ws = TRUE)`
+
+`r hide("I need a hint")`
+
 ```{r, message = FALSE}
-library(ggplot2) 
 library(tidyverse)  
 living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
                    stringsAsFactors = TRUE) 
 ```
 
+`r unhide()`
+
 How can we filter the data to represent the relevant time we are interested in (baseline vs post week 8) and females? You can also select the variables we are interested in.
+
+3.  What function do we use to filter data? `r fitb("filter()", ignore_case = TRUE, ignore_ws = TRUE)`
+4.  What function do we use to select certain categories in our data? `r fitb("select()", ignore_case = TRUE, ignore_ws = TRUE)`
+
+`r hide("Show code")`
 
 ```{r}
 post_only <- living_well |>
@@ -74,7 +100,17 @@ post_only <- living_well |>
 
 ```
 
-We can now drop any NA values in the relevant columns. How can we do this?
+`r unhide()`
+
+We can now remove any missing values from the relevant columns. In this dataset, the value `999` indicates a missing entry.
+
+5.  What function allows us to modify or create variables? `r fitb("mutate()", ignore_case = FALSE, ignore_ws = TRUE)`
+6.  What function converts the value 999 into a missing value? `r fitb("na_if()", ignore_case = FALSE, ignore_ws = TRUE)`
+7.  What function removes rows containing missing values? `r fitb("drop_na()", ignore_case = FALSE, ignore_ws = TRUE)`
+
+Note that we can use `droplevels` to remove any unused factor levels that remain after filtering.
+
+`r hide("Show code")`
 
 ```{r}
 post_only <- post_only %>%
@@ -86,7 +122,14 @@ post_only <- post_only %>%
   droplevels()
 ```
 
+`r unhide()`
+
 Next, we create a table of observed counts for each BMI category in the dataset and relevel the factor so that the category order matches the order of the expected proportions.
+
+8.  What function creates a table? `r fitb("table()", ignore_case = FALSE, ignore_ws = TRUE)`
+9.  What order should our labels be in? Please list the labels separated by commas (for example: `x, y, z` . `r fitb("Normal weight, Overweight, Obese", ignore_case = TRUE, ignore_ws = TRUE)`
+
+`r hide("Show code")`
 
 ```{r}
 counts <- table(factor(
@@ -96,16 +139,9 @@ counts <- table(factor(
 counts
 ```
 
+`r unhide()`
+
 We now need to ensure that the expected proportions are in the same order as the BMI category levels in our dataset.
-
-Because the underweight category was removed, the remaining national proportions no longer sum to 1. To address this, we simply normalise them by dividing each proportion by the total of the three raw proportions. **(If your proportions already sum to 1, this step is not required.)**
-
-```{r}
-raw <- c(Normal = 0.36, Overweight = 0.296, Obese = 0.308)
-prop <- raw / sum(raw)
-prop
-
-```
 
 We can now run the chi-square goodness of fit test.
 
@@ -115,7 +151,19 @@ ChiT
 
 ```
 
+Based on the output above:
+
+10. What is the degrees of freedom? `r fitb("2", ignore_case = TRUE, ignore_ws = TRUE)`
+11. What is the test statistic? `r fitb("24.296", ignore_case = TRUE, ignore_ws = TRUE)`
+12. Should we accept or reject the null hypothesis? `r fitb("reject", ignore_case = TRUE, ignore_ws = TRUE)`
+
+Using the output shown, try writing a conclusion.
+
+`r hide("Show conclusion")`
+
 Our output ($\chi^2 =24.296$, $df=2$, $p = 5.299*10^{-6}$) provides us with enough evidence to reject the null hypothesis and conclude that the BMI distribution of female participants after completing the program is different from the stated distribution.
+
+`r unhide()`
 
 A couple of notes:
 
@@ -145,23 +193,37 @@ A standard residual value less than -2 indicates that counts for that given cate
 
 # Chi-square Test of Independence
 
-We will return to the 2023 Early Childhood Education and Care (ECEC) survey, which we first examined when learning about t-tests. This survey gathered responses from roughly 2,000 NSW parents and carers during January and February 2023, and aimed to understand which policy options families value most and what barriers influence their access to early childhood education and care.\
+![](images/clipboard-1749607671.png){width="635"}
+
+*Photo by [Towfiqu barbhuiya](https://unsplash.com/@towfiqu999999?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-person-stacking-coins-on-top-of-a-table-jpqyfK7GB4w?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
+
+We will return to the 2023 Early Childhood Education and Care (ECEC) survey, which we first examined when learning about t-tests. This survey gathered responses from roughly 2,000 NSW parents and carers during January and February 2023, and aimed to understand which policy options families value most and what barriers influence their access to early childhood education and care.
 
 Begin by loading the dataset.
 
+1.  Load in the library `ggmosaic`. `r fitb("library(ggmosaic)", ignore_case = FALSE, ignore_ws = TRUE)`
+
+2.  Load in the library `forcats`. `r fitb("library(forcats)", ignore_case = FALSE, ignore_ws = TRUE)`
+
+3.  Type the code to load in the data set. Name your dataset `ecec`. Be sure to convert strings to factors. `r fitb("ecec <- read.csv(\"Data sets/ecec-survey-2023.csv\", stringsAsFactors = TRUE)", ignore_case = TRUE, ignore_ws = TRUE)`
+
+`r hide("Show code")`
+
 ```{r, message=FALSE}
-library(dplyr) 
-library(tidyr) 
-library(ggplot2)  
 library(forcats)
 library(ggmosaic)
+
 ecec <- read.csv("Data sets/ecec-survey-2023.csv",
                  stringsAsFactors = TRUE) 
 ```
 
-A possible research question is: *Does the distribution of income categories differ between male and female carers?*
+`r unhide()`
 
-### 1. Hypotheses
+Take some time to think of research questions you might ask about this dataset where two categorical variables are compared.
+
+For this section, we will focus on the research question: *Does the distribution of income categories differ between male and female carers?*
+
+### 1. Step 1: Hypotheses
 
 $H_0:$ Gender and income level for carers across NSW is independent.
 
@@ -169,13 +231,21 @@ $H_A:$ Gender and income level for carers across NSW are associated.
 
 *(we typically wouldn't write these hypotheses as equations)*
 
-### 2. Conditions
+### 2. Step 2: Conditions
+
+What conditions do we need to meet for a chi-square test?
+
+`r hide("Show conditions")`
 
 -   independence
 
 -   expected count greater than 5
 
+`r unhide()`
+
 Try cleaning the dataset yourself. Filter the variables you need, rename any that will make the analysis clearer, and drop any unused factor levels.
+
+`r hide("Show code")`
 
 ```{r}
 ecec_chi <- ecec %>%
@@ -194,6 +264,8 @@ ecec_chi <- ecec %>%
 ```{r}
 str(ecec_chi)
 ```
+
+`r unhide()`
 
 We can use a mosaic plot to visualise the relative proportions across groups. Because some of the labels are quite long, renaming them to more concise terms will help improve the readability of the plot.
 
@@ -229,7 +301,25 @@ ggplot(ecec_chi3) +
 
 ```
 
-### 3. Run the test
+How would you interpret the above plot?
+
+`r hide("Show interpretation")`
+
+Clearly, there are a very small number of observations for our Zero/Negative income category (Try checking this - you should only see 3!). This will likely cause an issue once we run the chi-square test, as the expected count won't be above 5.
+
+It appears that 50k-100k and 100-150k are the most common income groups, followed by 150k+ and then \<50k for both men and women. We can see that there are many more women who earn under 50k than men. In the 150k+ income group, the proportion of men and women is fairly even.
+
+If we take a look at the number of females and males in our study:
+
+```{r}
+table(ecec_chi$Gender)
+```
+
+There are nearly double the number of females compared with males, which means the plot will naturally show more pink overall.
+
+`r unhide()`
+
+### 3. Step 3: Run the test
 
 Now try running the chi-square test.
 
@@ -243,7 +333,7 @@ You may notice a warning. This typically appears when one of the expected counts
 ChiT_ecec$expected
 ```
 
-In this case, the expected count for the ‘Negative or Zero Income’ category is 1.95 and 1.05, which is well under our condition of \>5. To address this, we can combine this category with the next lowest group, ‘\$1–19,999 per year’, and create a new category labelled ‘under 20k’.
+In this case, the expected count for the ‘Negative or Zero Income’ category is 1.95 and 1.05, which is well under our condition of $\geq 5$. To address this, we can combine this category with the next lowest group, ‘\$1–19,999 per year’, and create a new category labelled ‘under 20k’.
 
 ```{r}
 ecec_chi <- ecec_chi %>%
@@ -270,7 +360,11 @@ ChiT_ecec$expected
 
 Now that the chi-square assumptions have been met and the test is valid, try interpreting the output. Look at the p-value and decide whether to reject or not reject the null hypothesis, and explain what this result means in the context of the research question.
 
-%%%%%%%%%%%%%%%%%%%%%%
+`r hide("Show conclusion")`
+
+Our output ($\chi^2 =54.962$, $df=12$, $p = 1.838*10^{-7}$) provides us with enough evidence to reject the null hypothesis and conclude that the annual income and gender are associated for carers across NSW.
+
+`r unhide()`
 
 You can also take a look at the standardised residuals.
 

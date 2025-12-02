@@ -10,13 +10,23 @@ title: "Paired t-test and ANOVA"
 
 # Paired t-test
 
+![](images/clipboard-1693076206.png){width="576"}
+
+*Photo by [Dan Gold](https://unsplash.com/@danielcgold?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/macro-shot-of-vegetable-lot-4_jhDO54BYg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
+
 The next dataset we will be using comes from the Living Well Multicultural – Lifestyle Modification Program. This file contains paired pre- and post-intervention measurements for adults who participated in the program between 2014 and 2017.
 
 You can then save the file in your Datasets folder in your InferentialStats project folder that you created in the Introduction. You can give it a new name so that it is easier to call into R Studio.
 
 If you open the file, you may notice that the first row is simply a title. We can ignore the title by including `skip` when we load in the data.
 
-Once you’ve saved the file, you can load the dataset into R by typing:
+Once you’ve saved the file, you can load the dataset into R
+
+1.  Type the code for loading in tidyverse. `r fitb("library(tidyverse)", ignore_case = FALSE, ignore_ws = TRUE)`
+
+2.  Type the code to load in the data set. Name your dataset `living_well`. Be sure to convert strings to factors. `r fitb("living_well <- read.csv(\"Data sets/Cleaned_data_pre_post.csv\", stringsAsFactors = TRUE)", ignore_case = TRUE, ignore_ws = TRUE)`
+
+`r hide("I need a hint")`
 
 ```{r, message = FALSE}
 library(ggplot2) 
@@ -25,11 +35,19 @@ living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv",
                    stringsAsFactors = TRUE) 
 ```
 
+`r unhide()`
+
 We can take a look at the data to ensure it has been loaded in correctly.
+
+3.  What is the code for looking at the structure of the dataset?. `r fitb("str(living_well)", ignore_case = FALSE, ignore_ws = TRUE)`
+
+`r hide("Show code")`
 
 ```{r}
 str(living_well)
 ```
+
+`r unhide()`
 
 1.  How many variables are there? `r fitb(100)`
 2.  How many observations are there? `r fitb(1112)`
@@ -42,7 +60,7 @@ If we look at the `Time` variable, we can see that there are two levels: `Baseli
 
 To be able to perform a paired t-test to compare the pre- and post-measurements, we need to convert the data to **wide format**. This means that we want one row per participant, with separate columns for each time point, such as a pre value and post value in the same row.
 
-You may notice that there are many rows that have observations recorded as `999`. At times, `999` is used as a placeholder for `NA`.
+You may notice that there are many rows that have observations recorded as `999`. At times, `999` is used as a placeholder for missing entries.
 
 ```{r}
 living_well_wide <- pivot_wider(

@@ -1,0 +1,405 @@
+---
+title: "Chi-square tests"
+format: 
+  live-html:
+    toc: true
+    
+resources: 
+  - "Data sets"
+  
+execute:
+  echo: true
+  warning: false
+  message: false
+
+webr:
+  editor: true
+  render-df: gt-interactive
+    
+embed-resources: true
+
+filters:
+  - custom-numbered-blocks
+
+custom-numbered-blocks:
+  classes:
+    Assumption:
+      colors: [FFCDD2, F44336]
+      boxstyle: foldbox.simple
+      collapse: false
+    Example:
+      colors: [BBDEFB, 2196F3]
+      boxstyle: foldbox.simple
+      collapse: false
+    Exercise:
+      colors: [C8E6C9, 4CAF50]
+      boxstyle: foldbox.simple
+      collapse: false
+    Technical-point:
+      colors: [FFF9C4, FFEB3B]
+      boxstyle: foldbox.simple
+      collapse: true
+---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
+{{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
+
+```{r setup}
+#| include: false
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+```{webr}
+#| include: false
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+Our last set of statistical analysis tests are **chi-square tests**. These tests are looking at association patterns between either two categorical variables or one categorical variable with specific proportions. 
+
+When you are comparing two categorical variables, this is called a **chi-square test of independence**.
+
+When you are comparing one categorical variable with specific proportions, this is called a **chi-square goodness of fit test**.
+
+# Chi-square Goodness of Fit Test - Different Proportions
+
+For our Chi-square Goodness of Fit Test, we can refer back to the `living_well` dataset we utilised in the previous chapter. Recall that baseline data was collected between October 2014 and June 2017 from the Living Well Multicultural—Lifestyle Modification Program. People living in ethnic communities in Queensland who were ≥18 years old, and not underweight were eligible to participate. The Living Well Multicultural–Lifestyle Modification Program is a tailored healthy lifestyle program.
+
+According to the [Australian Institute of Health and Welfare](https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity), the distribution of BMI for females aged 18 and over as of 2022 are:
+
+-   2.23% underweight
+
+-   36% normal weight
+
+-   29.6% overweight
+
+-   17.4% obese (class 1)
+
+-   8% obese (class 2)
+
+-   5.4% obese (class 3)
+
+As we are given BMI and weight class for each individual, a potential research question we can ask is whether the participation in the Living Well Multicultural Program lead to a post-program BMI distribution that differs from the national BMI distribution of adult Australian females as reported by the AIHW (2022).
+
+We can combine Obese class 1, 2, and 3 as we don't differentiate between these classes in our dataset. This gives us 30.8%. Underweight individuals were not allowed to participate in the program, so we can ignore this for now. As we do not have an underweight class in our dataset (as underweight individuals were ineligible to participate), we can filter this out of the dataset.
+
+### Step 1: Hypotheses
+
+We can create our hypotheses:
+
+$H_0:$ The distribution of BMI categories (normal weight, overweight, obese) among female participants in the Living Well Multicultural Program after completing the program matches the national distribution of adult Australian females (normal = 0.36, overweight = 0.296, obese = 0.308).
+
+$H_A$: The distribution of BMI categories among female participants after the program differs from the national distribution.
+
+Mathematically, we can write the null hypothesis as:
+
+$H_0: p_{normal}=0.36$ , $p_{overweight}=0.296$ , $p_{obese}=0.308$
+
+We can't write $H_A$ as an equation, but note that it means at least one proportion is different to these null proportions.
+
+### Step 2: Conditions
+
+We require *independence*, and sufficient *sample size*.
+
+-   We will assume that random sampling was used and thus the observations are independent
+
+-   Sample size: As long as the expected values for each count are greater than 5 we're okay. As we're looking at different proportions for this question you'll need to take this into account. *Note - We'll come back to this in a few minutes!*
+
+### Step 3: Run the test
+
+We can now load in the dataset. Take a moment to attempt this step yourself by loading the data and the appropriate packages.
+
+```{webr}
+#| exercise: ex_6.1.1
+#| envir: Ex1
+
+list.files("Data sets")
+
+# Load in tidyverse package
+
+# Load in ggmosaic package
+
+# Load in data set 
+
+living_well <- 
+
+```
+
+```{webr}
+#| exercise: ex_6.1.1
+#| solution: true
+#| envir: Ex1
+
+# Load in tidyverse package
+library(tidyverse)
+# Load in ggmosaic package
+library(ggmosaic)
+# Load in data set 
+
+living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE
+```
+
+```{r}
+```
+
+```{webr}
+#| exercise: ex_6.1.1
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, message = FALSE}
+library(ggplot2) 
+library(tidyverse)
+library(ggmosaic)
+living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE) 
+```
+
+How can we filter the data to represent the relevant time we are interested in (baseline vs post week 8) and females? You can also select the variables we are interested in.
+
+```{r}
+post_only <- living_well |>
+  filter(
+    Time == "Post week8",
+    Gender == "Female") %>%
+  select(ID, BMI, BMI_cate1, BMI_cate2)
+
+```
+
+We can now drop any NA values in the relevant columns. How can we do this?
+
+```{webr}
+#| exercise: ex_6.2.1
+#| envir: Ex1
+post_only <- ______
+
+```
+
+```{webr}
+#| exercise: ex_6.2.1
+#| solution: true
+#| envir: Ex1
+post_only <- post_only %>%
+  mutate(
+    BMI_cate1 = na_if(BMI_cate1, "999"),
+    BMI_cate2 = na_if(BMI_cate2, "999")
+  ) %>%
+  drop_na(BMI_cate1, BMI_cate2) %>%
+  droplevels()
+```
+
+```{webr}
+#| exercise: ex_6.2.1
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r}
+post_only <- post_only %>%
+  mutate(
+    BMI_cate1 = na_if(BMI_cate1, "999"),
+    BMI_cate2 = na_if(BMI_cate2, "999")
+  ) %>%
+  drop_na(BMI_cate1, BMI_cate2) %>%
+  droplevels()
+```
+
+Next, we create a table of observed counts for each BMI category in the dataset and relevel the factor so that the category order matches the order of the expected proportions.
+
+```{r}
+counts <- table(factor(
+  post_only$BMI_cate1,
+  levels = c("Normal weight", "Overweight", "Obese")
+))
+counts
+```
+
+We now need to ensure that the expected proportions are in the same order as the BMI category levels in our dataset.
+
+Because the underweight category was removed, the remaining national proportions no longer sum to 1. To address this, we simply normalise them by dividing each proportion by the total of the three raw proportions. **(If your proportions already sum to 1, this step is not required.)**
+
+```{r}
+raw <- c(Normal = 0.36, Overweight = 0.296, Obese = 0.308)
+prop <- raw / sum(raw)
+prop
+
+```
+
+We can now run the chi-square goodness of fit test.
+
+```{r}
+ChiT <- chisq.test(counts, p = prop)
+ChiT
+
+```
+
+Our output ($\chi^2 =24.296$, $df=2$, $p = 5.299*10^{-6}$) provides us with enough evidence to reject the null hypothesis and conclude that the BMI distribution of female participants after completing the program is different from the stated distribution.
+
+A couple of notes:
+
+-   We are able to make this conclusion as the p-value is less than 0.05
+
+-   The df (degrees of freedom) in this case is calculated as the number of categories minus 1. Given that there are three different BMI categories that are being examined the df = 3 - 1 = 2.
+
+-   RStudio can calculate the expected counts for you:
+
+```{r}
+ChiT$expected
+```
+
+As the expected counts are much greater than 5, this tells us that the conditions for the chi-square goodness of fit test has been satisfied.
+
+If you were interested in which BMI categories contributed to the significant result you could use:
+
+```{r}
+ChiT$stdres
+```
+
+This command will calculate standardised residual values for each category.
+
+As a rule of thumb, a standard residual value greater than 2 indicates that counts for that given category were higher than would be expected if the given proportions being tested was true.
+
+A standard residual value less than -2 indicates that counts for that given category were lower than would be expected if the given proportions being tested was true.
+
+# Chi-square Test of Independence
+
+We will return to the 2023 Early Childhood Education and Care (ECEC) survey, which we first examined when learning about t-tests. This survey gathered responses from roughly 2,000 NSW parents and carers during January and February 2023, and aimed to understand which policy options families value most and what barriers influence their access to early childhood education and care.\
+
+Begin by loading the dataset.
+
+```{r, message=FALSE}
+library(dplyr) 
+library(tidyr) 
+library(ggplot2)  
+library(forcats)
+library(ggmosaic)
+ecec <- read.csv("Data sets/ecec-survey-2023.csv",
+                 stringsAsFactors = TRUE) 
+```
+
+A possible research question is: *Does the distribution of income categories differ between male and female carers?*
+
+### 1. Hypotheses
+
+$H_0:$ Gender and income level for carers across NSW is independent.
+
+$H_A:$ Gender and income level for carers across NSW are associated.
+
+*(we typically wouldn't write these hypotheses as equations)*
+
+### 2. Conditions
+
+-   independence
+
+-   expected count greater than 5
+
+Try cleaning the dataset yourself. Filter the variables you need, rename any that will make the analysis clearer, and drop any unused factor levels.
+
+```{r}
+ecec_chi <- ecec %>%
+  rename(
+    Gender = SQ1,
+    Annual_Income = D13
+  ) %>%
+  select(Gender, Annual_Income) %>%
+  drop_na(Gender, Annual_Income) %>%
+  filter(Gender %in% c("Male", "Female")) %>%
+  filter(Annual_Income != "Prefer not to answer") %>%
+  droplevels() 
+
+```
+
+```{r}
+str(ecec_chi)
+```
+
+We can use a mosaic plot to visualise the relative proportions across groups. Because some of the labels are quite long, renaming them to more concise terms will help improve the readability of the plot.
+
+```{r, warning = FALSE}
+ecec_chi3 <- ecec_chi %>%
+  mutate(Income_Group = fct_collapse(
+    Annual_Income,
+    `Zero/Neg` = "Negative or Zero Income",
+    `<50k` = c("$1 - $19,999 per year ($1 - $379 per week)",
+               "$20,000 - $29,999 per year ($380 - $579 per week)",
+               "$30,000 - $39,999 per year ($580 - $769 per week)",
+               "$40,000 - $49,999 per year ($770 - $959 per week)"),
+    `50k-100k` = c("$50,000 - $59,999 per year ($960 - $1149 per week)",
+                   "$60,000 - $79,999 per year ($1150 - $1529 per week)",
+                   "$80,000 - $99,999 per year ($1530 - $1919 per week)"),
+    `100k-150k` = c("$100,000 - $124,999 per year ($1920 - $2399 per week)",
+                    "$125,000 - $149,999 per year ($2400 - $2879 per week)"),
+    `150k+` = c("$150,000 - $199,999 per year ($2880 - $3839 per week)",
+                "$200,000 - $249,999 per year ($3840 - $4799 per week)",
+                "$250,000 - $299,999 per year ($4800 - $5759 per week)",
+                "$300,000 or more per year ($5760 or more per week)")
+  ))
+
+ggplot(ecec_chi3) +
+  geom_mosaic(aes(x = product(Income_Group), 
+                  fill = Gender, 
+                  weight = 1),
+              color = "white", size = 0.2) +
+  theme_minimal() +
+  labs(title = "Gender by Income Group",
+       x = "Income Group",
+      y = "Gender")
+
+```
+
+### 3. Run the test
+
+Now try running the chi-square test.
+
+```{r}
+ChiT_ecec <- chisq.test(table(ecec_chi$Annual_Income,ecec_chi$Gender))
+```
+
+You may notice a warning. This typically appears when one of the expected counts is below 5.
+
+```{r}
+ChiT_ecec$expected
+```
+
+In this case, the expected count for the ‘Negative or Zero Income’ category is 1.95 and 1.05, which is well under our condition of \>5. To address this, we can combine this category with the next lowest group, ‘\$1–19,999 per year’, and create a new category labelled ‘under 20k’.
+
+```{r}
+ecec_chi <- ecec_chi %>%
+  mutate(Annual_Income = fct_collapse(
+    Annual_Income,
+    `Under $20k` = c("Negative or Zero Income",
+                     "$1 - $19,999 per year ($1 - $379 per week)")
+  ))
+
+```
+
+After combining the categories, run the test again.
+
+```{r}
+ChiT_ecec <- chisq.test(table(ecec_chi$Annual_Income,ecec_chi$Gender))
+ChiT_ecec
+```
+
+Voila! No warnings are produced, indicating that the chi-square assumptions are satisfied. You can check the expected counts to verify.
+
+```{r}
+ChiT_ecec$expected
+```
+
+Now that the chi-square assumptions have been met and the test is valid, try interpreting the output. Look at the p-value and decide whether to reject or not reject the null hypothesis, and explain what this result means in the context of the research question.
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+You can also take a look at the standardised residuals.
+
+```{r}
+ChiT_ecec$stdres
+```
