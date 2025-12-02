@@ -158,7 +158,11 @@ living_well_wide <- pivot_wider(
 )
 ```
 
-You can see an error appears when we try to convert the data. This is telling us there are duplicates for the ID beyond the two that we are expecting. Let's try using the code provided in the warning to see what's going on.
+You may see an error appears when we try to convert the data.
+
+![](images/Screenshot 2025-12-02 232723.png)
+
+This is telling us there are duplicates for the ID beyond the two that we are expecting. Let's try using the code provided in the warning to see what's going on.
 
 ```{r}
 living_well |>
@@ -546,7 +550,7 @@ living_well_aov <- living_well_clean %>%
   )
 ```
 
-Let's be sure to remove any `missing values. How can we do this?
+Let's be sure to remove any \`missing values. How can we do this?
 
 `r hide("I need a hint")`
 
