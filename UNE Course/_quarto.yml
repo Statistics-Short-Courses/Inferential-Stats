@@ -1,6 +1,9 @@
 
 project:
   type: book
+  output-dir: docs
+engine: knitr
+
 book:
   title: UNE Course
   author: Cara Fernandes
@@ -16,14 +19,22 @@ book:
   - chapter6.qmd
   - summary.qmd
   - references.qmd
-bibliography: references.bib
+  page-navigation: false
+  
 format:
-  html:
-    theme:
-    - cosmo
-    - brand
-    css: include/webex.css
-    include-after-body: include/webex.js
-  pdf:
-    documentclass: scrreprt
-editor: visual
+  live-html:
+    toc: true
+    number-sections: true
+    toc-depth: 1
+    toc-expand: 2
+    toc-title: Contents
+    number-depth: 2
+
+css: 
+ - include/webex.css
+ - include/style.css
+include-after-body:
+ - include/webex.js
+ - include/displayall.js
+ - include/gating.js
+ - include/skip-exercises.js

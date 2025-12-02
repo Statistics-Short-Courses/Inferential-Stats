@@ -5,7 +5,7 @@ format:
     toc: true
     
 resources: 
-  - "Data sets"
+  - "Data-sets"
   
 execute:
   echo: true
@@ -114,8 +114,8 @@ We can now load in the dataset. Take a moment to attempt this step yourself by l
 ```{webr}
 #| exercise: ex_6.1.1
 #| envir: Ex1
-
-list.files("Data sets")
+#| warning: false
+#| message: false
 
 # Load in tidyverse package
 
@@ -138,11 +138,8 @@ library(tidyverse)
 library(ggmosaic)
 # Load in data set 
 
-living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
-                   stringsAsFactors = TRUE
-```
-
-```{r}
+living_well <- read.csv("Data-sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE)
 ```
 
 ```{webr}
@@ -153,15 +150,16 @@ living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv",
 gradethis::grade_this_code()
 ```
 
-```{r, message = FALSE}
-library(ggplot2) 
+```{r, message = FALSE, echo = FALSE}
 library(tidyverse)
 library(ggmosaic)
-living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
+living_well <- read.csv("Data-sets/Cleaned_data_pre_post.csv", 
                    stringsAsFactors = TRUE) 
 ```
 
 How can we filter the data to represent the relevant time we are interested in (baseline vs post week 8) and females? You can also select the variables we are interested in.
+
+`r hide("I need a hint")`
 
 ```{r}
 post_only <- living_well |>
@@ -171,6 +169,8 @@ post_only <- living_well |>
   select(ID, BMI, BMI_cate1, BMI_cate2)
 
 ```
+
+`r unhide()`
 
 We can now drop any NA values in the relevant columns. How can we do this?
 
@@ -281,7 +281,7 @@ library(tidyr)
 library(ggplot2)  
 library(forcats)
 library(ggmosaic)
-ecec <- read.csv("Data sets/ecec-survey-2023.csv",
+ecec <- read.csv("Data-sets/ecec-survey-2023.csv",
                  stringsAsFactors = TRUE) 
 ```
 
