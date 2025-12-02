@@ -45,6 +45,8 @@ custom-numbered-blocks:
 
 {{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
 
+TEST STATEMENT
+
 In this chapter, we will be looking at **paired t-tests** and **one-way ANOVA**. Recall that:
 
 -   Paired t test is appropriate for a test of differences between two paired measurements.
