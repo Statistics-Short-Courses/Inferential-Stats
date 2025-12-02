@@ -1,12 +1,55 @@
 ---
 title: "Paired t-test and ANOVA"
+format: 
+  live-html:
+    toc: true
+    
+resources: 
+  - "Data-sets"
+  
+execute:
+  echo: true
+  warning: false
+  message: false
+
+webr:
+  editor: true
+  render-df: gt-interactive
+    
+embed-resources: true
+
+filters:
+  - custom-numbered-blocks
+
+custom-numbered-blocks:
+  classes:
+    Assumption:
+      colors: [FFCDD2, F44336]
+      boxstyle: foldbox.simple
+      collapse: false
+    Example:
+      colors: [BBDEFB, 2196F3]
+      boxstyle: foldbox.simple
+      collapse: false
+    Exercise:
+      colors: [C8E6C9, 4CAF50]
+      boxstyle: foldbox.simple
+      collapse: false
+    Technical-point:
+      colors: [FFF9C4, FFEB3B]
+      boxstyle: foldbox.simple
+      collapse: true
 ---
 
-# **Hypothesis tests using the t-distribution**
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
 
-![](images/clipboard-312548449.png)
+{{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
 
-![](images/clipboard-2601389475.png)
+In this chapter, we will be looking at **paired t-tests** and **one-way ANOVA**. Recall that:
+
+-   Paired t test is appropriate for a test of differences between two paired measurements.
+
+-   One-way ANOVA is appropriate for differences between three or more independent groups.
 
 # Paired t-test
 
@@ -20,34 +63,78 @@ You can then save the file in your Datasets folder in your InferentialStats proj
 
 If you open the file, you may notice that the first row is simply a title. We can ignore the title by including `skip` when we load in the data.
 
-Once you’ve saved the file, you can load the dataset into R
+Once you’ve saved the file, you can load the dataset into R.
 
-1.  Type the code for loading in tidyverse. `r fitb("library(tidyverse)", ignore_case = FALSE, ignore_ws = TRUE)`
+```{webr}
+#| exercise: ex_5.1.1
+#| envir: Ex1
+#| warning: false
+#| message: false
 
-2.  Type the code to load in the data set. Name your dataset `living_well`. Be sure to convert strings to factors. `r fitb("living_well <- read.csv(\"Data sets/Cleaned_data_pre_post.csv\", stringsAsFactors = TRUE)", ignore_case = TRUE, ignore_ws = TRUE)`
+# Load in tidyverse package
 
-`r hide("I need a hint")`
-
-```{r, message = FALSE}
-library(ggplot2) 
-library(tidyverse)  
-living_well <- read.csv("Data sets/Cleaned_data_pre_post.csv", 
-                   stringsAsFactors = TRUE) 
+# Load in data set 
+living_well <- 
 ```
 
-`r unhide()`
+```{webr}
+#| exercise: ex_5.1.1
+#| solution: true
+#| envir: Ex1
+# Load in tidyverse package
+library(tidyverse)
+# Load in data set 
+living_well <- read.csv("Data-sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE)
+```
+
+```{webr}
+#| exercise: ex_5.1.1
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, message = FALSE, echo=FALSE}
+library(ggplot2) 
+library(tidyverse)  
+living_well <- read.csv("Data-sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE) 
+```
 
 We can take a look at the data to ensure it has been loaded in correctly.
 
 3.  What is the code for looking at the structure of the dataset?. `r fitb("str(living_well)", ignore_case = FALSE, ignore_ws = TRUE)`
 
-`r hide("Show code")`
+Type the code below.
 
-```{r}
+```{webr}
+#| exercise: ex_5.1.2
+#| envir: Ex1
+#| warning: false
+#| message: false
+
+```
+
+```{webr}
+#| exercise: ex_5.1.2
+#| solution: true
+#| envir: Ex1
 str(living_well)
 ```
 
-`r unhide()`
+```{webr}
+#| exercise: ex_5.1.2
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, echo=FALSE, eval=FALSE}
+str(living_well)
+```
 
 1.  How many variables are there? `r fitb(100)`
 2.  How many observations are there? `r fitb(1112)`
@@ -71,6 +158,7 @@ living_well_wide <- pivot_wider(
 )
 ```
 
+
 You can see an error appears when we try to convert the data. This is telling us there are duplicates for the ID beyond the two that we are expecting. Let's try using the code provided in the warning to see what's going on.
 
 ```{r}
@@ -78,6 +166,7 @@ living_well |>
   dplyr::summarise(n = dplyr::n(), .by = c(ID, Time)) |>
   dplyr::filter(n > 1L)
 ```
+
 
 There are four IDs that have two baseline measurements and two post week8 measurements. Let's investigate these rows closer.
 
@@ -95,6 +184,9 @@ living_well[living_well$ID == "ABD 010187", c("ID",
                                              "Weight") ]
 
 ```
+
+
+
 
 This confirms what we expected - that there are four measurements per ID, when we were expecting two. This was likely a data entry error, which can happen in real world datasets. It is impossible to tell which pre- and post-measurements match each other, so the safest option is to drop these observations. As we have 1112 observations, this shouldn't impact our analysis too much.
 
@@ -116,14 +208,61 @@ living_well_wide <- pivot_wider(
   id_cols = ID,               
   names_from = Time,          
   values_from = BMI,
+  # We include `names_glue()` as it converts our variable `Post week8` to `Post_week8`
   names_glue = "{str_replace_all(Time, ' ', '_')}"
 )
 ```
 
+```{webr}
+#| echo: false
+#| warning: false
+#| message: false
+library(ggplot2) 
+library(tidyverse)  
+living_well <- read.csv("Data-sets/Cleaned_data_pre_post.csv", 
+                   stringsAsFactors = TRUE) 
+bad_ID <- living_well |>
+  dplyr::summarise(n = dplyr::n(), .by = c(ID, Time)) |>
+  dplyr::filter(n > 1L) %>%
+  distinct(ID)
+
+living_well_clean <- living_well %>%
+  filter(!ID %in% bad_ID$ID)
+
+living_well_wide <- pivot_wider(
+  living_well_clean,
+  id_cols = ID,               
+  names_from = Time,          
+  values_from = BMI,
+  names_glue = "{str_replace_all(Time, ' ', '_')}"
+)
+
+```
+
+
 No warning this time! That's a good sign our method worked. Let's take a look at our dataset now.
 
-```{r}
+```{webr}
+#| exercise: ex_5.1.3
+#| envir: Ex1
+#| warning: false
+#| message: false
+
+```
+
+```{webr}
+#| exercise: ex_5.1.3
+#| solution: true
+#| envir: Ex1
 str(living_well_wide)
+```
+
+```{webr}
+#| exercise: ex_5.1.3
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
 ```
 
 1.  How many variables are there? `r fitb(3)`
