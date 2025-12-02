@@ -160,7 +160,7 @@ living_well_wide <- pivot_wider(
 
 You may see an error appears when we try to convert the data.
 
-![](images/Screenshot 2025-12-02 232723.png)
+![](images/Screenshot%202025-12-02%20232723.png)
 
 This is telling us there are duplicates for the ID beyond the two that we are expecting. Let's try using the code provided in the warning to see what's going on.
 

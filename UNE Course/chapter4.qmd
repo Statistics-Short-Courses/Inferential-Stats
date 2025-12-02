@@ -1,6 +1,49 @@
 ---
 title: "t-tests: one sample and two sample"
+format: 
+  live-html:
+    toc: true
+    
+resources: 
+  - "Data-sets"
+  
+execute:
+  echo: true
+  warning: false
+  message: false
+
+webr:
+  editor: true
+  render-df: gt-interactive
+    
+embed-resources: true
+
+filters:
+  - custom-numbered-blocks
+
+custom-numbered-blocks:
+  classes:
+    Assumption:
+      colors: [FFCDD2, F44336]
+      boxstyle: foldbox.simple
+      collapse: false
+    Example:
+      colors: [BBDEFB, 2196F3]
+      boxstyle: foldbox.simple
+      collapse: false
+    Exercise:
+      colors: [C8E6C9, 4CAF50]
+      boxstyle: foldbox.simple
+      collapse: false
+    Technical-point:
+      colors: [FFF9C4, FFEB3B]
+      boxstyle: foldbox.simple
+      collapse: true
 ---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
+{{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
 
 We will be covering a number of statistical tests throughout this course. Which statistical test you choose, depends on the type of experiment or study has been conducted and what type of data we have. In this chapter, we will specifically focus on applying one-sample and two-sample t-tests.
 
@@ -42,13 +85,16 @@ Let's apply our skills to some real data provided by the NSW Government, and see
 
 We will look at the [2023 Early Childhood Education and Care (ECEC) survey](https://data.nsw.gov.au/data/dataset/ecec-survey-2023?nsw_prev=aHR0cHM6Ly9kYXRhLm5zdy5nb3YuYXUvZGF0YS9kYXRhc2V0P3E9c3VydmV5JmV4dF9iYm94PSZz%0Ab3J0PXNjb3JlK2Rlc2MlMkMrbWV0YWRhdGFfbW9kaWZpZWQrZGVzYyZleHRfZnJvbV9kYXk9JmV4%0AdF9mcm9tX21vbnRoPSZleHRfZnJvbV95ZWFyPSZleHRfdG9fZGF5PSZleHRfdG9fbW9udGg9JmV4%0AdF90b195ZWFyPSZyZXNfZm9ybWF0PUNTVg%3D%3D%0A). This survey collected responses from around 2,000 NSW parents and carers during January and February 2023, and was designed to understand which policy options families value most and what barriers affect their access to early childhood education and care. The dataset includes a broad mix of information: demographics, employment patterns, commuting times, childcare usage, costs, and satisfaction ratings. Because it contains both continuous and categorical variables, it provides a useful starting point for learning how to apply statistical tests to real-world data.
 
-Working with real survey data can be messy, so we will go step by step and decide what needs cleaning and what does not. We’ll begin by loading the required packages and importing the dataset.
+Working with real survey data can be messy, so we will go step by step and decide what needs cleaning and what does not. We'll begin by loading the required packages and importing the dataset.
+
+Note that if we include the argument `stringsAsFactors==TRUE`, it will convert all `str` variables to `Factor` so we won't have to worry about our categorical variables being stored correctly.
 
 ```{r, message = FALSE}
 library(dplyr) 
 library(tidyr) 
 library(ggplot2)  
-ecec <- read.csv("Data sets/ecec-survey-2023.csv") 
+ecec <- read.csv("Data-sets/ecec-survey-2023.csv",
+                 stringsAsFactors = TRUE) 
 ```
 
 Let's take a look at the first six rows.
@@ -57,9 +103,9 @@ Let's take a look at the first six rows.
 str(ecec)
 ```
 
-Wow! There is a lot going on. Don't worry about the `NA` values you see. Missing data is extremely common in large surveys, and we’ll make sure to remove any NA entries that would interfere with our analysis.
+Wow! There is a lot going on. Don't worry about the `NA` values you see. Missing data is extremely common in large surveys, and we'll make sure to remove any NA entries that would interfere with our analysis.
 
-You may also notice that some of the variable names aren’t very descriptive. That can happen depending on how the original survey was designed or exported. Instead of renaming everything, we’ll concentrate on the specific variables we need for our t-test. If you want to see the exact wording of the survey questions, you can refer to the questionnaire provided alongside the dataset [here](https://data.nsw.gov.au/data/dataset/d6190b60-0c23-4255-9c5f-0d1a29406a4f/resource/615ad37d-0af5-494a-8fb2-2ed85a1e1ee5/download/ecec-survey-2023_questionnaire.pdf).
+You may also notice that some of the variable names aren't very descriptive. That can happen depending on how the original survey was designed or exported. Instead of renaming everything, we'll concentrate on the specific variables we need for our t-test. If you want to see the exact wording of the survey questions, you can refer to the questionnaire provided alongside the dataset [here](https://data.nsw.gov.au/data/dataset/d6190b60-0c23-4255-9c5f-0d1a29406a4f/resource/615ad37d-0af5-494a-8fb2-2ed85a1e1ee5/download/ecec-survey-2023_questionnaire.pdf).
 
 ## Hypotheses
 
@@ -87,7 +133,53 @@ $H_A:$ $\mu > 29$
 
 Let's prepare the data.
 
-```{r}
+For this exercise, you will need to insert the correct variable names into the code below.
+
+```{webr}
+#| exercise: ex_4.1.1
+#| envir: Ex1
+#| warning: false
+#| message: false
+# We will call the new filtered dataset `ecec_1`
+ecec_1 <- ecec %>%
+# You will need to rename `SQ1` to `Gender` (old_variable1), 
+# and `D6_1` (old_variable2) to `Work_Commute`
+  rename(old_varable1 = new_variable1,
+        old_varable2 = new_variable2) %>%
+# Select the new variables 
+  select(_______, _________) %>%
+# Drop missing values from the new variables 
+  drop_na(______, _________) 
+
+
+```
+
+```{webr}
+#| exercise: ex_4.1.1
+#| solution: true
+#| envir: Ex1
+# We will call the new filtered dataset `ecec_1`
+ecec_1 <- ecec %>%
+# You will need to rename `SQ1` to `Gender` (old_variable1), 
+# and `D6_1` (old_variable2) to `Work_Commute`
+  rename(Gender = SQ1,
+        Work_Commute = D6_1) %>%
+# Select the new variables 
+  select(Gender, Work_Commute) %>%
+# Drop missing values from the new variables 
+  drop_na(Gender, Work_Commute) 
+
+```
+
+```{webr}
+#| exercise: ex_4.1.1
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, echo = FALSE}
 ecec_1 <- ecec %>%
   rename(Gender = SQ1,
         Work_Commute = D6_1) %>%
@@ -99,7 +191,30 @@ ecec_1$Gender <- as.factor(ecec_1$Gender)
 
 Let's take a look at the structure of our new data set.
 
-```{r}
+```{webr}
+#| exercise: ex_4.1.2
+#| envir: Ex1
+#| warning: false
+#| message: false
+### write your code here
+```
+
+```{webr}
+#| exercise: ex_4.1.2
+#| solution: true
+#| envir: Ex1
+str(ecec_1)
+```
+
+```{webr}
+#| exercise: ex_4.1.2
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, echo=FALSE, eval=FALSE}
 str(ecec_1)
 ```
 
@@ -109,11 +224,12 @@ You might notice that there are 3 levels of `Gender`. We can check this:
 table(ecec_1$Gender)
 ```
 
-Since we only interested in female carers, we can filter the data.
+Since we only interested in female carers, we can filter the data. We can drop the unused labels.
 
 ```{r}
 ecec_2 <- ecec_1 %>%
-  filter(Gender %in% "Female")
+  filter(Gender %in% "Female") %>%
+  droplevels()
 ```
 
 Let's take a look at the structure again.
@@ -122,19 +238,64 @@ Let's take a look at the structure again.
 str(ecec_2)
 ```
 
-Don't worry that it says 3 levels. The data has been filtered (we can tell by comparing the observations from before filtering and after).
-
 1.  How many observations are there? `r fitb(938)`
 2.  How many variables are there? `r fitb(2)`
 3.  How many categorical variables are there? `r fitb(1)`
 4.  How many discrete numerical variables are there? `r fitb(0)`
 5.  How many continuous numerical variables are there? `r fitb(1)`
 
-Now we can move on to checking the conditions. To start, we’ll create a few useful plots of the home-to-work commute data. These will help us assess whether the observations can reasonably be treated as independent and whether the distribution is close enough to normal for our purposes. The normality requirement becomes less strict as the sample size grows. Slight skewness is fine around n = 15, moderate skewness is acceptable around n = 30, and even strong skewness is workable once the sample size exceeds about 60.
+Now we can move on to checking the conditions. To start, we'll create a few useful plots of the home-to-work commute data. These will help us assess whether the observations can reasonably be treated as independent and whether the distribution is close enough to normal for our purposes. The normality requirement becomes less strict as the sample size grows. Slight skewness is fine around n = 15, moderate skewness is acceptable around n = 30, and even strong skewness is workable once the sample size exceeds about 60.
 
-`r hide("I need a hint")`
+```{webr}
+#| exercise: ex_4.1.3
+#| envir: Ex1
+#| warning: false
+#| message: false
+### Write your code for a hisogram for `Work_Commute` with the `ggplot2` package below. 
+### Set the bins to 12, the border to "darkseagreen4", and the fill to "darkseagreen2". 
+### Label your x-axis "Commute Time From Home to Work (mins)") 
 
-```{r}
+
+
+
+### write your code for a boxplot for `Work_Commute` with the `ggplot2` package below. 
+### Set the fill to "mediumpurple1"
+### Label your y-axis "Commute Time From Home to Work (mins)") 
+
+
+
+
+```
+
+```{webr}
+#| exercise: ex_4.1.3
+#| solution: true
+#| envir: Ex1
+### write your code for a hisogram for `Work_Commute` with the `ggplot2` package here. 
+### Set the bins to 12, the border to "darkseagreen4", and the fill to "darkseagreen2". 
+### Label your x-axis "Commute Time From Home to Work (mins)") 
+ggplot(data=ecec_2, aes(x=Work_Commute))+
+  geom_histogram(bins=12, col="darkseagreen4", fill="darkseagreen2")+
+  theme_bw()+
+  labs(x="Commute Time From Home to Work (mins)")
+### write your code for a boxplot for `Work_Commute` with the `ggplot2` package here. 
+### Set the fill to "mediumpurple1"
+### Label your y-axis "Commute Time From Home to Work (mins)")
+ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
+  geom_boxplot(fill="mediumpurple1")+
+  theme_bw()+
+  labs(y="Commute Time From Home to Work (mins)")
+```
+
+```{webr}
+#| exercise: ex_4.1.3
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, eval = FALSE, echo=FALSE}
 ggplot(data=ecec_2, aes(x=Work_Commute))+
   geom_histogram(bins=12, col="darkseagreen4", fill="darkseagreen2")+
   theme_bw()+
@@ -142,7 +303,7 @@ ggplot(data=ecec_2, aes(x=Work_Commute))+
 
 ```
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
   geom_boxplot(fill="mediumpurple1")+
   theme_bw()+
@@ -167,11 +328,9 @@ ggplot(data=ecec_2, aes(y=Work_Commute, x=""))+
 
 With 938 observations, the sample size is well above the point where normality becomes a concern. The plots show that the data are strongly right-skewed with some very large outliers. With a sample this large, the Central Limit Theorem kicks in, so the mean will still have an approximately normal sampling distribution.
 
-For independence, we can lean on a few simple checks. Our data represent 938 female carers in NSW, which is only a tiny fraction of the overall population of female carers in the state, so we’re safely under the 10% guideline.
+For independence, we can lean on a few simple checks. Our data represent 938 female carers in NSW, which is only a tiny fraction of the overall population of female carers in the state, so we're safely under the 10% guideline.
 
-Because this comes from what appears to be a large, population-level survey rather, it’s reasonable to treat each person’s commute time as an independent observation.
-
-`r unhide()`
+Because this comes from what appears to be a large, population-level survey rather, it's reasonable to treat each person's commute time as an independent observation.
 
 Now that we've checked conditions, we can proceed with t-test. We can do this with one simple line of code:
 
@@ -205,7 +364,7 @@ t.test(ecec_2$Work_Commute, mu = 29, alternative = "two.sided")
 
 Therefore, using the output from the two-sided test, with 95% confidence, the average commute time from home-to-work for female carers across NSW is between 29 minutes and 35 minutes longer than the national average. Because this range does not include zero, it points to a clear difference.
 
-This naturally raises other questions. For instance, because we are looking at all of NSW, it’s possible that cities like Sydney are pushing the average up. These are the kinds of patterns you could explore further with the dataset.
+This naturally raises other questions. For instance, because we are looking at all of NSW, it's possible that cities like Sydney are pushing the average up. These are the kinds of patterns you could explore further with the dataset.
 
 # Two Sample t-test
 
@@ -267,9 +426,6 @@ ecec_new1 <- ecec_new %>%
   filter(Gender %in% c("Male", "Female"))
 ```
 
-```         
-```
-
 ```{r}
 str(ecec_new1)
 ```
@@ -304,7 +460,7 @@ ggplot(ecec_new1, aes(sample=Commute_Time))+
   facet_wrap(~Gender)
 ```
 
-We can see that there are a lot of outliers for both females and males. Even so, the main part of each boxplot looks fairly similar in shape, so there’s no obvious imbalance between the groups.
+We can see that there are a lot of outliers for both females and males. Even so, the main part of each boxplot looks fairly similar in shape, so there's no obvious imbalance between the groups.
 
 Looking at the Q-Q plots, there is some deviation in the upper tail for females, and males shows some slight deviation as well with one extreme value. However, most of the points still fall close to the line, so we can argue that the data look approximately normal in the middle of the distribution even if the tails stretch out.
 
@@ -326,4 +482,4 @@ t.test(Commute_Time ~ Gender)
 
 The p-value ($t_{1025}=-1.2137, p=0.2251$) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in average commute time to work between males and females carers across NSW.
 
-With 95% confidence, the average commute time for females could be about 16 minutes less or about 4 minutes more than the average for males. Because this range includes zero, it doesn’t point to a clear difference between the two groups.
+With 95% confidence, the average commute time for females could be about 16 minutes less or about 4 minutes more than the average for males. Because this range includes zero, it doesn't point to a clear difference between the two groups.
