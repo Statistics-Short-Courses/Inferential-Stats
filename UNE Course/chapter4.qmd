@@ -376,6 +376,10 @@ Rather than renaming both of these, we can combine them to create a single `Comm
 
 Before we begin cleaning the data, we need to set out our hypotheses. We are interested in whether total commute time differs between male and female carers in NSW.
 
+Try writing the hypotheses for the two sample t test.
+
+\`r hide("I need a hint")\`
+
 $H_0:$ On average, there is no difference in the total commute time to work between male and female carers in NSW.
 
 $H_A:$ On average, there is a significant difference in the total commute time to work between males and females carers in NSW.
@@ -386,9 +390,51 @@ $H_0:$ $\mu_{males}=\mu_{females}$
 
 $H_A:$ $\mu_{males} \neq \mu_{females}$
 
+\`r unhide()\`
+
 With the hypotheses established, we can now move on to cleaning and preparing the dataset.
 
-```{r}
+```{webr}
+#| exercise: ex_4.2.1
+#| envir: Ex1
+#| warning: false
+#| message: false
+# Rename SQ1 to Gender 
+# Select Gender, D6_1, and D6_2
+# Drop missing values 
+ecec_new <-
+# Once you have prepared the dataset, create
+# a new column called `Commute_Time` adding D6_1
+# and D6_2
+ecec_new$Commute_Time <-
+```
+
+```{webr}
+#| exercise: ex_4.2.1
+#| solution: true
+#| envir: Ex1
+# Rename SQ1 to Gender 
+# Select Gender, D6_1, and D6_2
+# Drop missing values 
+ecec_new <- ecec %>%
+  rename(Gender = SQ1) %>%
+  select(Gender, D6_1, D6_2) %>%
+  drop_na(Gender, D6_1, D6_2) 
+# Once you have prepared the dataset, create
+# a new column called `Commute_Time` adding D6_1
+# and D6_2
+ecec_new$Commute_Time <- ecec_new$D6_1 + ecec_new$D6_2
+```
+
+```{webr}
+#| exercise: ex_4.2.1
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, echo = FALSE}
 # We rename SQ1 to Gender 
 # We select the variables we want to do analysis on
 # We will also drop the NA from the variables we want to do analysis on 
@@ -396,15 +442,8 @@ ecec_new <- ecec %>%
   rename(Gender = SQ1) %>%
   select(Gender, D6_1, D6_2) %>%
   drop_na(Gender, D6_1, D6_2) 
-
 # Let's add a total commute time column
 ecec_new$Commute_Time <- ecec_new$D6_1 + ecec_new$D6_2
-```
-
-Great! We will also need to turn `Gender` into a `Factor` variable.
-
-```{r}
-ecec_new$Gender <- as.factor(ecec_new$Gender)
 ```
 
 Let's take a look at the structure of our new data set.
@@ -419,18 +458,48 @@ You might notice that there are 3 levels of `Gender`. We can check this:
 table(ecec_new$Gender)
 ```
 
-We have 922 female respondents, 614 male respondents, and 3 Non-binary. Since we want to do a two sample t-test and we have a very low response rate from non-binary individuals, we will focus our analysis on males and females. We can filter the data as such:
+We have 922 female respondents, 614 male respondents, and 3 Non-binary. Since we want to do a two sample t-test and we have a very low response rate from non-binary individuals, we will focus our analysis on males and females. 
 
-```{r}
+Try to filter the data to only male and female respondents. Don't forget to drop unused levels. Then, check the structure of the cleaned dataset
+```{webr}
+#| exercise: ex_4.2.2
+#| envir: Ex1
+#| warning: false
+#| message: false
+ecec_new1 <- ecec_new %>%
+  ___() %>%
+  ____()
+
+__(___)
+```
+
+```{webr}
+#| exercise: ex_4.2.2
+#| solution: true
+#| envir: Ex1
+ecec_new1 <- ecec_new %>%
+  filter(Gender %in% c("Male", "Female")) %>%
+  droplevels()
+
+str(ecec_new1)
+```
+
+```{webr}
+#| exercise: ex_4.2.2
+#| check: true
+#| class: wait
+#| envir: Ex1
+gradethis::grade_this_code()
+```
+
+```{r, echo=FALSE}
 ecec_new1 <- ecec_new %>%
   filter(Gender %in% c("Male", "Female"))
 ```
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 str(ecec_new1)
 ```
-
-Don't worry that it says 3 levels. The data has been filtered (we can tell by comparing the observations from before filtering and after).
 
 1.  How many observations are there? `r fitb(1536)`
 2.  How many variables are there? `r fitb(4)`
@@ -442,7 +511,8 @@ Don't worry that it says 3 levels. The data has been filtered (we can tell by co
 attach(ecec_new1)
 ```
 
-We can now plot the data and check conditions.
+We can now plot the data and check conditions. 
+
 
 ```{r}
 ggplot(data=ecec_new1, aes(x=Gender, y=Commute_Time))+
