@@ -2,9 +2,9 @@
 title: "Probability Distributions"
 ---
 
-## The Normal Distribution
+In the **Data Visualisation with R** short course, we learned how to present what we **observe** in data. Probability helps us understand what we should **expect** and underpins statistical testing. Some of the ideas in this section may feel abstract at first. Their purpose will become clearer when we apply them in statistical testing in later chapters.
 
-In the previous chapter, we've described what we *see* in data. Understanding probability can help us reason about what we *expect* from our data.
+## The Normal Distribution
 
 A **random variable** is a variable whose value is determined by chance. For example, if we are looking at the number of heads in a series of coin flips, then the number of heads is a random variable.
 
@@ -75,13 +75,3 @@ We are looking for $P(X>50)$, where $X \sim (45, 3.2^2)$.
     c\. P(−0.4 \< Z \< 1.5)
 
     d\. P(\|Z\| \> 2)
-
-    e\.
-
-In the previous chapter, we learnt about discrete and continuous numerical variables.
-
-```{r}
-
-```
-
-You may be familiar with the bell curve
