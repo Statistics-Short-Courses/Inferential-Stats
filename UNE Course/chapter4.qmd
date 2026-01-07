@@ -458,9 +458,10 @@ You might notice that there are 3 levels of `Gender`. We can check this:
 table(ecec_new$Gender)
 ```
 
-We have 922 female respondents, 614 male respondents, and 3 Non-binary. Since we want to do a two sample t-test and we have a very low response rate from non-binary individuals, we will focus our analysis on males and females. 
+We have 922 female respondents, 614 male respondents, and 3 Non-binary. Since we want to do a two sample t-test and we have a very low response rate from non-binary individuals, we will focus our analysis on males and females.
 
 Try to filter the data to only male and female respondents. Don't forget to drop unused levels. Then, check the structure of the cleaned dataset
+
 ```{webr}
 #| exercise: ex_4.2.2
 #| envir: Ex1
@@ -511,8 +512,7 @@ str(ecec_new1)
 attach(ecec_new1)
 ```
 
-We can now plot the data and check conditions. 
-
+We can now plot the data and check conditions.
 
 ```{r}
 ggplot(data=ecec_new1, aes(x=Gender, y=Commute_Time))+
