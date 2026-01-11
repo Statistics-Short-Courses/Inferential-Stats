@@ -4,11 +4,11 @@ title: "Hypothesis Testing"
 
 ## Foundations of Hypothesis Testing
 
-Now that we’re familiar with variables and probability distributions, we can start exploring **hypothesis testing**. Hypothesis testing provides a structured framework for approaching statistical problems and drawing conclusions from data.
+Now that we're familiar with variables and probability distributions, we can start exploring **hypothesis testing**. Hypothesis testing provides a structured framework for approaching statistical problems and drawing conclusions from data.
 
 When performing hypothesis testing, it's helpful to reframe the problem in the context of *who*, *what*, and *why*.
 
-Let’s refresh our understanding of a few important concepts that will be helpful in reframing our problem:
+Let's refresh our understanding of a few important concepts that will be helpful in reframing our problem:
 
 -   Target population and sample
 
@@ -22,7 +22,7 @@ A **target population** is the broader group you are interested in studying. In 
 
 Because it is usually not practical to study the entire population, we collect a **sample**. It is a subset of observations that represents the population.
 
-A **response** **variable** is the variable of interest. It is what you want to measure or understand about the population. For example, if you are studying weight change after taking a new drug, the response variable is weight.
+A **response** **variable** is the variable of interest. It is what you want to measure or understand about the population. For example, if you are studying blood pressure after taking a new drug, the response variable might be systolic blood pressure.
 
 Usually, you are interested in comparing something about this variable, such as a mean or proportion of a population. This is called a **parameter of interest**.
 

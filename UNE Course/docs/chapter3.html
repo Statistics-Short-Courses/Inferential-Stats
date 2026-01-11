@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Hypothesis Testing – UNE Course</title>
+<title>3&nbsp; Hypothesis Testing – UNE Course</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,14 +32,15 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ffd282cb318059e0bcb130885a47f5dc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -86,7 +87,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -102,6 +103,8 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="include/webex.css">
+<link rel="stylesheet" href="include/style.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -113,7 +116,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter3.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -147,49 +150,43 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting to Know Your Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to <em>Inferential Statistics in R</em>!</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability Distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter3.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">t-tests: one sample and two sample</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">t-tests: one sample and two sample</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Paired t-test and ANOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Paired t-test and ANOVA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Chi-square tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Chi-square tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -208,8 +205,8 @@ window.Quarto = {
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"><span class="header-section-number">5</span> </a></li>
-  <li><a href="#how-to-test-an-idea" id="toc-how-to-test-an-idea" class="nav-link" data-scroll-target="#how-to-test-an-idea"><span class="header-section-number">6</span> <strong>How to test an idea</strong></a></li>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"><span class="header-section-number">4</span> </a></li>
+  <li><a href="#how-to-test-an-idea" id="toc-how-to-test-an-idea" class="nav-link" data-scroll-target="#how-to-test-an-idea"><span class="header-section-number">5</span> <strong>How to test an idea</strong></a></li>
   </ul>
 </nav>
     </div>
@@ -218,7 +215,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></h1>
 </div>
 
 
@@ -235,8 +232,8 @@ window.Quarto = {
 </header>
 
 
-<section id="foundations-of-hypothesis-testing" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="foundations-of-hypothesis-testing"><span class="header-section-number">4.1</span> Foundations of Hypothesis Testing</h2>
+<section id="foundations-of-hypothesis-testing" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="foundations-of-hypothesis-testing"><span class="header-section-number">3.1</span> Foundations of Hypothesis Testing</h2>
 <p>Now that we’re familiar with variables and probability distributions, we can start exploring <strong>hypothesis testing</strong>. Hypothesis testing provides a structured framework for approaching statistical problems and drawing conclusions from data.</p>
 <p>When performing hypothesis testing, it’s helpful to reframe the problem in the context of <em>who</em>, <em>what</em>, and <em>why</em>.</p>
 <p>Let’s refresh our understanding of a few important concepts that will be helpful in reframing our problem:</p>
@@ -248,7 +245,7 @@ window.Quarto = {
 </ul>
 <p>A <strong>target population</strong> is the broader group you are interested in studying. In other words, <em>who</em> do you want your results to apply to?</p>
 <p>Because it is usually not practical to study the entire population, we collect a <strong>sample</strong>. It is a subset of observations that represents the population.</p>
-<p>A <strong>response</strong> <strong>variable</strong> is the variable of interest. It is what you want to measure or understand about the population. For example, if you are studying weight change after taking a new drug, the response variable is weight.</p>
+<p>A <strong>response</strong> <strong>variable</strong> is the variable of interest. It is what you want to measure or understand about the population. For example, if you are studying blood pressure after taking a new drug, the response variable might be systolic blood pressure.</p>
 <p>Usually, you are interested in comparing something about this variable, such as a mean or proportion of a population. This is called a <strong>parameter of interest</strong>.</p>
 <p>Because it is often not possible or feasible to collect the actual parameter of interest, such as a population mean, we can estimate it from a sample with a <strong>point estimate</strong>, such as a sample mean or sample proportion.</p>
 <p>An <strong>explanatory variable</strong> is the variable that may influence or explain changes in the response variable. In the weight example, the explanatory variable would be whether or not someone took the drug. This helps us understand <em>why</em> the response variable changes, in this case, why weight might increase or decrease.</p>
@@ -257,8 +254,8 @@ window.Quarto = {
 <p>The <strong>alternative hypothesis</strong>, denoted as <span class="math inline">\(H_a\)</span>​, represents the belief that there is a real difference or effect. For the drug example, this would mean that taking the drug does have a significant influence on weight.</p>
 <p>Test your understanding with the exercise below.</p>
 </section>
-<section id="exercise-checkpoint-1" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="exercise-checkpoint-1"><span class="header-section-number">4.2</span> Exercise Checkpoint 1</h2>
+<section id="exercise-checkpoint-1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="exercise-checkpoint-1"><span class="header-section-number">3.2</span> Exercise Checkpoint 1</h2>
 <ol type="1">
 <li><p>Test your understanding with the exercise below.</p>
 <p>UNE Sport is trialing a new get-fit training program for UNE students and wants to verify whether the program improves the fitness of the participants.</p>
@@ -268,17 +265,17 @@ window.Quarto = {
 <p><em>What is the</em> <strong>alternative</strong> <em>hypothesis for the UNE Sport bootcamp study?</em></p></li>
 </ol>
 </section>
-<section id="section" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> </h1>
+<section id="section" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> </h1>
 </section>
-<section id="how-to-test-an-idea" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> <strong>How to test an idea</strong></h1>
+<section id="how-to-test-an-idea" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> <strong>How to test an idea</strong></h1>
 <p>Below is a helpful way to remember how to perform hypothesis testing for a normal model</p>
 <p><img src="images/clipboard-993912647.png" class="img-fluid"></p>
 <p>A <strong>test statistic</strong> is</p>
 <p>A <strong>p-value</strong> is</p>
-<section id="section-1" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="section-1"><span class="header-section-number">6.1</span> </h2>
+<section id="section-1" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="section-1"><span class="header-section-number">5.1</span> </h2>
 
 
 <script type="ojs-module-contents">
@@ -299,6 +296,667 @@ W10=
 </section>
 
 </main> <!-- /main -->
+<script>
+
+
+
+/* update total correct if #webex-total_correct exists */
+
+update_total_correct = function() {
+
+  console.log("webex: update total_correct");
+
+
+
+  var t = document.getElementsByClassName("webex-total_correct");
+
+  for (var i = 0; i < t.length; i++) {
+
+    p = t[i].parentElement;
+
+    var correct = p.getElementsByClassName("webex-correct").length;
+
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+
+    var selects = p.getElementsByClassName("webex-select").length;
+
+
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+
+  }
+
+}
+
+
+
+/* webex-solution button toggling function */
+
+b_func = function() {
+
+  console.log("webex: toggle hide");
+
+
+
+  var cl = this.parentElement.classList;
+
+  if (cl.contains('open')) {
+
+    cl.remove("open");
+
+  } else {
+
+    cl.add("open");
+
+  }
+
+}
+
+
+
+/* check answers */
+
+check_func = function() {
+
+  console.log("webex: check answers");
+
+
+
+  var cl = this.parentElement.classList;
+
+  if (cl.contains('unchecked')) {
+
+    cl.remove("unchecked");
+
+    this.innerHTML = "Hide Answers";
+
+  } else {
+
+    cl.add("unchecked");
+
+    this.innerHTML = "Show Answers";
+
+  }
+
+}
+
+
+
+/* function for checking solveme answers */
+
+solveme_func = function(e) {
+
+  console.log("webex: check solveme");
+
+
+
+  var real_answers = JSON.parse(this.dataset.answer);
+
+  var my_answer = this.value;
+
+  var cl = this.classList;
+
+  if (cl.contains("ignorecase")) {
+
+    my_answer = my_answer.toLowerCase();
+
+  }
+
+  if (cl.contains("nospaces")) {
+
+    my_answer = my_answer.replace(/ /g, "")
+
+  }
+
+
+
+  if (my_answer == "") {
+
+    cl.remove("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+  } else if (real_answers.includes(my_answer)) {
+
+    cl.add("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+    cl.remove("webex-correct");
+
+  }
+
+
+
+  // match numeric answers within a specified tolerance
+
+  if(this.dataset.tol > 0){
+
+    var tol = JSON.parse(this.dataset.tol);
+
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+
+      cl.add("webex-correct");
+
+    } else {
+
+      cl.remove("webex-correct");
+
+    }
+
+  }
+
+
+
+  // added regex bit
+
+  if (cl.contains("regex")){
+
+    answer_regex = RegExp(real_answers.join("|"))
+
+    if (answer_regex.test(my_answer)) {
+
+      cl.add("webex-correct");
+
+    }
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking select answers */
+
+select_func = function(e) {
+
+  console.log("webex: check select");
+
+
+
+  var cl = this.classList
+
+
+
+  /* add style */
+
+  cl.remove("webex-incorrect");
+
+  cl.remove("webex-correct");
+
+  if (this.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else if (this.value != "blank") {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking radiogroups answers */
+
+radiogroups_func = function(e) {
+
+  console.log("webex: check radiogroups");
+
+
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+
+  var cl = checked_button.parentElement.classList;
+
+  var labels = checked_button.parentElement.parentElement.children;
+
+
+
+  /* get rid of styles */
+
+  for (i = 0; i < labels.length; i++) {
+
+    labels[i].classList.remove("webex-incorrect");
+
+    labels[i].classList.remove("webex-correct");
+
+  }
+
+
+
+  /* add style */
+
+  if (checked_button.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+window.onload = function() {
+
+  console.log("webex onload");
+
+  /* set up solution buttons */
+
+  var buttons = document.getElementsByTagName("button");
+
+
+
+  for (var i = 0; i < buttons.length; i++) {
+
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+
+      buttons[i].onclick = b_func;
+
+    }
+
+  }
+
+
+
+  var check_sections = document.getElementsByClassName("webex-check");
+
+  console.log("check:", check_sections.length);
+
+  for (var i = 0; i < check_sections.length; i++) {
+
+    check_sections[i].classList.add("unchecked");
+
+
+
+    let btn = document.createElement("button");
+
+    btn.innerHTML = "Show Answers";
+
+    btn.classList.add("webex-check-button");
+
+    btn.onclick = check_func;
+
+    check_sections[i].appendChild(btn);
+
+
+
+    let spn = document.createElement("span");
+
+    spn.classList.add("webex-total_correct");
+
+    check_sections[i].appendChild(spn);
+
+  }
+
+
+
+  /* set up webex-solveme inputs */
+
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+
+
+  for (var i = 0; i < solveme.length; i++) {
+
+    /* make sure input boxes don't auto-anything */
+
+    solveme[i].setAttribute("autocomplete","off");
+
+    solveme[i].setAttribute("autocorrect", "off");
+
+    solveme[i].setAttribute("autocapitalize", "off");
+
+    solveme[i].setAttribute("spellcheck", "false");
+
+    solveme[i].value = "";
+
+
+
+    /* adjust answer for ignorecase or nospaces */
+
+    var cl = solveme[i].classList;
+
+    var real_answer = solveme[i].dataset.answer;
+
+    if (cl.contains("ignorecase")) {
+
+      real_answer = real_answer.toLowerCase();
+
+    }
+
+    if (cl.contains("nospaces")) {
+
+      real_answer = real_answer.replace(/ /g, "");
+
+    }
+
+    solveme[i].dataset.answer = real_answer;
+
+
+
+    /* attach checking function */
+
+    solveme[i].onkeyup = solveme_func;
+
+    solveme[i].onchange = solveme_func;
+
+
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  }
+
+
+
+  /* set up radiogroups */
+
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+
+  for (var i = 0; i < radiogroups.length; i++) {
+
+    radiogroups[i].onchange = radiogroups_func;
+
+  }
+
+
+
+  /* set up selects */
+
+  var selects = document.getElementsByClassName("webex-select");
+
+  for (var i = 0; i < selects.length; i++) {
+
+    selects[i].onchange = select_func;
+
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+</script>
+
+<script>
+
+if (window.location.href.includes('displayall')) {
+
+  document.body.id = 'displayall';
+
+} else {
+
+  document.body.id = 'progressive';
+
+}
+
+</script>
+<script>
+
+(function () {
+
+  function markComplete(exId) {
+
+    document.querySelectorAll('.cell.wait[data-check="true"][data-exercise="' + exId + '"]').forEach(function (el) {
+
+      el.setAttribute('data-complete', 'true');
+
+    });
+
+  }
+
+
+
+  function handleGradeNode(node) {
+
+    if (!(node instanceof Element)) return;
+
+    if (node.classList.contains('exercise-grade') && node.classList.contains('alert-success')) {
+
+      var host = node.closest('[data-exercise]');
+
+      var exId = host && host.getAttribute('data-exercise');
+
+      if (exId) markComplete(exId);
+
+    } else if (node.querySelectorAll) {
+
+      node.querySelectorAll('.exercise-grade.alert-success').forEach(function (child) {
+
+        var host = child.closest('[data-exercise]');
+
+        var exId = host && host.getAttribute('data-exercise');
+
+        if (exId) markComplete(exId);
+
+      });
+
+    }
+
+  }
+
+
+
+  function scanExisting() {
+
+    document.querySelectorAll('.exercise-grade.alert-success').forEach(handleGradeNode);
+
+  }
+
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // Initial pass for any pre-rendered success states
+
+    scanExisting();
+
+    // Observe dynamically added grade alerts
+
+    var mo = new MutationObserver(function (mutations) {
+
+      mutations.forEach(function (m) {
+
+        m.addedNodes && m.addedNodes.forEach(handleGradeNode);
+
+      });
+
+    });
+
+    mo.observe(document.body, { childList: true, subtree: true });
+
+  });
+
+})();
+
+</script>
+
+
+
+<script>
+
+(function () {
+
+  const STORAGE_KEY = 'exercise-skip:v1';
+
+
+
+  function loadState() {
+
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+
+    catch { return {}; }
+
+  }
+
+
+
+  function saveState(state) {
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+  }
+
+
+
+  function pageKeyPrefix() {
+
+    return location.pathname + '::';
+
+  }
+
+
+
+  function isSkipped(state, exId) {
+
+    return !!state[pageKeyPrefix() + exId];
+
+  }
+
+
+
+  function setSkipped(state, exId, skipped) {
+
+    const key = pageKeyPrefix() + exId;
+
+    if (skipped) state[key] = true; else delete state[key];
+
+    saveState(state);
+
+  }
+
+
+
+  function applySkipAttr(el, skipped) {
+
+    if (skipped) {
+
+      el.setAttribute('data-skip', 'true');
+
+      el.setAttribute('data-complete', 'true');
+
+    } else {
+
+      el.removeAttribute('data-skip');
+
+      // Only remove data-complete if this cell wasn't actually completed
+
+      // by grading (has a success alert). If it was graded, leave complete.
+
+      const graded = !!el.querySelector('.exercise-grade.alert-success');
+
+      if (!graded) el.removeAttribute('data-complete');
+
+    }
+
+  }
+
+
+
+  function buildButton(el, state, exId) {
+
+    const btn = document.createElement('button');
+
+    btn.type = 'button';
+
+    btn.className = 'btn btn-sm btn-outline-secondary skip-exercise-btn';
+
+    const skipped = isSkipped(state, exId);
+
+    btn.textContent = skipped ? 'Undo skip' : 'Skip exercise';
+
+    btn.setAttribute('aria-pressed', skipped ? 'true' : 'false');
+
+    btn.style.margin = '0.5rem 0';
+
+
+
+    btn.addEventListener('click', function () {
+
+      const nowSkipped = btn.getAttribute('aria-pressed') !== 'true';
+
+      applySkipAttr(el, nowSkipped);
+
+      setSkipped(state, exId, nowSkipped);
+
+      btn.textContent = nowSkipped ? 'Undo skip' : 'Skip exercise';
+
+      btn.setAttribute('aria-pressed', nowSkipped ? 'true' : 'false');
+
+    });
+
+    return btn;
+
+  }
+
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const state = loadState();
+
+    document.querySelectorAll('.cell.wait[data-check="true"]').forEach(function (cell) {
+
+      const exId = cell.getAttribute('data-exercise');
+
+      if (!exId) return;
+
+
+
+      // Reapply stored skip state
+
+      applySkipAttr(cell, isSkipped(state, exId));
+
+
+
+      // Insert the button just before the exercise cell
+
+      const btn = buildButton(cell, state, exId);
+
+      const parent = cell.parentElement || cell;
+
+      parent.insertBefore(btn, cell);
+
+    });
+
+  });
+
+})();
+
+</script>
+
+
+
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W119
 </script>
@@ -361,13 +1019,14 @@ window._ojs.runtime.interpretFromScriptTags();
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

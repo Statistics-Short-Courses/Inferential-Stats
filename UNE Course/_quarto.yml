@@ -5,8 +5,11 @@ project:
 engine: knitr
 
 book:
-  title: UNE Course
+  title: Inferential Statistics in R 
   author: Cara Fernandes
+  sidebar:
+    style: docked
+    background: light
   date: 10/29/2025
   chapters:
   - index.qmd
@@ -28,6 +31,7 @@ format:
     toc-expand: 2
     toc-title: Contents
     number-depth: 2
+    
 
 css: 
  - include/webex.css

@@ -378,7 +378,7 @@ Before we begin cleaning the data, we need to set out our hypotheses. We are int
 
 Try writing the hypotheses for the two sample t test.
 
-\`r hide("I need a hint")\`
+`r hide("I need a hint")`
 
 $H_0:$ On average, there is no difference in the total commute time to work between male and female carers in NSW.
 
@@ -390,7 +390,7 @@ $H_0:$ $\mu_{males}=\mu_{females}$
 
 $H_A:$ $\mu_{males} \neq \mu_{females}$
 
-\`r unhide()\`
+`r unhide()`
 
 With the hypotheses established, we can now move on to cleaning and preparing the dataset.
 

@@ -1,21 +1,25 @@
-# Introduction
+# Welcome to *Inferential Statistics in R*!
+
+[![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/2560px-R_logo.svg.png){fig-align="center" width="286"}](https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg)
 
 Welcome to your journey into Inferential Statistics!
 
-Whether you’re a research student hoping to build on your statistical skills or just starting your journey in the field, this course will give you the tools and confidence to apply inferential statistics in R effectively.
+Whether you're a research student hoping to build on your statistical skills or just starting your journey in the field, this course will give you the tools and confidence to apply inferential statistics in R effectively.
 
-In this short course, we’ll explore a variety of essential concepts and techniques used in statistical analysis and apply these tools to real datasets and problems.
+In this short course, we'll explore a variety of essential concepts and techniques used in statistical analysis and apply these tools to real datasets and problems.
 
-We’ll cover key background topics such as common statistical terminology (p-values, anyone?), types of variables, and more.
-
-Along the way, you’ll build confidence in creating clear, visually appealing graphs, and in knowing when and how to use them appropriately.
+Along the way, you'll build confidence in creating clear, visually appealing graphs, and in knowing when and how to use them appropriately for statistical testing. If you are interested in learning more about graphing, you can check out the ***Data Visualisation in R*** short course.
 
 Finally, we will cover some useful and common statistical tests, such as:
 
--   Hypothesis testing
+-   [Hypothesis testing](chapter3.html)
 
--   *t-tests* (one-sample, two-sample, and paired)
+-   t-tests ([one-sample](chapter4.html), [two-sample](chapter4.html), and [paired](chapter5.html))
 
--   *Chi-squared tests* (goodness of fit and independence)
+-   [ANOVA](chapter6.html)
 
--   ANOVA
+-   [chi-squared tests (goodness of fit and independence)](chapter7.html)
+
+Interested in learning about linear regression? Check out the ***Linear Regression in R*** short course.
+
+[![Image by Kampus on Freepik](images/huge-hand-manager-examining-crowd-with-magnifying-glass_778687-1151.jpg){fig-align="center" width="309"}](https://www.freepik.com/free-vector/huge-hand-manager-examining-crowd-with-magnifying-glass_42675361.htm#fromView=search&page=1&position=4&uuid=aecd1ed6-1dbd-4f2e-aedc-55f057d86835&query=sampling)

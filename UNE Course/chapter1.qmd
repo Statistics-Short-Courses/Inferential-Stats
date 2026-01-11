@@ -1,16 +1,17 @@
 ---
 title: "Getting to Know Your Data"
+bibliography: references.bib
 ---
 
 ## Variables
 
-Before we jump into the world of statistical testing, let’s take a moment to refresh our understanding of what a variable is, the different types of variables, and how we can describe them using numerical and graphical methods.
+Before we jump into the world of statistical testing, let's take a moment to refresh our understanding of what a variable is, the different types of variables, and how we can describe them using numerical and graphical methods.
 
 **So what is a variable?**
 
-The Australian Bureau of Statistics defines a variable to be "any characteristic, number, or quantity that can be measured or counted."
+The Australian Bureau of Statistics [@abs_variables] defines a variable to be "any characteristic, number, or quantity that can be measured or counted."
 
-If you’ve ever tried dieting, you might have recorded your weight on your phone over time. Or maybe you’ve tracked how long your morning commute takes so you know when to leave to arrive on time. In both cases, you are measuring something that changes, and these are examples of variables.
+If you've ever tried dieting, you might have recorded your weight on your phone over time. Or maybe you've tracked how long your morning commute takes so you know when to leave to arrive on time. In both cases, you are measuring something that changes, and these are examples of variables.
 
 ## Types of Variables
 
@@ -30,9 +31,9 @@ A **categorical variable**, on the other hand, represents categories or labels t
 
 A **nominal categorical variable** includes observations with no particular order. For example, if you asked ten coworkers for their favorite movie and recorded their answers under a "movies" variable, it would be nominal because there is no inherent sequence or ranking among the movie titles.
 
-In an **ordinal categorical variable,** there is an inherent logical order to the observations. For example, if we collected age groups such as "18–24", "25–38", "39–55", "56–70", and "70+", we’re now working with labels that have a built-in order where "18–24" is younger than "25–38", and so on.
+In an **ordinal categorical variable,** there is an inherent logical order to the observations. For example, if we collected age groups such as "18--24", "25--38", "39--55", "56--70", and "70+", we're now working with labels that have a built-in order where "18--24" is younger than "25--38", and so on.
 
-Another example might be asking people whether they like ice cream, with options like "strongly agree", "agree", "neutral", "disagree", and "strongly disagree". In this case, the order of the options has meaning, even if the distance between them isn’t equal.
+Another example might be asking people whether they like ice cream, with options like "strongly agree", "agree", "neutral", "disagree", and "strongly disagree". In this case, the order of the options has meaning, even if the distance between them isn't equal.
 
 Take a moment to check your understanding with the exercises below.
 
@@ -60,7 +61,7 @@ library(webexercises)
 
 ## Visually Representing Data
 
-Now that we’ve covered the main types of variables, we can start thinking about how to visually represent data.
+Now that we've covered the main types of variables, we can start thinking about how to visually represent data.
 
 First, we will need to load in some data into R. We will be working with the `palmerpenguins` package. The `palmerpenguins` package is a dataset collected and made available by [Dr. Kristen Gorman](https://www.uaf.edu/cfos/people/faculty/detail/kristen-gorman.php) and the [Palmer Station, Antarctica LTER](https://pallter.marine.rutgers.edu/), a member of the [Long Term Ecological Research Network](https://lternet.edu/).
 
@@ -76,7 +77,7 @@ Once installed, you will need to load the package into R.
 library(palmerpenguins)
 ```
 
-Now that we have the package installed, let’s take a look at the variables in the dataset using `str()`.
+Now that we have the package installed, let's take a look at the variables in the dataset using `str()`.
 
 ```{r}
 str(penguins)
@@ -94,7 +95,7 @@ Since this returns `TRUE`, we know there are missing values in the dataset. Let'
 sum(is.na(penguins))
 ```
 
-There are 19 missing observations. This can cause problems when generating numerical summaries or running statistical tests. At this stage, to handle this, we can remove the missing values. It’s always best practice to store your cleaned data in a new dataset and leave the original untouched. **Note that you should always be careful when removing observations, as even partially filled observations can still provide valuable information.**
+There are 19 missing observations. This can cause problems when generating numerical summaries or running statistical tests. At this stage, to handle this, we can remove the missing values. It's always best practice to store your cleaned data in a new dataset and leave the original untouched. **Note that you should always be careful when removing observations, as even partially filled observations can still provide valuable information.**
 
 ```{r}
 clean_penguins <- na.omit(penguins)
@@ -143,11 +144,11 @@ View(penguins)
 View(clean_penguins)
 ```
 
-Now that we’ve inspected the dataset, we can start thinking about how to visually represent and understand the data.
+Now that we've inspected the dataset, we can start thinking about how to visually represent and understand the data.
 
 We can describe data using numerical summaries and graphs. Numerical summaries are statistical measures that capture key aspects of a dataset. The way we choose to present these summaries and the graphs that accompany them depends on the type of variable we are working with.
 
-Let’s start with numerical summaries.
+Let's start with numerical summaries.
 
 For **numerical variables**, whether continuous or discrete, we can include:
 
@@ -203,7 +204,7 @@ gt(data)
 
 Let's take a look at calculating descriptive statistics for `body_mass_g`, which describes the body mass of each penguin in grams.
 
-Now we can attach the cleaned `penguins` dataset. Attaching the dataset allows us to call variables directly by name. If we don’t attach it, we can still access variables, but we need to use the full format (for example, `clean_penguins$sex`).
+Now we can attach the cleaned `penguins` dataset. Attaching the dataset allows us to call variables directly by name. If we don't attach it, we can still access variables, but we need to use the full format (for example, `clean_penguins$sex`).
 
 ```{r, message=F}
 # Attach cleaned dataset 
@@ -250,11 +251,11 @@ The `summary()` function lets us quickly gather all of this information at once.
 summary(body_mass_g)
 ```
 
-Now that we’ve explored numerical summaries, let’s move on to graphing.
+Now that we've explored numerical summaries, let's move on to graphing.
 
 When you have one numerical variable, whether discrete or continuous, a **histogram** is a great way to visualise its distribution.
 
-We’ll use the `ggplot2` package for this. If you haven’t used it before, you’ll need to install it first.
+We'll use the `ggplot2` package for this. If you haven't used it before, you'll need to install it first.
 
 ```{r, eval=FALSE}
 # Install the package
@@ -273,7 +274,7 @@ ggplot(clean_penguins, aes(x=body_mass_g))+
          
 ```
 
-The histogram looks a bit plain without any color, and the x-axis label isn’t very informative. Let’s add some color, fix the labels, and give it a clean white background.
+The histogram looks a bit plain without any color, and the x-axis label isn't very informative. Let's add some color, fix the labels, and give it a clean white background.
 
 ```{r}
 # We can plot the histogram
@@ -283,7 +284,7 @@ ggplot(clean_penguins, aes(x=body_mass_g))+
   theme_bw()
 ```
 
-What if we’re interested in how body mass relates to flipper length? In this case, we’re working with two continuous numerical variables, so a **scatterplot** would be a good choice.
+What if we're interested in how body mass relates to flipper length? In this case, we're working with two continuous numerical variables, so a **scatterplot** would be a good choice.
 
 ```{r}
 ggplot(clean_penguins, aes(x=body_mass_g, y=flipper_length_mm))+
@@ -301,7 +302,7 @@ ggplot(clean_penguins, aes(x=body_mass_g, y=flipper_length_mm))+
 
 We can see that as the body mass of a penguin increases, its flipper length also tends to increase. This suggests a *strong positive linear* relationship.
 
-Now, let’s look at a case where we have one categorical variable and one numerical variable. A **boxplot** is a great choice here. Let’s see how body mass differs between penguin species.
+Now, let's look at a case where we have one categorical variable and one numerical variable. A **boxplot** is a great choice here. Let's see how body mass differs between penguin species.
 
 ```{r}
 ggplot(clean_penguins, aes(x=species, y=body_mass_g))+
@@ -312,7 +313,7 @@ ggplot(clean_penguins, aes(x=species, y=body_mass_g))+
 
 We can see that Gentoo penguins have a noticeably higher median body mass compared to Chinstrap and Adelie penguins. The interquartile range (the box) for the Gentoo species does not overlap with the others, suggesting there may be a significant difference between them.
 
-Since we’re now considering species, let’s also take a look at how many penguins were observed in each species. Because we’re dealing with a categorical variable, a **bar plot** is appropriate.
+Since we're now considering species, let's also take a look at how many penguins were observed in each species. Because we're dealing with a categorical variable, a **bar plot** is appropriate.
 
 ```{r}
 ggplot(clean_penguins, aes(x = species)) +
@@ -334,7 +335,7 @@ ggplot(data=clean_penguins, aes(x=species))+
   theme_bw()
 ```
 
-Adelie penguins make up a much larger proportion of the sample, while Chinstrap penguins account for the smallest. It’s important to consider how such imbalances in your dataset could influence your interpretation.
+Adelie penguins make up a much larger proportion of the sample, while Chinstrap penguins account for the smallest. It's important to consider how such imbalances in your dataset could influence your interpretation.
 
 We can also generate a **mosaic plot** for species. To do so, we will need to install `ggmosaic`.
 
