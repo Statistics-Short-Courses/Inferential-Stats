@@ -133,7 +133,7 @@ Let's prepare the data.
 
 For this exercise, you will need to insert the correct variable names into the code below.
 
-**NOTE: At this stage, we will drop missing values from the dataset. If you are interested in understanding missing values and when it is appropriate to drop them, you can refer to the *Data Visualisation in R* short course.**
+**NOTE: At this stage, we will drop missing values from the dataset. If you are interested in understanding missing values and when it is appropriate to drop them, you can refer to the *Data Visualisation in R* short course. It is also recommended that you refer to** [Missing Data Imputation in R: Missing data R tutorial](https://libguides.princeton.edu/R-Missingdata) **by Princeton University on handling missing data.**
 
 ```{webr}
 #| exercise: ex_4.1.1
