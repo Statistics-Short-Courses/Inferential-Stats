@@ -53,9 +53,7 @@ In this chapter, we will be looking at **paired t-tests** and **one-way ANOVA**.
 
 # Paired t-test
 
-![](images/clipboard-1693076206.png){width="576"}
-
-*Photo by [Dan Gold](https://unsplash.com/@danielcgold?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/macro-shot-of-vegetable-lot-4_jhDO54BYg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
+[![Photo by Dan Gold on Unsplash](images/clipboard-1693076206.png){width="576"}](https://unsplash.com/photos/macro-shot-of-vegetable-lot-4_jhDO54BYg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
 
 The next dataset we will be using comes from the Living Well Multicultural -- Lifestyle Modification Program. This file contains paired pre- and post-intervention measurements for adults who participated in the program between 2014 and 2017.
 

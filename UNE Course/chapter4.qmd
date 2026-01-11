@@ -109,9 +109,7 @@ You may also notice that some of the variable names aren't very descriptive. Tha
 
 ## Hypotheses
 
-![](images/clipboard-2607643104.png){width="540"}
-
-Photo by [niko nguyen](https://unsplash.com/@niko_nguyen_10?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-red-train-traveling-down-train-tracks-next-to-tall-buildings-L7U0tY7nhMA?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+[![Photo by niko nguyen on Unsplash](images/clipboard-2607643104.png){width="540"}](https://unsplash.com/photos/a-red-train-traveling-down-train-tracks-next-to-tall-buildings-L7U0tY7nhMA?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
 
 `SQ1` represents gender, so we can go ahead and rename it to `Gender`.
 

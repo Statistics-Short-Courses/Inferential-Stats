@@ -65,11 +65,9 @@ When you are comparing one categorical variable with specific proportions, this 
 
 # Chi-square Goodness of Fit Test - Different Proportions
 
-![](images/clipboard-1233813349.png){width="555"}
+[![Photo by Fitsum Admasu on Unsplash](images/clipboard-1233813349.png){width="555"}](https://unsplash.com/photos/silhouette-of-three-women-running-on-grey-concrete-road-oGv9xIl7DkY?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
 
-*Photo by [Fitsum Admasu](https://unsplash.com/@fitmasu?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/silhouette-of-three-women-running-on-grey-concrete-road-oGv9xIl7DkY?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
-
-For our Chi-square Goodness of Fit Test, we can refer back to the `living_well` dataset we utilised in the previous chapter. Recall that baseline data was collected between October 2014 and June 2017 from the Living Well Multicultural—Lifestyle Modification Program. People living in ethnic communities in Queensland who were ≥18 years old, and not underweight were eligible to participate. The Living Well Multicultural–Lifestyle Modification Program is a tailored healthy lifestyle program.
+For our Chi-square Goodness of Fit Test, we can refer back to the `living_well` dataset we utilised in the previous chapter. Recall that baseline data was collected between October 2014 and June 2017 from the Living Well Multicultural---Lifestyle Modification Program. People living in ethnic communities in Queensland who were ≥18 years old, and not underweight were eligible to participate. The Living Well Multicultural--Lifestyle Modification Program is a tailored healthy lifestyle program.
 
 According to the [Australian Institute of Health and Welfare](https://www.aihw.gov.au/reports/overweight-obesity/overweight-and-obesity/contents/measuring-overweight-and-obesity), the distribution of BMI for females aged 18 and over as of 2022 are:
 
@@ -342,9 +340,7 @@ A standard residual value less than -2 indicates that counts for that given cate
 
 # Chi-square Test of Independence
 
-![](images/clipboard-1749607671.png){width="635"}
-
-*Photo by [Towfiqu barbhuiya](https://unsplash.com/@towfiqu999999?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-person-stacking-coins-on-top-of-a-table-jpqyfK7GB4w?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
+[![Photo by Towfiqu barbhuiya on Unsplash](images/clipboard-1749607671.png){width="635"}](https://unsplash.com/photos/a-person-stacking-coins-on-top-of-a-table-jpqyfK7GB4w?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
 
 We will return to the 2023 Early Childhood Education and Care (ECEC) survey, which we first examined when learning about t-tests. This survey gathered responses from roughly 2,000 NSW parents and carers during January and February 2023, and aimed to understand which policy options families value most and what barriers influence their access to early childhood education and care.
 
@@ -579,7 +575,7 @@ You may notice a warning. This typically appears when one of the expected counts
 ChiT_ecec$expected
 ```
 
-In this case, the expected count for the ‘Negative or Zero Income’ category is 1.95 and 1.05, which is well under our condition of $\geq 5$. To address this, we can combine this category with the next lowest group, ‘\$1–19,999 per year’, and create a new category labelled ‘under 20k’.
+In this case, the expected count for the 'Negative or Zero Income' category is 1.95 and 1.05, which is well under our condition of $\geq 5$. To address this, we can combine this category with the next lowest group, '\$1--19,999 per year', and create a new category labelled 'under 20k'.
 
 ```{r}
 ecec_chi <- ecec_chi %>%
