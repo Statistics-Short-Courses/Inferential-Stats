@@ -135,6 +135,8 @@ Let's prepare the data.
 
 For this exercise, you will need to insert the correct variable names into the code below.
 
+**NOTE: At this stage, we will drop missing values from the dataset. If you are interested in understanding missing values and when it is appropriate to drop them, you can refer to the *Data Visualisation in R* short course.**
+
 ```{webr}
 #| exercise: ex_4.1.1
 #| envir: Ex1

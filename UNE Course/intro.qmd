@@ -1,6 +1,6 @@
 # Welcome to *Inferential Statistics in R*!
 
-[![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/2560px-R_logo.svg.png){fig-align="center" width="286"}](https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg)
+[![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/2560px-R_logo.svg.png){fig-align="center" width="289"}](https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg)
 
 Welcome to your journey into Inferential Statistics!
 
@@ -22,4 +22,4 @@ Finally, we will cover some useful and common statistical tests, such as:
 
 Interested in learning about linear regression? Check out the ***Linear Regression in R*** short course.
 
-[![Image by Kampus on Freepik](images/huge-hand-manager-examining-crowd-with-magnifying-glass_778687-1151.jpg){fig-align="center" width="309"}](https://www.freepik.com/free-vector/huge-hand-manager-examining-crowd-with-magnifying-glass_42675361.htm#fromView=search&page=1&position=4&uuid=aecd1ed6-1dbd-4f2e-aedc-55f057d86835&query=sampling)
+[![Image by Kampus on Freepik](images/huge-hand-manager-examining-crowd-with-magnifying-glass_778687-1151.jpg){fig-align="center" width="539"}](https://www.freepik.com/free-vector/huge-hand-manager-examining-crowd-with-magnifying-glass_42675361.htm#fromView=search&page=1&position=4&uuid=aecd1ed6-1dbd-4f2e-aedc-55f057d86835&query=sampling)
