@@ -3,4 +3,4 @@ The course is intended as a compact refresher on core inferential statistics in 
 
 Website link for DRAFT teaching materials can be found here: https://statistics-short-courses.github.io/Inferential-Stats/
 
-Cara Fernandes
+- Cara Fernandes
