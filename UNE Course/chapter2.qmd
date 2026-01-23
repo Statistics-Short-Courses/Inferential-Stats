@@ -1,6 +1,9 @@
 ---
 title: "Probability Distributions"
 ---
+```{r, echo=FALSE, message=FALSE}
+library(webexercises)
+```
 
 In the **Data Visualisation with R** short course, we learned how to present what we **observe** in data. Probability helps us understand what we should **expect** and underpins statistical testing. Some of the ideas in this section may feel abstract at first. Their purpose will become clearer when we apply them in statistical testing in later chapters.
 
