@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Inferential Statistics in R",
     "section": "",
-    "text": "Preface",
+    "text": "Preface\nThis short course provides a compact refresher on core inferential statistics in R. It is designed for Higher Degree by Research (HDR) students who have some prior exposure to statistics and are looking to strengthen their applied understanding for research and data analysis.\nThe material is organised as a series of short chapters combining brief explanations, worked examples, and exercises. The emphasis is on practical interpretation and implementation in R rather than formal mathematical derivations.\nThis book is a draft / pilot version and is being actively developed. Some chapters may be incomplete or subject to revision as the course evolves.",
     "crumbs": [
       "Preface"
     ]
