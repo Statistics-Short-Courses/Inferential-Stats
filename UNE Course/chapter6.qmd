@@ -613,3 +613,26 @@ You can also take a look at the standardised residuals.
 ```{r}
 ChiT_ecec$stdres
 ```
+
+We can also use `gtsummary` to present chi-squared tests. Here, tbl_cross() creates a contingency table showing the relationship between annual income and gender, and add_p() adds the chi-squared test p-value.
+
+```{r}
+library(gtsummary)
+
+ecec_chi %>%
+  
+  # Create a contingency table of Annual Income by Gender
+  tbl_cross(
+    row = Annual_Income,
+    col = Gender,
+    
+    # Show counts and row percentages
+    percent = "row"
+  ) %>%
+  
+  # Add the p-value from a chi-squared test
+  add_p(
+    test = "chisq.test"
+  )
+```
+
