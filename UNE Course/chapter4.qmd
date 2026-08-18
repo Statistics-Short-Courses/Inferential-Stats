@@ -351,13 +351,15 @@ The p-value ($t_{937}=2.1482, p=0.0.01598$) is less than 0.05, so we have eviden
 Note that if instead the alternative hypothesis had been Ha: μ\<29 we would instead have:
 
 ```{r}
-t.test(ecec_2$Work_Commute, mu = 29, alternative = "less")
+one_sided_t_test <- t.test(ecec_2$Work_Commute, mu = 29, alternative = "less")
+one_sided_t_test
 ```
 
 or if it was Ha: μ≠29 we would have
 
 ```{r}
-t.test(ecec_2$Work_Commute, mu = 29, alternative = "two.sided")
+two_sided_t_test <- t.test(ecec_2$Work_Commute, mu = 29, alternative = "two.sided")
+two_sided_t_test
 ```
 
 **NOTE** that you can only calculate the confidence intervals with the two sided t-test. EG `alternative="two.sided"`. If you need the confidence intervals, then you need to run this test regardless of what your alternative hypothesis is. You should use the p-value from the test that corresponds to your alternative hypothesis though.
@@ -365,6 +367,41 @@ t.test(ecec_2$Work_Commute, mu = 29, alternative = "two.sided")
 Therefore, using the output from the two-sided test, with 95% confidence, the average commute time from home-to-work for female carers across NSW is between 29 minutes and 35 minutes longer than the national average. Because this range does not include zero, it points to a clear difference.
 
 This naturally raises other questions. For instance, because we are looking at all of NSW, it's possible that cities like Sydney are pushing the average up. These are the kinds of patterns you could explore further with the dataset.
+
+### `gt` package
+`
+A nicer way we present this information is with `gt`. 
+
+```{r}
+library(gt)
+
+data.frame(
+  Measure = c(
+    "Sample mean",
+    "t-statistic",
+    "Degrees of freedom",
+    "p-value",
+    "95% confidence interval"
+  ),
+  Result = c(
+    round(one_sided_t_test$estimate, 2),
+    round(one_sided_t_test$statistic, 2),
+    round(one_sided_t_test$parameter, 0),
+    round(one_sided_t_test$p.value, 3),
+    paste0(
+      round(two_sided_t_test$conf.int[1], 2),
+      " to ",
+      round(two_sided_t_test$conf.int[2], 2)
+    )
+  )
+) %>%
+  gt() %>%
+  tab_header(
+    title = "One-sided t-test",
+    subtitle = "H₀: μ = 29 vs Hₐ: μ < 29"
+  )
+```
+
 
 # Two Sample t-test
 
@@ -495,7 +532,8 @@ gradethis::grade_this_code()
 
 ```{r, echo=FALSE}
 ecec_new1 <- ecec_new %>%
-  filter(Gender %in% c("Male", "Female"))
+  filter(Gender %in% c("Male", "Female")) %>%
+  droplevels()
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -553,3 +591,28 @@ t.test(Commute_Time ~ Gender)
 The p-value ($t_{1025}=-1.2137, p=0.2251$) is greater than 0.05, so we fail to reject the null hypothesis. Therefore, there is no difference in average commute time to work between males and females carers across NSW.
 
 With 95% confidence, the average commute time for females could be about 16 minutes less or about 4 minutes more than the average for males. Because this range includes zero, it doesn't point to a clear difference between the two groups.
+
+# Comparing Groups with `gtsummary`
+
+`gtsummary` is a useful package for creating clean statistical summary tables. It can summarise variables by group and add p-values from appropriate statistical tests, making it easy to present descriptive statistics and group comparisons together.
+
+Let's take a look at an example with our two sample t test.
+
+```{r, warning = FALSE, message = FALSE}
+library(gtsummary)
+
+ecec_new1 %>%
+  tbl_summary(
+    by = Gender,
+    include = Commute_Time,
+    statistic = all_continuous() ~ "{mean} ({sd})"
+  ) %>%
+  add_p(
+    test = Commute_Time ~ "t.test",
+    test.args = Commute_Time ~ list(var.equal = TRUE)
+  )
+```
+
+The p-value tests whether there is evidence that mean work commute time differs between males and females. This is the same comparison we made earlier using `t.test()`, but `gtsummary` presents the group summaries and p-value together in a cleaner table.
+
+
