@@ -456,6 +456,46 @@ Based on the output above:
 12. What is the p-value (written exactly as shown in the output)? `r fitb("2.2e-16", ignore_case = TRUE, ignore_ws = TRUE)`
 13. Should we accept or reject the null hypothesis? Write "accept" or "reject". `r fitb("reject", ignore_case = TRUE, ignore_ws = TRUE)`
 
+We can also present the paired t-test results in a clean gtsummary table. Because the measurements are paired, we first need to convert the data from wide format to long format so that baseline and week 8 are stored in a single measurement column, with an ID linking each pair of observations.
+
+```{r}
+paired_data <- living_well_wide %>%
+  mutate(id = row_number()) %>%
+  pivot_longer(
+    cols = c(Baseline, Post_week8),
+    names_to = "Time",
+    values_to = "Score"
+  ) %>%
+  
+  # Make sure Baseline is compared against Post_week8
+  mutate(
+    Time = factor(Time, levels = c("Baseline", "Post_week8"))
+  ) %>%
+  
+  # Keep complete pairs only
+  drop_na(Score) %>%
+  filter(.by = id, n() == 2)
+```
+
+```{r}
+paired_data %>%
+  
+  # Show mean and SD at Baseline and Week 8
+  tbl_summary(
+    by = Time,
+    include = Score,
+    statistic = all_continuous() ~ "{mean} ({sd})"
+  ) %>%
+  
+  # Add the paired t-test p-value
+  add_p(
+    test = Score ~ "paired.t.test",
+    group = id,
+    test.args = Score ~ list(alternative = "greater")
+  )
+```
+
+
 The p-value ($t_{548}=9.09, p=2.2*10^{-16}$) is much less than the 5% significance level (p\<0.05). We used `greater` because our hypothesis was that BMI would go down after the program.
 
 The t-test calculates the difference as baseline minus post week 8, so if BMI really decreased, that difference would be positive.
@@ -471,6 +511,9 @@ t.test(Baseline, Post_week8, paired = TRUE)
 ```
 
 With 95% confidence, there is a mean BMI decrease between 0.22 and 0.34 in participants after the program compared to when participants started the program. Because this interval includes zero, the data indicates that there is a significant difference before and after the program. **Note that if 0 was [IN]{.underline} in the confidence interval, this would suggest there is [not]{.underline} a significant difference**.
+
+A nicer way we can present our results is with `gtsummary`. 
+
 
 ```{r}
 detach(living_well_wide)
@@ -657,6 +700,30 @@ In regards to our research question we can say that:
 
 **There is a significant difference in mean BMI for at least some education levels.**
 
+Let's present the data in a nicer format using the `gtsummary` package.
+```{r, message=FALSE, warning=FALSE}
+library(gtsummary)
+
+living_well_aov %>%
+  
+  # Summarise Post_week8 for each education group
+  tbl_summary(
+    by = Education,
+    include = Post_week8,
+    
+    # Show mean and standard deviation for each group
+    statistic = all_continuous() ~ "{mean} ({sd})"
+  ) %>%
+  
+  # Add the p-value from a one-way ANOVA
+  # var.equal = TRUE assumes equal variance between groups
+  add_p(
+    test = Post_week8 ~ "oneway.test",
+    test.args = Post_week8 ~ list(var.equal = TRUE)
+  )
+```
+
+
 We need to carefully check for differences between each group (correcting for multiple comparisons) to determine what is happening. To do this we can use a pairwise t-test with a Bonferroni correction. We use the Bonferroni adjustment because multiple pairwise comparisons increase the chance of finding a significant result just by chance. The adjustment makes the significance threshold more conservative, helping to control the overall Type I error rate (i.e. false positives) so that any detected differences are more likely to be real.
 
 ```{r}
@@ -714,3 +781,5 @@ ggplot(data=values, aes(x=group, y=mean))+
 Because these intervals overlap, it suggests that the mean post-week-8 BMI values are quite similar across education groups. There isn't clear separation between any of the groups, which means we can't say any one education group's mean BMI is significantly different from the others based on these confidence intervals.
 
 Therefore, the ANOVA indicated a significant overall difference in post week 8 BMI across education levels (p = 0.019), so the null hypothesis of equal means was rejected. However, post hoc tests and confidence intervals showed that no specific group comparisons were significant, suggesting that while some variation exists across education levels, the differences are small.
+
+
